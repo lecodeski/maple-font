@@ -154,9 +154,10 @@ fixme))
 - cv31: italic `a` with top arm
 - cv32: italic `f` without bottom tail, just like regular style
 - cv33: italic `i j` with left bottom bar and horizen top bar, just like regular style
-- cv34: italic `k` without circle, just like regular style
-- cv35: italic `l` without tail, just like regular style
-- cv36: italic `x` without tails, just like regular style
+- cv34: italic `k` without center circle, just like regular style
+- cv35: italic `l` without center tail, just like regular style
+- cv36: italic `x` without top and bottom tails, just like regular style
+- cv36: italic `y` with straight intersection, just like regular style
 
 #### CN Only
 

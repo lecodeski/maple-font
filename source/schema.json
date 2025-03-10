@@ -83,6 +83,10 @@
           "description": "[Italic Only] Alternative 'x' (without top and bottom tails)",
           "$ref": "#/definitions/freeze_options"
         },
+        "cv37": {
+          "description": "[Italic Only] Alternative 'y' (with straight intersection)",
+          "$ref": "#/definitions/freeze_options"
+        },
         "cv96": {
           "description": "[CN Only] Full width '“'(double quote left), '”'(double quote right), '‘'(single quote left), '’'(single quote right)",
           "$ref": "#/definitions/freeze_options"

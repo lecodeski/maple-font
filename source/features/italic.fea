@@ -1900,6 +1900,18 @@ feature cv36 {
   sub x_l.liga.cv35 by x_l.liga.cv35.cv36;
 } cv36;
 
+feature cv37 {
+  sub y by y.cv37;
+  sub yacute by yacute.cv37;
+  sub ycircumflex by ycircumflex.cv37;
+  sub ydieresis by ydieresis.cv37;
+  sub ydotbelow by ydotbelow.cv37;
+  sub ygrave by ygrave.cv37;
+  sub yhookabove by yhookabove.cv37;
+  sub ymacron by ymacron.cv37;
+  sub ytilde by ytilde.cv37;
+} cv37;
+
 feature ss01 {
   featureNames {
     name "Broken equals ligatures";
