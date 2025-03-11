@@ -138,7 +138,7 @@ def main():
     args = parser.parse_args()
     tag = parse_tag(args)
     # prompt and wait for user input
-    choose = input(f"Tag {tag}? (Y or n) ")
+    choose = input(f"{'[DRY] ' if args.dry else ''}Tag {tag}? (Y or n) ")
     if choose != "" and choose.lower() != "y":
         print("Aborted")
         return

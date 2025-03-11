@@ -157,7 +157,7 @@ fixme))
 - cv34: italic `k` without center circle, just like regular style
 - cv35: italic `l` without center tail, just like regular style
 - cv36: italic `x` without top and bottom tails, just like regular style
-- cv36: italic `y` with straight intersection, just like regular style
+- cv37: italic `y` with straight intersection, just like regular style
 
 #### CN Only
 
