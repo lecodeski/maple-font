@@ -1,12 +1,14 @@
+[👉 中文版](./README_CN.md)
+
 # Ligatures And Features
 
-Here is the basic list and explaination of Maple Mono ligatures and features.
+Here is the check list and explaination of Maple Mono ligatures and features.
 
-For more details, please check out `.fea` files and [OpenType Feature Spec](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html).
+For more details, please check out `.fea` files in same directory and [OpenType Feature Spec](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html).
 
 ## Ligatures
 
-in `calt`:
+"Enable ligature", is same as "enable `calt` feature":
 
 ```
 {{
@@ -138,7 +140,7 @@ fixme))
 
 ### Notice
 
-- `>>` / `>>>` is much contextual-sensitive
+- `>>` / `>>>` is smart, but much contextual-sensitive, so it may be not effect in some IDEs ([explaination](https://github.com/subframe7536/maple-font/discussions/275)). Turn on `ss07` to force enable.
 
 ## Features
 
@@ -148,7 +150,7 @@ fixme))
 - cv01: `@ $ & % Q => ->` without gap
 - cv02: `a` with top arm, no effect on italic `a`
 - cv03: `i` without left bottom bar
-- cv04: `l` with left bottom bar, like consolas, will be overrided by cv35 in italic style
+- cv04: `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style
 
 #### Italic Only
 - cv31: italic `a` with top arm
@@ -164,9 +166,9 @@ fixme))
 - cv96: Full width `“`(double quote left), `”`(double quote right), `‘`(single quote left), `’`(single quote right)
 - cv97: Full width `…`(ellipsis)
 - cv98: Full width `—`(emdash)
-- cv99: Traditional punctuations
+- cv99: Traditional punctuations (centerd)
 
-### Style Sets (ssXX)
+### Stylistic Sets (ssXX)
 
 - ss01: Broken equals ligatures (`==`, `===`, `!=`, `!==`, `=/=`)
 - ss02: Broken compare and equal ligatures (`<=`, `>=`)
