@@ -180,7 +180,7 @@ python build.py
 
 #### 缩小中文字体的间距
 
-如果您觉得中文字符的间距**过大**，有一个**实验性**的构建选项 `cn.narrow` 或 参数 `--cn-narrow` 可以缩小间距。您可以在 #249 中查看效果并跟踪问题。
+如果您觉得中文字符的间距**过大**，有一个**实验性**的构建选项 `cn.narrow` 或 参数 `--cn-narrow` 可以缩小间距。您可以在 [#249](https://github.com/subframe7536/maple-font/issues/249) 中查看效果并跟踪问题。
 
 #### GitHub 镜像
 

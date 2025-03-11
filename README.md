@@ -180,7 +180,7 @@ If you want to build CN base fonts from variable (about 35 MB), setup `"cn.use_s
 
 #### Narrow spacing in CN glyphs
 
-If you think that CN glyphs spacing is **tooooo large**, there is a **EXPERIMENTAL** build option `cn.narrow` or flag `--cn-narrow` to narrow spacing in CN glyphs. You can see effect and track issues in #249
+If you think that CN glyphs spacing is **tooooo large**, there is a **EXPERIMENTAL** build option `cn.narrow` or flag `--cn-narrow` to narrow spacing in CN glyphs. You can see effect and track issues in [#249](https://github.com/subframe7536/maple-font/issues/249)
 
 #### GitHub Mirror
 
