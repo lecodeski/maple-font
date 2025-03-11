@@ -62,7 +62,7 @@ paru -S ttf-maple-beta-nf-cn
 
 ## 特性配置
 
-请参阅 [文档](./source/features/README.md#features)。
+请参阅 [文档](./source/features/README_CN.md)。
 
 > [!note]
 > 用于可视化配置和自定义构建的 Web 工具正在开发中。

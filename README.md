@@ -62,7 +62,7 @@ paru -S ttf-maple-beta-nf-cn
 
 ## Feature Configurations
 
-See in [document](./source/features/README.md#features)
+See in [document](./source/features/README.md)
 
 > [!note]
 > The web tool for visualized configuration and custom build is under development.
