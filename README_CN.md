@@ -6,9 +6,9 @@
 
 Maple Mono 是一款开源等宽字体，专注于优化您的编码体验。
 
-我创建它是为了提升自己的工作效率，希望它也能对其他人有所帮助。
+我制作它是为了提升自己的工作效率，希望它也能对其他人有所帮助。
 
-V7 是一个完全重制版本，提供可变字体，重新设计了超过一半的字形，并提供更智能的连字。您可以[在这里](https://github.com/subframe7536/maple-font/tree/main)查看 V6 版本。
+V7 是一个完全重制版本，提供了可变字体格式和字体工程源文件，重新设计了超过一半的字形，并提供更智能的连字。您可以[在这里](https://github.com/subframe7536/maple-font/tree/main)查看 V6 版本。
 
 ## 特性
 
@@ -88,7 +88,7 @@ paru -S ttf-maple-beta-nf-cn
 
 ### 字体微调
 
-- **Hinted 字体** 用于低分辨率屏幕，以获得更好的渲染效果。根据我的经验，如果您的屏幕分辨率低于或等于 1080P，建议使用 "hinted 字体"。使用 "unhinted 字体" 会导致文本错位或粗细不均。
+- **Hinted 字体** 用于低分辨率屏幕，以获得更好的渲染效果。根据我个人的经验，如果您的屏幕分辨率低于或等于 1080P，建议使用 "hinted 字体"。使用 "unhinted 字体" 会导致文本错位或粗细不均。
   - 在这种情况下，您可以选择 `MapleMono-TTF-AutoHint` / `MapleMono-NF` / `MapleMono-NF-CN` 等。
 - **Unhinted 字体** 用于高分辨率屏幕（例如 MacBook）。使用 "hinted 字体" 会使您的文本模糊或看起来很奇怪。
   - 在这种情况下，您可以选择 `MapleMono-OTF` / `MapleMono-TTF` / `MapleMono-NF-unhinted` / `MapleMono-NF-CN-unhinted` 等。
@@ -158,7 +158,7 @@ python build.py
 
 #### 预设
 
-运行 `build.py` 时添加 `--normal` 参数，让字形不那么独特~~奇怪~~，就像 `JetBrains Mono` 一样（`0` 的中间是斜线而不是点）。
+运行 `build.py` 时添加 `--normal` 参数，让字形不那么独特~~奇怪~~，就像 `JetBrains Mono` 一样（除了 `0` 的中间是斜线而不是点）。
 
 #### 字体特性强制开启
 
