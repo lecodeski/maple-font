@@ -4,9 +4,11 @@
 
 ## Download
 
-[Which File to Download?](https://github.com/subframe7536/maple-font/tree/variable?tab=readme-ov-file#naming-faq)
+[Which File to Download?](https://github.com/subframe7536/maple-font/tree/variable?tab=readme-ov-file#naming-faq) | [我该下载哪个文件？](https://github.com/subframe7536/maple-font/blob/variable/README_CN.md#%E5%91%BD%E5%90%8D%E8%AF%B4%E6%98%8E)
 
 If you want to get the font that similar to `JetBrains Mono`, please download the "Normal-Ligature" or "Normal-No-Ligature"
+
+如果你想用的是和 `JetBrains Mono` 相近的字体，请下载 "Normal-Ligature" 或者 "Normal-No-Ligature"
 
 | Format   | Ligature (default)                                                                                     | No-Ligature                                                                                                | Normal-Ligature                                                                                                    | Normal-No-Ligature                                                                                                     |
 | -------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
