@@ -228,6 +228,10 @@ Build Options:
                     标志，则仅打包 Nerd-Font 和 CN 格式
 ```
 
+## 我个人在用的其他中文字体资源
+
+[cn-resource](https://github.com/subframe7536/maple-font/tree/other-resources/cn-resource)
+
 ## 鸣谢
 
 - [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)
