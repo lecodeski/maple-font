@@ -20,7 +20,7 @@ V7 是一个完全重制版本，提供了可变字体格式和字体工程源�
 
 ### 简体中文、繁体中文和日文
 
-CN 版本基于[资源圆体](https://github.com/CyanoHao/Resource-Han-Rounded)提供了简体中文、繁体中文和日文字形。这些字形与大多数中文字体不同，字形的间距更大，在多语言显示、表格对齐等场景更加美观。详情请参阅[发行版说明](https://github.com/subframe7536/maple-font/releases/tag/cn-base)和[这个议题](https://github.com/subframe7536/maple-font/issues/211)。
+CN 版本基于[资源圆体](https://github.com/CyanoHao/Resource-Han-Rounded)提供了完整的中文开发环境的字符集支持，包括简体中文、繁体中文和日文。同时，中英文 2:1 完美对齐的特性，使得本字体在多语言显示、Markdown 表格等场景可以做到整齐划一、美观舒适。但是中文的间距相比其他流行的中文字体更大，详情请参阅[发行版说明](https://github.com/subframe7536/maple-font/releases/tag/cn-base)和[这个议题](https://github.com/subframe7536/maple-font/issues/211)。
 
 ![2-1.png](./resources/2-1.png)
 
@@ -184,7 +184,7 @@ python build.py
 
 #### GitHub 镜像
 
-构建脚本将自动从 GitHub 下载所需的资源。如果您在下载时遇到问题，请在 [config.json](./config.json) 中设置 `github_mirror` 或将 `$GITHUB` 设置为您的环境变量。（目标 URL 将是 `https://{github_mirror}/<user>/<repo>/releases/download/{tag}/{file}`），或者直接下载目标 `.zip` 文件并将其放在与 `build.py` 相同的目录中。
+构建脚本将自动从 GitHub 下载所需的资源。如果您在下载时遇到问题，请在 [config.json](./config.json) 中设置 `github_mirror` 或将 `$GITHUB` 设置为您的环境变量。（目标 URL 为 `https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`），或者直接下载目标 `.zip` 文件并将其放在与 `build.py` 相同的目录中。
 
 ### 构建脚本用法
 

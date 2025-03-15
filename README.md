@@ -20,7 +20,7 @@ V7 is a completely remade version, providing variable font format and source fil
 
 ### Simpified Chinese, Traditional Chinese and Japanese
 
-The CN version (Based on [Resource Han Rounded](https://github.com/CyanoHao/Resource-Han-Rounded)) contails the glyphs of simplified and traditional Chinese, and Japanese, which are not as normal as most CN fonts. The CJK glyphs' spacing is much looser, which is more beautiful in scenarios such as multi-language display and table alignment. See details in [release notes](https://github.com/subframe7536/maple-font/releases/tag/cn-base) and [this issue](https://github.com/subframe7536/maple-font/issues/211).
+CN version based on [Resource Han Rounded](https://github.com/CyanoHao/Resource-Han-Rounded) provides complete character set support for Chinese development environments, including Simplified Chinese, Traditional Chinese, and Japanese. Meanwhile, the characteristic of perfect 2:1 alignment between Chinese and English allows this font to achieve a neat, uniform, beautiful, and comfortable appearance in scenarios such as multilingual display and Markdown tables. However, the spacing of Chinese characters is larger compared to other popular Chinese fonts. See details in [release notes](https://github.com/subframe7536/maple-font/releases/tag/cn-base) and [this issue](https://github.com/subframe7536/maple-font/issues/211).
 
 ![2-1.png](./resources/2-1.png)
 
@@ -184,7 +184,7 @@ If you think that CN glyphs spacing is **tooooo large**, there is a **EXPERIMENT
 
 #### GitHub Mirror
 
-The build script will auto download required assets from GitHub. If you have trouble downloading, please setup `github_mirror` in [config.json](./config.json) or `$GITHUB` to your environment variable. (Target URL will be `https://{github_mirror}/<user>/<repo>/releases/download/{tag}/{file}`), or just download the target `.zip` file and put it in the same directory as `build.py`.
+The build script will auto download required assets from GitHub. If you have trouble downloading, please setup `github_mirror` in [config.json](./config.json) or `$GITHUB` to your environment variable. (Target URL will be `https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`), or just download the target `.zip` file and put it in the same directory as `build.py`.
 
 ### Build Script Usage
 
