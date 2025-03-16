@@ -26,7 +26,7 @@ def is_ci():
     return False
 
 
-def run(command, extra_args=None, log=not is_ci()):
+def run(command, extra_args=None, log=not is_ci(), cwd=None):
     """
     Run a command line interface (CLI) command.
     """
@@ -34,7 +34,9 @@ def run(command, extra_args=None, log=not is_ci()):
         extra_args = []
     if isinstance(command, str):
         command = command.split()
-    subprocess.run(command + extra_args, stdout=subprocess.DEVNULL if not log else None)
+    subprocess.run(
+        command + extra_args, stdout=subprocess.DEVNULL if not log else None, cwd=cwd
+    )
 
 
 def set_font_name(font: TTFont, name: str, id: int):
