@@ -1,6 +1,11 @@
 ![Cover](./resources/header.png)
 
-[👉 中文版](./README_CN.md)
+<p align="center">
+  <a href="#install">Install</a> |
+  <a href="https://font.subf.dev">Website</a> |
+  English |
+  <a href="./README_CN.md">中文</a>
+</p>
 
 # Maple Mono
 
