@@ -67,7 +67,7 @@ paru -S ttf-maple-beta-nf-cn
 
 ## 使用方法 & 特性配置
 
-请参阅 [文档](./source/features/README_CN.md)。
+请参阅 [文档](./source/features/README_CN.md) 或者在 [这里](https://font.subf.dev/zh-cn/playground) 尝试。
 
 > [!note]
 > 用于自定义构建的 Web 工具仍在开发中。
@@ -250,6 +250,10 @@ Build Options:
 - [Font Viewer](https://tophix.com/font-tools/font-viewer)
 - [Monolisa](https://www.monolisa.dev/)
 - [Recursive](https://www.recursive.design/)
+
+## 赞助
+
+如果这个字体对您有所帮助，可以通过 [爱发电](https://afdian.com/a/subframe7536) 赞助我
 
 ## 许可
 

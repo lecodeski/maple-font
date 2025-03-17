@@ -67,7 +67,7 @@ paru -S ttf-maple-beta-nf-cn
 
 ## Usage & Feature Configurations
 
-See in [document](./source/features/README.md)
+See in [document](./source/features/README.md) or try it in [Playground](https://font.subf.dev/en/playground)
 
 > [!note]
 > The web tool for custom build is under development.
@@ -246,6 +246,14 @@ Build Options:
 - [Font Viewer](https://tophix.com/font-tools/font-viewer)
 - [Monolisa](https://www.monolisa.dev/)
 - [Recursive](https://www.recursive.design/)
+
+## Sponser
+
+If this font is helpful to you, please feel free to buy me a coffee
+
+<a href="https://www.buymeacoffee.com/subframe753"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=subframe753&button_colour=5F7FFF&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00" /></a>
+
+or sponser me through [Afdian](https://afdian.com/a/subframe7536)
 
 ## License
 
