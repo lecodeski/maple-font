@@ -6,6 +6,31 @@
 
 查看同目录下的 `.fea` 文件 和 [OpenType Feature 语法规范](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html) 获取更多信息。
 
+## 使用
+
+### VSCode
+
+在 VSCode settings json 文件中设置
+
+```jsonc
+{
+  // 启用连字
+  "editor.fontLigatures": "'calt'",
+  // 或者开启 OpenType 特性
+  "editor.fontLigatures": "'calt', 'cv01', 'ss01', 'zero'",
+}
+```
+
+### IDEA / Pycharm / WebStorm / GoLand / CLion
+
+1. 打开设置
+2. 点击 "编辑器"
+3. 点击 "字体"
+4. 在字体下拉框中选择 Maple Mono NF CN
+5. 点击 "启用连字"
+
+不支持 OpenType 特性，你需要自行构建以强制开启特性。
+
 ## 连字
 
 开启连字，指启用 `calt` 特性:

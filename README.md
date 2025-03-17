@@ -65,12 +65,12 @@ paru -S ttf-maple-beta-nf
 paru -S ttf-maple-beta-nf-cn
 ```
 
-## Feature Configurations
+## Usage & Feature Configurations
 
 See in [document](./source/features/README.md)
 
 > [!note]
-> The web tool for visualized configuration and custom build is under development.
+> The web tool for custom build is under development.
 
 ## Naming FAQ
 

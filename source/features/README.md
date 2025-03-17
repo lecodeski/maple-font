@@ -6,6 +6,31 @@ Here is the check list and explaination of Maple Mono ligatures and features.
 
 For more details, please check out `.fea` files in same directory and [OpenType Feature Spec](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html).
 
+## Usage
+
+### VSCode
+
+Setup in your VSCode settings json file
+
+```jsonc
+{
+  // Enable ligatures
+  "editor.fontLigatures": "'calt'",
+  // Or enable OpenType features
+  "editor.fontLigatures": "'calt', 'cv01', 'ss01', 'zero'",
+}
+```
+
+### IDEA / Pycharm / WebStorm / GoLand / CLion
+
+1. Open Settings
+2. Click "Editor"
+3. Click "Font"
+4. Choose "Maple Mono NF" in the font menu
+5. Click "Enable Ligatures"
+
+OpenType Features are not supported, you need to custom build to freeze features.
+
 ## Ligatures
 
 "Enable ligature", is same as "enable `calt` feature":
