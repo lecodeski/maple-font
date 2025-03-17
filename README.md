@@ -1,7 +1,7 @@
 ![Cover](./resources/header.png)
 
 <p align="center">
-  <a href="#install">Install</a> |
+  <a href="#download">Download</a> |
   <a href="https://font.subf.dev">Website</a> |
   English |
   <a href="./README_CN.md">中文</a>

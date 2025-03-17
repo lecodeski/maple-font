@@ -1,8 +1,8 @@
 ![封面图](./resources/header.png)
 
 <p align="center">
-  <a href="#install">Install</a> |
-  <a href="https://font.subf.dev">Website</a> |
+  <a href="#下载">下载</a> |
+  <a href="https://font.subf.dev">网站</a> |
   <a href="./README.md">English</a> |
   中文
 </p>
