@@ -10,6 +10,10 @@ If you want to get the font that similar to `JetBrains Mono`, please download th
 
 如果你想用的是和 `JetBrains Mono` 相近的字体，请下载 "Normal-Ligature" 或者 "Normal-No-Ligature"
 
+If you don't want to choose, please download [this font](https://<url>/MapleMono-NF-unhinted.zip)
+
+懒人首选下载[这个](https://<url>/MapleMono-NF-CN-unhinted.zip)
+
 | Format   | Ligature (default)                                                                                     | No-Ligature                                                                                                | Normal-Ligature                                                                                                    | Normal-No-Ligature                                                                                                     |
 | -------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
 | Variable | [📦 Download](https://<url>/MapleMono-Variable.zip)                                                     | [📦 Download](https://<url>/MapleMonoNL-Variable.zip)                                                       | [📦 Download](https://<url>/MapleMonoNormal-Variable.zip)                                                           | [📦 Download](https://<url>/MapleMonoNormalNL-Variable.zip)                                                             |
