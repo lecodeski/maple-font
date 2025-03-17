@@ -14,6 +14,8 @@ Setup in your VSCode settings json file
 
 ```jsonc
 {
+  // Setup font family
+  "editor.fontFamily": "Maple Mono NF, Jetbrains Mono, Menlo, Consolas, monospace",
   // Enable ligatures
   "editor.fontLigatures": "'calt'",
   // Or enable OpenType features

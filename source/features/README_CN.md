@@ -14,6 +14,8 @@
 
 ```jsonc
 {
+  // 设置字体
+  "editor.fontFamily": "Maple Mono NF CN, Menlo, Consolas, Maple UI, PingFang, 'Microsoft YaHei', monospace",
   // 启用连字
   "editor.fontLigatures": "'calt'",
   // 或者开启 OpenType 特性
