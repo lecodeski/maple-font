@@ -41,6 +41,23 @@ CN version based on [Resource Han Rounded](https://github.com/CyanoHao/Resource-
 
 You can download all the font archives from [Releases](https://github.com/subframe7536/maple-font/releases).
 
+### Scoop (Windows)
+
+```sh
+# Add bucket
+scoop bucket add nerd-fonts
+# Maple Mono (ttf format)
+scoop install Maple-Mono
+# Maple Mono (hinted ttf format)
+scoop install Maple-Mono-autohint
+# Maple Mono (otf format)
+scoop install Maple-Mono-otf
+# Maple Mono NF
+scoop install Maple-Mono-NF
+# Maple Mono NF CN
+scoop install Maple-Mono-NF-CN
+```
+
 ### Homebrew (MacOS, Linux)
 
 ```sh
@@ -54,7 +71,7 @@ brew install --cask font-maple-mono-cn
 brew install --cask font-maple-mono-nf-cn
 ```
 
-### Arch Linux
+### AUR (Arch Linux)
 
 ```shell
 # Maple Mono
@@ -64,6 +81,18 @@ paru -S ttf-maple-beta-nf
 # Maple Mono NF CN
 paru -S ttf-maple-beta-nf-cn
 ```
+
+## CDN
+
+### Maple Mono
+
+- [fontsource](https://fontsource.org/fonts/maple-mono)
+- [ZeoSeven Fonts](https://fonts.zeoseven.com/items/443/)
+
+### Maple Mono CN
+
+- [The Chinese Web Fonts Plan (中文网字计划)](https://chinese-font.netlify.app/zh-cn/fonts/maple-mono-cn/MapleMono-CN-Regular)
+- [ZeoSeven Fonts](https://fonts.zeoseven.com/items/442/)
 
 ## Usage & Feature Configurations
 
@@ -100,17 +129,6 @@ See in [document](./source/features/README.md) or try it in [Playground](https:/
 - Why there exists `-AutoHint` and `-unhinted` suffix?
   - for backward compatibility, I keep the original naming scheme. `-AutoHint` is only used for `TTF` format.
 
-## CDN
-
-### Maple Mono
-
-- [fontsource](https://fontsource.org/fonts/maple-mono)
-- [ZeoSeven Fonts](https://fonts.zeoseven.com/items/443/)
-
-### Maple Mono CN
-
-- [The Chinese Web Fonts Plan (中文网字计划)](https://chinese-font.netlify.app/zh-cn/fonts/maple-mono-cn/MapleMono-CN-Regular)
-- [ZeoSeven Fonts](https://fonts.zeoseven.com/items/442/)
 
 ## Custom Build
 
