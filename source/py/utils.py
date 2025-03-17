@@ -254,3 +254,23 @@ def compress_folder(
             sha256.update(data)
 
     return sha256.hexdigest(), zip_name_without_ext
+
+
+def generate_directory_hash(dir_path: str) -> str:
+    hasher = hashlib.sha256()
+    for root, _, files in sorted(walk(dir_path)):
+        for file in sorted(files):
+            file_path = path.join(root, file)
+            try:
+                with open(file_path, "rb") as f:
+                    while True:
+                        # 4KB chunk size
+                        chunk = f.read(4096)
+                        if not chunk:
+                            break
+                        hasher.update(chunk)
+
+            except (IOError, OSError) as e:
+                raise Exception(f"Error reading file: {file_path} - {e}")
+
+    return hasher.hexdigest()

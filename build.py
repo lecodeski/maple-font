@@ -14,6 +14,7 @@ from fontTools.feaLib.builder import addOpenTypeFeatures
 from fontTools.merge import Merger
 from source.py.utils import (
     check_font_patcher,
+    generate_directory_hash,
     verify_glyph_width,
     compress_folder,
     download_cn_base_font,
@@ -319,7 +320,7 @@ class FontConfig:
         except json.JSONDecodeError:
             print(f"❗ Error: Invalid JSON in config file: {config_file_path}")
             exit(1)
-        except Exception as e: # Catch any other unexpected error
+        except Exception as e:  # Catch any other unexpected error
             print(f"❗ An unexpected error occurred: {e}")
             exit(1)
 
@@ -492,7 +493,10 @@ class BuildOption:
             print("Clean CN static fonts")
             shutil.rmtree(self.cn_static_dir, ignore_errors=True)
 
-        if path.exists(self.cn_static_dir) and len(listdir(self.cn_static_dir)) == 16:
+        if use_static and self.__check_cn_exists(
+            static_path=self.cn_static_dir,
+            hash_path=f"{self.cn_variable_dir}/static.sha256",
+        ):
             return True
 
         tag = "cn-base"
@@ -536,6 +540,18 @@ class BuildOption:
 
         print("\nCN base fonts don't exist. Skip CN build.")
         return False
+
+    def __check_cn_exists(self, static_path: str, hash_path: str) -> bool:
+        if not path.exists(static_path):
+            return False
+        if len(listdir(static_path)) != 16:
+            return False
+        with open(hash_path, "r") as f:
+            if f.readline() == generate_directory_hash(static_path):
+                return True
+            print("Unmatched CN static font hash, clean up")
+            shutil.rmtree(static_path)
+            return False
 
     def __check_cache_dir(self, cache_dir: str, count: int = 16) -> bool:
         if not path.isdir(cache_dir):
@@ -1058,9 +1074,7 @@ def run_build(pool_size: int, fn: Callable, dir: str):
         return
 
     with ProcessPoolExecutor(max_workers=pool_size) as executor:
-        futures = {
-            executor.submit(fn, f): f for f in files
-        }
+        futures = {executor.submit(fn, f): f for f in files}
 
         for future in as_completed(futures):
             future.result()

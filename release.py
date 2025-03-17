@@ -6,7 +6,7 @@ import re
 import shutil
 from typing import Callable
 from fontTools.ttLib import TTFont
-from source.py.utils import run
+from source.py.utils import generate_directory_hash, run
 
 # Mapping of style names to weights
 weight_map = {
@@ -168,6 +168,11 @@ def main():
         shutil.rmtree(woff2_dir)
     run(f"ftcli converter ft2wf -f woff2 ./fonts/Variable -out {woff2_dir}")
     rename_files(woff2_dir, format_woff2_name)
+
+    cn_static_path = "./source/cn/static"
+    with open(f"{cn_static_path}.sha256", "w") as f:
+        f.write(generate_directory_hash(cn_static_path))
+        f.flush()
 
     submodule_path = './maple-font-page'
     public_path = f"{submodule_path}/public/fonts"
