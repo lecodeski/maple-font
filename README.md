@@ -1,6 +1,13 @@
 ![Cover](./resources/header.png)
 
 <p align="center">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/subframe7536/maple-font">
+  <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/subframe7536/maple-font/total">
+  <img alt="GitHub Release" src="https://img.shields.io/github/v/release/subframe7536/maple-font">
+  <img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/subframe7536">
+</p>
+
+<p align="center">
   <a href="#download">Download</a> |
   <a href="https://font.subf.dev">Website</a> |
   English |
