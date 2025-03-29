@@ -579,6 +579,10 @@ CNバージョンはデフォルトで無効になっています。`python buil
 
 CNグリフの間隔が**非常に大きい**と感じる場合、間隔を狭くする**実験的**なビルドオプション`cn.narrow`またはフラグ`--cn-narrow`があります。効果を確認し、[#249](https://github.com/subframe7536/maple-font/issues/249)で問題を追跡できます。
 
+#### 繁体中文の句読点サポート
+
+`cv99` を開くことで、すべての中国語の句読点が中央に配置されます。詳細は [#150](https://github.com/subframe7536/maple-font/issues/150) を参照してください
+
 #### GitHubミラー
 
 ビルドスクリプトは必要なアセットをGitHubから自動的にダウンロードします。ダウンロードに問題がある場合は、[config.json](./config.json)で`github_mirror`を設定するか、環境変数に`$GITHUB`を設定してください。（ターゲットURLは`https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`になります）、またはターゲットの`.zip`ファイルをダウンロードし、`build.py`と同じディレクトリに配置してください。

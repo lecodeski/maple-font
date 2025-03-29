@@ -583,6 +583,10 @@ If you think that CN glyphs spacing is **tooooo large**, there is a **EXPERIMENT
 
 The build script will auto download required assets from GitHub. If you have trouble downloading, please setup `github_mirror` in [config.json](./config.json) or `$GITHUB` to your environment variable. (Target URL will be `https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`), or just download the target `.zip` file and put it in the same directory as `build.py`.
 
+#### Traditional Chinese Punctuation Support
+
+By enabling `cv99`, all Chinese punctuation marks will be centred. See more details in [#150](https://github.com/subframe7536/maple-font/issues/150)
+
 ### Build Script Usage
 
 ```

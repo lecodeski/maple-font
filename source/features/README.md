@@ -193,7 +193,7 @@ fixme))
 - cv96: Full width `“`(double quote left), `”`(double quote right), `‘`(single quote left), `’`(single quote right)
 - cv97: Full width `…`(ellipsis)
 - cv98: Full width `—`(emdash)
-- cv99: Traditional punctuations (centerd)
+- cv99: Traditional punctuations (centered)
 
 ### Stylistic Sets (ssXX)
 
