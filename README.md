@@ -51,8 +51,19 @@ You can download all the font archives from [Releases](https://github.com/subfra
 
 ### Scoop (Windows)
 
+```sh
+# Add bucket
+scoop bucket add nerd-fonts
+# Maple Mono (ttf format)
+scoop install Maple-Mono
+# Maple Mono NF
+scoop install Maple-Mono-NF
+# Maple Mono NF CN
+scoop install Maple-Mono-NF-CN
+```
+
 <details>
-  <summary>Click to expand</summary>
+  <summary>All packages (Click to expand)</summary>
 
   ```sh
   # Add bucket
@@ -73,8 +84,17 @@ You can download all the font archives from [Releases](https://github.com/subfra
 
 ### Homebrew (MacOS, Linux)
 
+```sh
+# Maple Mono
+brew install --cask font-maple-mono
+# Maple Mono NF
+brew install --cask font-maple-mono-nf
+# Maple Mono NF CN
+brew install --cask font-maple-mono-nf-cn
+```
+
 <details>
-  <summary>Click to expand</summary>
+  <summary>All packages (Click to expand)</summary>
 
   ```sh
   # Maple Mono
@@ -102,10 +122,19 @@ You can download all the font archives from [Releases](https://github.com/subfra
 
 ArchLinuxCN repository allows downloading a single package zip file without downloading all the package zip files in pkgbase, but AUR does not. (If you have a good solution, please contact Cyberczy(czysheep@gmail.com))
 
-#### ArchLinuxCN(Recommended)
+#### ArchLinuxCN (Recommended)
+
+```sh
+# Maple Mono (Ligature TTF unhinted)
+paru -S ttf-maplemono
+# Maple Mono NF (Ligature unhinted)
+paru -S ttf-maplemono-nf-unhinted
+# Maple Mono NF CN (Ligature unhinted)
+paru -S ttf-maplemono-nf-cn-unhinted
+```
 
 <details>
-  <summary>Click to expand</summary>
+  <summary>All packages (Click to expand)</summary>
 
   ```sh
   # Maple Mono (Ligature Variable)
@@ -203,10 +232,19 @@ ArchLinuxCN repository allows downloading a single package zip file without down
 
 </details>
 
-#### AUR(Not Recommended)
+#### AUR (Not Recommended)
+
+```sh
+# Maple Mono (Ligature TTF unhinted)
+paru -S maplemono-ttf
+# Maple Mono NF (Ligature unhinted)
+paru -S maplemono-nf-unhinted
+# Maple Mono NF CN (Ligature unhinted)
+paru -S maplemono-nf-cn-unhinted
+```
 
 <details>
-  <summary>Click to expand</summary>
+  <summary>All packages (Click to expand)</summary>
 
   ```sh
   # Maple Mono (Ligature Variable)
@@ -306,8 +344,19 @@ ArchLinuxCN repository allows downloading a single package zip file without down
 
 ### Nixpkgs (NixOS, Linux, MacOS)
 
+```nix
+fonts.packages = with pkgs; [
+  # Maple Mono (Ligature TTF unhinted)
+  maple-mono.truetype
+  # Maple Mono NF (Ligature unhinted)
+  maple-mono.NF-unhinted
+  # Maple Mono NF CN (Ligature unhinted)
+  maple-mono.NF-CN-unhinted
+];
+```
+
 <details>
-  <summary>Click to expand</summary>
+  <summary>All packages (Click to expand)</summary>
 
   ```nix
   fonts.packages = with pkgs; [

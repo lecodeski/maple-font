@@ -51,8 +51,19 @@ CNバージョンは[Resource Han Rounded](https://github.com/CyanoHao/Resource-
 
 ### Scoop (Windows)
 
+```sh
+# バケットを追加
+scoop bucket add nerd-fonts
+# Maple Mono (ttf 形式)
+scoop install Maple-Mono
+# Maple Mono NF
+scoop install Maple-Mono-NF
+# Maple Mono NF CN
+scoop install Maple-Mono-NF-CN
+```
+
 <details>
-  <summary>クリックして展開</summary>
+  <summary>すべてのパッケージ (クリックして展開)</summary>
 
   ```sh
   # バケットを追加
@@ -73,8 +84,17 @@ CNバージョンは[Resource Han Rounded](https://github.com/CyanoHao/Resource-
 
 ### Homebrew (MacOS, Linux)
 
+```sh
+# Maple Mono
+brew install --cask font-maple-mono
+# Maple Mono NF
+brew install --cask font-maple-mono-nf
+# Maple Mono NF CN
+brew install --cask font-maple-mono-nf-cn
+```
+
 <details>
-  <summary>クリックして展開</summary>
+  <summary>すべてのパッケージ (クリックして展開)</summary>
 
   ```sh
   # Maple Mono
@@ -102,10 +122,19 @@ CNバージョンは[Resource Han Rounded](https://github.com/CyanoHao/Resource-
 
 ArchLinuxCN リポジトリでは、pkgbase 内のすべてのパッケージ zip ファイルをダウンロードせずに、単一のパッケージ zip ファイルをダウンロードできますが、AUR ではできません。(良い解決策がある場合は、Cyberczy(czysheep@gmail.com) までご連絡ください)
 
-#### ArchLinuxCN(推奨)
+#### ArchLinuxCN (推奨)
+
+```sh
+# Maple Mono (Ligature TTF unhinted)
+paru -S ttf-maplemono
+# Maple Mono NF (Ligature unhinted)
+paru -S ttf-maplemono-nf-unhinted
+# Maple Mono NF CN (Ligature unhinted)
+paru -S ttf-maplemono-nf-cn-unhinted
+```
 
 <details>
-  <summary>クリックして展開</summary>
+  <summary>すべてのパッケージ (クリックして展開)</summary>
 
   ```sh
   # Maple Mono (Ligature Variable)
@@ -203,10 +232,19 @@ ArchLinuxCN リポジトリでは、pkgbase 内のすべてのパッケージ zi
 
 </details>
 
-#### AUR(非推奨)
+#### AUR (非推奨)
+
+```sh
+# Maple Mono (Ligature TTF unhinted)
+paru -S maplemono-ttf
+# Maple Mono NF (Ligature unhinted)
+paru -S maplemono-nf-unhinted
+# Maple Mono NF CN (Ligature unhinted)
+paru -S maplemono-nf-cn-unhinted
+```
 
 <details>
-  <summary>クリックして展開</summary>
+  <summary>すべてのパッケージ (クリックして展開)</summary>
 
   ```sh
   # Maple Mono (Ligature Variable)
@@ -306,8 +344,19 @@ ArchLinuxCN リポジトリでは、pkgbase 内のすべてのパッケージ zi
 
 ### Nixpkgs (NixOS, Linux, MacOS)
 
+```nix
+fonts.packages = with pkgs; [
+  # Maple Mono (Ligature TTF unhinted)
+  maple-mono.truetype
+  # Maple Mono NF (Ligature unhinted)
+  maple-mono.NF-unhinted
+  # Maple Mono NF CN (Ligature unhinted)
+  maple-mono.NF-CN-unhinted
+];
+```
+
 <details>
-  <summary>クリックして展開</summary>
+  <summary>すべてのパッケージ (クリックして展開)</summary>
 
   ```nix
   fonts.packages = with pkgs; [

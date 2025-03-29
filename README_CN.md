@@ -51,8 +51,19 @@ CN 版本基于[资源圆体](https://github.com/CyanoHao/Resource-Han-Rounded)�
 
 ### Scoop (Windows)
 
+```sh
+# Add bucket
+scoop bucket add nerd-fonts
+# Maple Mono (ttf 格式)
+scoop install Maple-Mono
+# Maple Mono NF
+scoop install Maple-Mono-NF
+# Maple Mono NF CN
+scoop install Maple-Mono-NF-CN
+```
+
 <details>
-  <summary>点击展开</summary>
+  <summary>所有包 (点击展开)</summary>
 
   ```sh
   # 添加 bucket
@@ -73,8 +84,17 @@ CN 版本基于[资源圆体](https://github.com/CyanoHao/Resource-Han-Rounded)�
 
 ### Homebrew (MacOS, Linux)
 
+```sh
+# Maple Mono
+brew install --cask font-maple-mono
+# Maple Mono NF
+brew install --cask font-maple-mono-nf
+# Maple Mono NF CN
+brew install --cask font-maple-mono-nf-cn
+```
+
 <details>
-  <summary>点击展开</summary>
+  <summary>所有包 (点击展开)</summary>
 
   ```sh
   # Maple Mono
@@ -102,10 +122,19 @@ CN 版本基于[资源圆体](https://github.com/CyanoHao/Resource-Han-Rounded)�
 
 ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbase中的所有软件包的zip文件，但AUR不允许。(如果您有好的解决方案，请联系Cyberczy(czysheep@gmail.com))
 
-#### ArchLinuxCN(推荐)
+#### ArchLinuxCN (推荐)
+
+```sh
+# Maple Mono (Ligature TTF unhinted)
+paru -S ttf-maplemono
+# Maple Mono NF (Ligature unhinted)
+paru -S ttf-maplemono-nf-unhinted
+# Maple Mono NF CN (Ligature unhinted)
+paru -S ttf-maplemono-nf-cn-unhinted
+```
 
 <details>
-  <summary>点击展开</summary>
+  <summary>所有包 (点击展开)</summary>
 
   ```sh
   # Maple Mono (Ligature Variable)
@@ -203,10 +232,19 @@ ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbas
 
 </details>
 
-#### AUR(不推荐)
+#### AUR (不推荐)
+
+```sh
+# Maple Mono (Ligature TTF unhinted)
+paru -S maplemono-ttf
+# Maple Mono NF (Ligature unhinted)
+paru -S maplemono-nf-unhinted
+# Maple Mono NF CN (Ligature unhinted)
+paru -S maplemono-nf-cn-unhinted
+```
 
 <details>
-  <summary>点击展开</summary>
+  <summary>所有包 (点击展开)</summary>
 
   ```sh
   # Maple Mono (Ligature Variable)
@@ -231,7 +269,7 @@ ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbas
   paru -S maplemono-nf-cn
   # Maple Mono NF CN (Ligature unhinted)
   paru -S maplemono-nf-cn-unhinted
-  
+
   # Maple Mono (No-Ligature Variable)
   paru -S maplemononl-variable
   # Maple Mono (No-Ligature TTF hinted)
@@ -254,7 +292,7 @@ ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbas
   paru -S maplemononl-nf-cn
   # Maple Mono NF CN (No-Ligature unhinted)
   paru -S maplemononl-nf-cn-unhinted
-  
+
   # Maple Mono Normal (Ligature Variable)
   paru -S maplemononormal-variable
   # Maple Mono Normal (Ligature TTF hinted)
@@ -277,7 +315,7 @@ ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbas
   paru -S maplemononormal-nf-cn
   # Maple Mono Normal NF CN (Ligature unhinted)
   paru -S maplemononormal-nf-cn-unhinted
-  
+
   # Maple Mono Normal (No-Ligature Variable)
   paru -S maplemononormalnl-variable
   # Maple Mono Normal (No-Ligature TTF hinted)
@@ -306,8 +344,19 @@ ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbas
 
 ### Nixpkgs (NixOS, Linux, MacOS)
 
+```nix
+fonts.packages = with pkgs; [
+  # Maple Mono (Ligature TTF unhinted)
+  maple-mono.truetype
+  # Maple Mono NF (Ligature unhinted)
+  maple-mono.NF-unhinted
+  # Maple Mono NF CN (Ligature unhinted)
+  maple-mono.NF-CN-unhinted
+];
+```
+
 <details>
-  <summary>点击展开</summary>
+  <summary>所有包 (点击展开)</summary>
 
   ```nix
   fonts.packages = with pkgs; [
