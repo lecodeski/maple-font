@@ -215,6 +215,7 @@ class FontConfig:
             "cv34": "ignore",
             "cv35": "ignore",
             "cv36": "ignore",
+            "cv37": "ignore",
             "cv96": "ignore",
             "cv97": "ignore",
             "cv98": "ignore",
@@ -1267,8 +1268,8 @@ def main():
             "cn": font_config.cn,
         }
         del result["nerd_font"]["font_forge_bin"]
-        result["nerd_font"]["enable"] = build_option.is_nf_built
-        result["cn"]["enable"] = build_option.is_cn_built
+        del result["nerd_font"]["enable"]
+        del result["cn"]["enable"]
         config_file.write(
             json.dumps(
                 result,
