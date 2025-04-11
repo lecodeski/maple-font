@@ -19,6 +19,7 @@ def freeze_feature(font, calt, moving_rules=[], config={}):
         if feature.FeatureTag != "calt"
     }
 
+    calt_features = []
     if calt:
         calt_features = [
             feature.Feature

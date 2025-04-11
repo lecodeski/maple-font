@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import json
 from os import path, remove
 from urllib.request import urlopen
@@ -49,7 +48,6 @@ def update_config_json(config_path: str, version: str):
 
         file.seek(0)
         json.dump(data, file, ensure_ascii=False, indent=2)
-        file.truncate()
 
 
 def check_update():
@@ -145,13 +143,11 @@ def subset(mono: bool, unicodes: list[int]):
     font.close()
 
 
-def main():
-    check_update()
+def nerd_font(no_update: bool):
+    if not no_update:
+        check_update()
+
     with open("./FontPatcher/glyphnames.json", "r", encoding="utf-8") as f:
         unicodes = parse_codes_from_json(json.load(f))
         subset(True, unicodes=unicodes)
         subset(False, unicodes=unicodes)
-
-
-if __name__ == "__main__":
-    main()

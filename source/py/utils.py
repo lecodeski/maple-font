@@ -1,12 +1,15 @@
 import hashlib
 from os import environ, path, remove, walk
-import platform
+import sys
 import shutil
 import subprocess
 from urllib.request import Request, urlopen
 from zipfile import ZIP_DEFLATED, ZipFile
 from fontTools.ttLib import TTFont
+from fontTools.feaLib.builder import addOpenTypeFeaturesFromString
 from glyphsLib import GSFont
+
+from source.py.feature import generate_fea_string
 
 
 def is_ci():
@@ -56,8 +59,16 @@ def del_font_name(font: TTFont, id: int):
     font["name"].removeNames(nameID=id)
 
 
-def joinPaths(*args: list[str]) -> str:
+def joinPaths(*args: str) -> str:
     return "/".join(args)
+
+
+def is_windows():
+    return sys.platform == "win32"
+
+
+def is_macos():
+    return sys.platform == "darwin"
 
 
 def get_font_forge_bin():
@@ -67,12 +78,10 @@ def get_font_forge_bin():
     )
     LINUX_FONTFORGE_PATH = "/usr/bin/fontforge"
 
-    system_name = platform.uname()[0]
-
     result = ""
-    if "Darwin" in system_name:
+    if is_macos():
         result = MAC_FONTFORGE_PATH
-    elif "Windows" in system_name:
+    elif is_windows():
         result = WIN_FONTFORGE_PATH
     else:
         result = LINUX_FONTFORGE_PATH
@@ -193,9 +202,11 @@ def match_unicode_names(file_path: str) -> dict[str, str]:
 
 
 # https://github.com/subframe7536/maple-font/issues/314
-def verify_glyph_width(font: TTFont, expect_widths: list[int], file_name: str = None):
-    print("Verify glyph width...")
-    result: tuple[str, int] = []
+def verify_glyph_width(
+    font: TTFont, expect_widths: list[int], file_name: str | None = None
+):
+    print("Verify glyph width")
+    result = []
     for name in font.getGlyphNames():
         width, _ = font["hmtx"][name]
         if width not in expect_widths:
@@ -274,3 +285,93 @@ def generate_directory_hash(dir_path: str) -> str:
                 raise Exception(f"Error reading file: {file_path} - {e}")
 
     return hasher.hexdigest()
+
+
+def merge_ttfonts(base_font_path: str, extra_font_path: str) -> TTFont:
+    """
+    Merge glyphs from ``source_font`` into ``base_font``, skipping duplicate glyph names.
+
+    ``fontTools.merge.Merger`` will erase the glyph names, so merge them manually
+
+    Args:
+        base_font (TTFont): The base font to merge into
+        source_font (TTFont): The font to merge from
+
+    Returns:
+        TTFont: The modified base_font with merged glyphs
+    """
+    try:
+        base_font = TTFont(base_font_path)
+        extra_font = TTFont(extra_font_path)
+        # Get glyph tables and orders
+        base_glyf = base_font["glyf"]
+        extra_glyf = extra_font["glyf"]
+        base_glyph_order = base_font.getGlyphOrder()
+        extra_glyph_order = extra_font.getGlyphOrder()
+
+        base_hmtx = base_font["hmtx"] if "hmtx" in base_font else None
+        extra_hmtx = extra_font["hmtx"] if "hmtx" in extra_font else None
+
+        base_glyph_names = set(base_glyph_order)
+
+        glyphs_to_add = []
+
+        for glyph_name in extra_glyph_order:
+            if glyph_name not in base_glyph_names:
+                # Copy glyph from source
+                base_glyf.glyphs[glyph_name] = extra_glyf.glyphs[glyph_name]
+
+                # Copy metrics if hmtx tables exist
+                if base_hmtx and extra_hmtx and glyph_name in extra_hmtx.metrics:
+                    base_hmtx.metrics[glyph_name] = extra_hmtx.metrics[glyph_name]
+                elif base_hmtx:
+                    # Fallback: use default metrics if source doesn't have them
+                    base_hmtx.metrics[glyph_name] = (0, 0)  # advanceWidth, lsb
+
+                glyphs_to_add.append(glyph_name)
+
+        if not glyphs_to_add:
+            print("No new glyphs to merge")
+            return base_font
+
+        # Update glyph order
+        updated_glyph_order = base_glyph_order + glyphs_to_add
+        base_font.setGlyphOrder(updated_glyph_order)
+
+        # Update maxp table
+        base_font["maxp"].numGlyphs = len(updated_glyph_order)
+
+        # Update cmap if it exists
+        if "cmap" in extra_font and "cmap" in base_font:
+            base_cmap = base_font["cmap"].getBestCmap()
+            extra_cmap = extra_font["cmap"].getBestCmap()
+            if base_cmap and extra_cmap:
+                for code, name in extra_cmap.items():
+                    if name in glyphs_to_add and code not in base_cmap:
+                        base_cmap[code] = name
+
+        # Update hhea table if it exists
+        if "hhea" in base_font:
+            if base_hmtx:
+                # Ensure hhea matches the number of hmtx entries
+                base_font["hhea"].numberOfHMetrics = len(base_hmtx.metrics)
+            base_font["hhea"].recalc(base_font)
+
+        return base_font
+
+    except Exception as e:
+        print(f"Error merging fonts: {str(e)}")
+        raise
+
+
+def patch_fea_string(font: TTFont, is_italic: bool, is_cn: bool):
+    fea_str = generate_fea_string(is_italic, is_cn)
+    try:
+        addOpenTypeFeaturesFromString(font, fea_str)
+    except Exception as e:
+        p = path.realpath("./fonts/issue.fea")
+        with open(p, "w+") as f:
+            f.write(fea_str)
+        raise Exception(
+            f"Error patching fea string: {e}\n\nSee generated fea string in {p}"
+        )

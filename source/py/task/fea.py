@@ -1,0 +1,126 @@
+import os
+import re
+import json
+from source.py.feature import (
+    generate_fea_string,
+    generate_fea_string_cn_only,
+    get_all_calt_text,
+    get_cv_desc,
+    get_cv_italic_desc,
+    get_cv_cn_desc,
+    get_ss_desc,
+    get_total_feat,
+)
+from source.py.utils import joinPaths
+
+
+def write_file(file_path: str, content: str, mode: str = "w") -> None:
+    if not isinstance(file_path, str) or not file_path:
+        raise ValueError("Invalid file path")
+    if not isinstance(content, str):
+        raise ValueError("Invalid content")
+    with open(file_path, encoding="utf-8", mode=mode) as file:
+        file.write(content)
+
+
+def update_json_file(file_path: str, data: dict) -> None:
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=2)
+
+
+def replace_section(md_path: str, border: str, content: str) -> None:
+    with open(md_path, "r", encoding="utf-8") as file:
+        md_content = file.read()
+    pattern = f"{border}(.*){border}"
+    updated_content = re.sub(
+        pattern, f"{border}\n{content}\n{border}", md_content, flags=re.DOTALL
+    )
+    write_file(md_path, updated_content)
+
+
+def get_feature_freeze_config(
+    features: dict[str, str], enable_keys: list[str] | None = None
+) -> dict:
+    feature_freeze = {}
+    for tag in features.keys():
+        feature_freeze[tag] = (
+            "enable" if enable_keys and tag in enable_keys else "ignore"
+        )
+    return feature_freeze
+
+
+def update_feature_freeze(
+    file_path: str, features: dict[str, str], enable_keys: list[str] | None = None
+) -> None:
+    with open(file_path, "r", encoding="utf-8") as file:
+        config = json.load(file)
+    config["feature_freeze"] = get_feature_freeze_config(features, enable_keys)
+    update_json_file(file_path, config)
+
+
+def update_schema(file_path: str, features: dict[str, str]) -> None:
+    with open(file_path, "r", encoding="utf-8") as file:
+        schema = json.load(file)
+    schema["properties"]["feature_freeze"]["properties"] = {
+        tag: {"description": desc, "$ref": "#/definitions/freeze_options"}
+        for tag, desc in features.items()
+    }
+    update_json_file(file_path, schema)
+
+
+def fea(output: str, cn: bool) -> None:
+    # Generate feature files
+    files = {
+        "regular.fea": generate_fea_string(False, False),
+        "italic.fea": generate_fea_string(True, False),
+        "cn.fea": generate_fea_string_cn_only(),
+    }
+    for filename, content in files.items():
+        write_file(joinPaths(output, filename), content)
+
+    files_cn = {
+        "regular_cn.fea": generate_fea_string(False, True),
+        "italic_cn.fea": generate_fea_string(True, True),
+    }
+    for filename, content in files_cn.items():
+        fea_path = joinPaths(output, filename)
+        if cn:
+            write_file(fea_path, content)
+        else:
+            try:
+                os.remove(fea_path)
+            except Exception:
+                pass
+
+    # Update README sections
+    md_path = joinPaths(output, "README.md")
+    sections = {
+        "<!-- CALT -->": f"```\n{get_all_calt_text()}\n```",
+        "<!-- CV -->": get_cv_desc(),
+        "<!-- CV-IT -->": get_cv_italic_desc(),
+        "<!-- CV-CN -->": get_cv_cn_desc(),
+        "<!-- SS -->": get_ss_desc(),
+    }
+    for border, content in sections.items():
+        replace_section(md_path, border, content)
+
+    # Update configuration files
+    features = get_total_feat()
+    normal_enable_keys = [
+        "cv01",
+        "cv02",
+        "cv33",
+        "cv34",
+        "cv35",
+        "cv36",
+        "ss05",
+        "ss06",
+        "ss07",
+        "ss08",
+    ]
+
+    update_schema(joinPaths("source", "schema.json"), features)
+    update_feature_freeze(
+        joinPaths("source", "preset-normal.json"), features, normal_enable_keys
+    )
+    update_feature_freeze(joinPaths("config.json"), features)

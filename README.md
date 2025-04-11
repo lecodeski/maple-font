@@ -629,6 +629,27 @@ Build Options:
                     flag, only archive Nerd-Font and CN formats
 ```
 
+## Development
+
+### Design
+
+Using [FontLab](https://www.fontlab.com/) or [Glyphs](https://glyphs.app), generate variable TTF into `source/` folder.
+
+### Build
+
+```sh
+# Init project
+uv sync
+# Dev
+uv run build.py --ttf-only --cn --debug
+# Update nerd font
+uv run task.py nerd-font
+# Update fea file
+uv run task.py fea
+# Release
+uv run task.py release 7.0
+```
+
 ## Credit
 
 - [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)

@@ -1,5 +1,3 @@
-[👉 中文版](./README_CN.md)
-
 # Ligatures And Features
 
 Here is the check list and explaination of Maple Mono ligatures and features.
@@ -37,119 +35,136 @@ OpenType Features are not supported, you need to custom build to freeze features
 
 "Enable ligature", is same as "enable `calt` feature":
 
+<!-- CALT -->
 ```
-{{
-}}
-{{--
---}}
-{|
-|}
-[|
-|]
-//
-///
-/*
-/**
-++
-+++
-.?
-..
-...
-..<
-<!--
-<-
-<#--
-<>
-<:
-<:<
->:>
-<=>
-<->
-<|||
-<||
-<|
-<|>
-||>
-|>
--|
--->
-->
->=
-<=
-<==
-!!
-!=
-!==
-=!=
-=>
-==
-=:=
-:=:
-:=
-:>
-:<
 ::
-;;
-;;;
+:::
+?:
 :?
 :?>
+:=
+=:
+:=:
+=:=
+<:
+:>
+:<
+<:<
+>:>
 ::=
-||-
-||=
-|-
-|=
-||
---
----
-<--
-??
-???
-?:
-?.
-&&
 __
-=/=
-<-<
-<=<
-<==>
-==>
->=>
-<-|
-<=|
-|=>
-<~
-~~
-<~>
-<~~
--~
-~~>
-~>
-~-
-~@
-<+>
-<+
-+>
-<*>
-<*
-*>
-</>
-</
-/>
-<<
-<<<
->>
->>>
 #{
 #[
 #(
 #?
-#_
-#__
+#!
 #:
 #=
+#_
+#__
 #_(
 ]#
-0x12
+#######
+<<
+<<<
+>>
+>>>
+{{
+}}
+{|
+|}
+{{--
+--}}
+[|
+|]
+!!
+||
+??
+???
+&&
+&&&
+//
+///
+/*
+/**
+*/
+++
++++
+--
+---
+;;
+;;;
+..
+...
+.?
+?.
+..<
+.=
+<~
+~>
+~~
+<~>
+<~~
+~~>
+-~
+~-
+~@
+0xA12 0x56 1920x1080
+<=>
+<==>
+>=
+<=
+<==
+==>
+=>
+<=<
+>=>
+<=|
+|=>
+==
+===
+!=
+!==
+=/=
+=!=
+=<=
+=>=
+|=
+||=
+\\ \" \.
+<!--
+<#--
+<!---->
+<->
+->
+<-
+-->
+<--
+<-<
+>->
+<-|
+|->
+<|||
+|||>
+<||
+||>
+<|
+|>
+<|>
+-|
+|-
+_|_
+||-
+<>
+</
+/>
+</>
+<+
++>
+<+>
+<*
+*>
+<*>
 [TRACE]
 [DEBUG]
 [INFO]
@@ -157,13 +172,11 @@ __
 [ERROR]
 [FATAL]
 [TODO]
-todo))
 [FIXME]
+todo))
 fixme))
-########
-<!---->
-\\ \/ \"
 ```
+<!-- CALT -->
 
 ### Notice
 
@@ -173,35 +186,44 @@ fixme))
 
 ### Character Varients (cvXX)
 
-- zero: `0` with dot style
-- cv01: `@ $ & % Q => ->` without gap
-- cv02: `a` with top arm, no effect on italic `a`
-- cv03: `i` without left bottom bar
-- cv04: `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style
+<!-- CV -->
+- cv01: Normalize special symbols (`@ $ & % Q => ->`)
+- cv02: Alternative `a` with top arm, no effect on italic `a`
+- cv03: Alternative `i` without left bottom bar
+- cv04: Alternative `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style
+- zero: Dot style `0`
+<!-- CV -->
 
 #### Italic Only
-- cv31: italic `a` with top arm
-- cv32: italic `f` without bottom tail, just like regular style
-- cv33: italic `i j` with left bottom bar and horizen top bar, just like regular style
-- cv34: italic `k` without center circle, just like regular style
-- cv35: italic `l` without center tail, just like regular style
-- cv36: italic `x` without top and bottom tails, just like regular style
-- cv37: italic `y` with straight intersection, just like regular style
+
+<!-- CV-IT -->
+- cv31: Alternative italic `a` with top arm
+- cv32: Alternative Italic `f` without bottom tail
+- cv33: Alternative Italic `i` and `j` with left bottom bar and horizen top bar
+- cv34: Alternative Italic `k` without center circle
+- cv35: Alternative Italic `l` without center tail
+- cv36: Alternative Italic `x` without top and bottom tails
+- cv37: Alternative Italic `y` with straight intersection
+<!-- CV-IT -->
 
 #### CN Only
 
-- cv96: Full width `“`(double quote left), `”`(double quote right), `‘`(single quote left), `’`(single quote right)
-- cv97: Full width `…`(ellipsis)
-- cv98: Full width `—`(emdash)
-- cv99: Traditional punctuations (centered)
+<!-- CV-CN -->
+- cv96: Full width quotes (`“` / `”` / `‘` / `’`)
+- cv97: Full width ellipsis (`…`)
+- cv98: Full width emdash (`—`)
+- cv99: Traditional centered punctuations
+<!-- CV-CN -->
 
 ### Stylistic Sets (ssXX)
 
-- ss01: Broken equals ligatures (`==`, `===`, `!=`, `!==`, `=/=`)
+<!-- SS -->
+- ss01: Broken multiple equals ligatures (`==`, `===`, `!=`, `!==`, `=/=`)
 - ss02: Broken compare and equal ligatures (`<=`, `>=`)
-- ss03: Enable arbitrary tag (allow to use any case in all tags)
-- ss04: Break multiple underscores (`__`, `#__`)
-- ss05: Revert thin backslash in escape punctuations (`\\`, `\"`, `\.` ...)
-- ss06: Break connected strokes between italic letters (`al`, `ul`, `il` ...)
-- ss07: Relax the conditions for multiple greaters ligatures (`>>` or `>>>`)
-- ss08: Enable double headed arrows and reverse arrows (`>>=`, `-<<`, `->>`, `>-` ...)
+- ss03: Allow to use any case in all tags
+- ss04: Broken multiple underscores ligatures (`__`, `#__`)
+- ss05: Revert thin backslash in escape symbols (`\`, `\"`, `\.` ...)
+- ss07: Break connected strokes between italic letters (`>>` or `>>>`)
+- ss08: Double headed arrows and reverse arrows ligatures (`>>=`, `-<<`, `->>`, `>-` ...)
+- ss06: Break connected strokes between italic letters (`al`, `il`, `ull` ...)
+<!-- SS -->
