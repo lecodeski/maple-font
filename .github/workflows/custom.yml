@@ -96,6 +96,10 @@ jobs:
           path: fonts/issue.fea
       - name: Create release
         run: |
+          if [ ! -d "fonts/archive" ]; then
+            echo "Error: Failed to build font, please check [Run custom script] step."
+            exit 1
+          fi
           echo "### Build arguments" >> NOTES
           echo "\`\`\`" >> NOTES
           echo "python build.py $BUILD_ARGS" >> NOTES
