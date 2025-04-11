@@ -1700,7 +1700,7 @@ feature cv01 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Normalize special symbols";
+      name "CV01: Normalize special symbols";
     };
   };
 
@@ -1740,7 +1740,7 @@ feature cv04 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative l with left bottom bar, like consolas, will be overrided by cv35 in italic style";
+      name "CV04: Alternative l with left bottom bar, like consolas, will be overrided by cv35 in italic style";
     };
   };
 
@@ -1775,7 +1775,7 @@ feature cv31 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative italic a with top arm";
+      name "CV31: Alternative italic a with top arm";
     };
   };
 
@@ -1815,7 +1815,7 @@ feature cv32 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative Italic f without bottom tail";
+      name "CV32: Alternative Italic f without bottom tail";
     };
   };
 
@@ -1828,7 +1828,7 @@ feature cv33 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative Italic i and j with left bottom bar and horizen top bar";
+      name "CV33: Alternative Italic i and j with left bottom bar and horizen top bar";
     };
   };
 
@@ -1859,7 +1859,7 @@ feature cv34 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative Italic k without center circle";
+      name "CV34: Alternative Italic k without center circle";
     };
   };
 
@@ -1872,7 +1872,7 @@ feature cv35 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative Italic l without center tail";
+      name "CV35: Alternative Italic l without center tail";
     };
   };
 
@@ -1930,7 +1930,7 @@ feature cv36 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative Italic x without top and bottom tails";
+      name "CV36: Alternative Italic x without top and bottom tails";
     };
   };
 
@@ -1945,7 +1945,7 @@ feature cv37 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Alternative Italic y with straight intersection";
+      name "CV37: Alternative Italic y with straight intersection";
     };
   };
 
@@ -1964,7 +1964,7 @@ feature cv37 {
 feature ss01 {
 
   featureNames {
-    name "Broken multiple equals ligatures";
+    name "SS01: Broken multiple equals ligatures";
   };
 
   sub equal_equal.liga by equal_equal.liga.ss01;
@@ -1978,7 +1978,7 @@ feature ss01 {
 feature ss02 {
 
   featureNames {
-    name "Broken compare and equal ligatures";
+    name "SS02: Broken compare and equal ligatures";
   };
 
   sub less_equal.liga by less_equal.liga.ss02;
@@ -1989,7 +1989,7 @@ feature ss02 {
 feature ss03 {
 
   featureNames {
-    name "Allow to use any case in all tags";
+    name "SS03: Allow to use any case in all tags";
   };
 
   # [trace]
@@ -2082,7 +2082,7 @@ feature ss03 {
 feature ss04 {
 
   featureNames {
-    name "Broken multiple underscores ligatures";
+    name "SS04: Broken multiple underscores ligatures";
   };
 
   sub underscore_underscore.liga by underscore_underscore.liga.ss04;
@@ -2093,7 +2093,7 @@ feature ss04 {
 feature ss05 {
 
   featureNames {
-    name "Revert thin backslash in escape symbols";
+    name "SS05: Revert thin backslash in escape symbols";
   };
 
   sub backslash.liga by backslash;
@@ -2103,7 +2103,7 @@ feature ss05 {
 feature ss06 {
 
   featureNames {
-    name "Break connected strokes between italic letters";
+    name "SS06: Break connected strokes between italic letters";
   };
 
   sub C_l.liga by C_l.liga.ss06;
@@ -2130,7 +2130,7 @@ feature ss06 {
 feature ss07 {
 
   featureNames {
-    name "Break connected strokes between italic letters";
+    name "SS07: Break connected strokes between italic letters";
   };
 
   # >>
@@ -2155,7 +2155,7 @@ feature ss07 {
 feature ss08 {
 
   featureNames {
-    name "Double headed arrows and reverse arrows ligatures";
+    name "SS08: Double headed arrows and reverse arrows ligatures";
   };
 
   # <<-

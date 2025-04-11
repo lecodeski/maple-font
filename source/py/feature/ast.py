@@ -100,7 +100,7 @@ class CharacterVariant(Feature):
         return [
             Line("cvParameters {"),
             Line("FeatUILabelNameID {", 1),
-            Line(f'name "{_name}";', 2),
+            Line(f'name "{self.tag.upper()}: {_name}";', 2),
             Line("};", 1),
             Line("};"),
             Line(""),
@@ -127,7 +127,7 @@ class StylisticSet(Feature):
         _name = re.sub(REGEXP, "", self.desc.replace("`", "")).strip()
         return [
             Line("featureNames {"),
-            Line(f'name "{_name}";', 1),
+            Line(f'name "{self.tag.upper()}: {_name}";', 1),
             Line("};"),
             Line(""),
         ]

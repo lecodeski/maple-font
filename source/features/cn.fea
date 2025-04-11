@@ -52,7 +52,7 @@ feature cv96 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Full width quotes";
+      name "CV96: Full width quotes";
     };
   };
 
@@ -67,7 +67,7 @@ feature cv97 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Full width ellipsis";
+      name "CV97: Full width ellipsis";
     };
   };
 
@@ -79,7 +79,7 @@ feature cv98 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Full width emdash";
+      name "CV98: Full width emdash";
     };
   };
 
@@ -91,7 +91,7 @@ feature cv99 {
 
   cvParameters {
     FeatUILabelNameID {
-      name "Traditional centered punctuations";
+      name "CV99: Traditional centered punctuations";
     };
   };
 
