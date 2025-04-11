@@ -1522,6 +1522,7 @@ feature calt {
 
   # todo))
   lookup badge_todo_alt {
+    ignore sub @Var @T' @O @D @O parenright parenright;
     sub SPC SPC SPC SPC SPC parenright' by badge_todo.liga;
     sub SPC SPC SPC SPC parenright' parenright by SPC;
     sub SPC SPC SPC @O' parenright parenright by SPC;
@@ -1532,6 +1533,7 @@ feature calt {
 
   # fixme))
   lookup badge_fixme_alt {
+    ignore sub @Var @F' @I @X @M @E parenright parenright;
     sub SPC SPC SPC SPC SPC SPC parenright' by badge_fixme.liga;
     sub SPC SPC SPC SPC SPC parenright' parenright by SPC;
     sub SPC SPC SPC SPC @E' parenright parenright by SPC;

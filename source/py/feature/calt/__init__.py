@@ -27,7 +27,7 @@ def get_calt_lookup(
         hyphen_arrow.get_lookup(),
         lines.get_lookup(),
         markup_like.get_lookup(),
-        tag.get_lookup(),
+        tag.get_lookup(cls_var),
     ]
 
     if is_italic:
