@@ -80,7 +80,7 @@ def get_ss_desc():
         if ss.id not in result:
             result[ss.id] = ss.desc_item()
 
-    return "\n".join(result.values())
+    return "\n".join(sorted(result.values()))
 
 
 def get_total_feat() -> dict[str, str]:
