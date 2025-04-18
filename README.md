@@ -1,6 +1,9 @@
 ![Cover](./resources/header.png)
 
 <p align="center">
+  <a href="https://trendshift.io/repositories/13165" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13165" alt="subframe7536%2Fmaple-font | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+</p>
+<p align="center">
   <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/subframe7536/maple-font">
   <img alt="GitHub Repo Forks" src="https://img.shields.io/github/forks/subframe7536/maple-font">
   <img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/subframe7536">
