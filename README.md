@@ -601,7 +601,8 @@ By enabling `cv99`, all Chinese punctuation marks will be centred. See more deta
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--cn-narrow]
                 [--nerd-font | --no-nerd-font] [--cn | --no-cn] [--cn-both]
-                [--ttf-only] [--cache] [--cn-rebuild] [--archive]
+                [--ttf-only] [--least-styles] [--cache] [--cn-rebuild]
+                [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -609,7 +610,7 @@ options:
   -h, --help        show this help message and exit
   -v, --version     show program's version number and exit
   -d, --dry         Output config and exit
-  --debug           Add `Debug` suffix to family name, skip optimization
+  --debug           Add `Debug` suffix to family name and faster build
 
 Feature Options:
   -n, --normal      Use normal preset, just like `JetBrains Mono` with slashed zero
@@ -631,6 +632,7 @@ Build Options:
   --cn-both         Build both `Maple Mono CN` and `Maple Mono NF CN`. Nerd-Font
                     version must be enabled
   --ttf-only        Only build TTF format
+  --least-styles    Only build regular / bold / italic / bold italic style
   --cache           Reuse font cache of TTF, OTF and Woff2 formats
   --cn-rebuild      Reinstantiate CN base font
   --archive         Build font archives with config and license. If has `--cache`

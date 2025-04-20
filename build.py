@@ -69,7 +69,7 @@ def parse_args():
     parser.add_argument(
         "--debug",
         action="store_true",
-        help="Add `Debug` suffix to family name, skip optimization",
+        help="Add `Debug` suffix to family name and faster build",
     )
 
     feature_group = parser.add_argument_group("Feature Options")
@@ -167,6 +167,11 @@ def parse_args():
         "--ttf-only",
         action="store_true",
         help="Only build TTF format",
+    )
+    build_group.add_argument(
+        "--least-styles",
+        action="store_true",
+        help="Only build regular / bold / italic / bold italic style",
     )
     build_group.add_argument(
         "--cache",
@@ -402,7 +407,7 @@ class FontConfig:
 
 
 class BuildOption:
-    def __init__(self, config: FontConfig):
+    def __init__(self, use_hinted: bool):
         # paths
         self.src_dir = "source"
         self.output_dir = "fonts"
@@ -413,7 +418,7 @@ class BuildOption:
         self.output_woff2 = joinPaths(self.output_dir, "Woff2")
         self.output_nf = joinPaths(self.output_dir, "NF")
         self.ttf_base_dir = joinPaths(
-            self.output_dir, "TTF-AutoHint" if config.use_hinted else "TTF"
+            self.output_dir, "TTF-AutoHint" if use_hinted else "TTF"
         )
 
         self.cn_variable_dir = f"{self.src_dir}/cn"
@@ -437,7 +442,7 @@ class BuildOption:
         #
         # same as `ftcli assistant commit . --ls 400 700`
         # https://github.com/ftCLI/FoundryTools-CLI/issues/166#issuecomment-2095756721
-        self.skip_subfamily_list = ["Regular", "Bold", "Italic", "BoldItalic"]
+        self.base_subfamily_list = ["Regular", "Bold", "Italic", "BoldItalic"]
         self.is_nf_built = False
         self.is_cn_built = False
         self.has_cache = (
@@ -806,7 +811,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
     style_with_prefix_space, style_in_2, style_in_17, is_skip_subfamily, _ = (
         parse_style_name(
             style_name_compact=style_compact,
-            skip_subfamily_list=build_option.skip_subfamily_list,
+            skip_subfamily_list=build_option.base_subfamily_list,
         )
     )
 
@@ -935,7 +940,7 @@ def build_nf(
     style_nf_with_prefix_space, style_in_2, style_in_17, is_skip_sufamily, _ = (
         parse_style_name(
             style_name_compact=style_compact_nf,
-            skip_subfamily_list=build_option.skip_subfamily_list,
+            skip_subfamily_list=build_option.base_subfamily_list,
         )
     )
 
@@ -990,7 +995,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         is_italic,
     ) = parse_style_name(
         style_name_compact=style_compact_cn,
-        skip_subfamily_list=build_option.skip_subfamily_list,
+        skip_subfamily_list=build_option.base_subfamily_list,
     )
 
     postscript_name = f"{font_config.family_name_compact}-{build_option.cn_suffix_compact}-{style_compact_cn}"
@@ -1062,7 +1067,9 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
     cn_font.close()
 
 
-def run_build(pool_size: int, fn: Callable, dir: str):
+def run_build(
+    pool_size: int, fn: Callable, dir: str, target_styles: list[str] | None = None
+):
     def track_pid(processes: list[int], _):
         pid = getpid()
         if pid not in processes:
@@ -1083,6 +1090,8 @@ def run_build(pool_size: int, fn: Callable, dir: str):
             pids.remove(pid)
 
     files = listdir(dir)
+    if target_styles:
+        files = [f for f in files if f.split("-")[1][:-4] in target_styles]
     pids = []
 
     if pool_size <= 1:
@@ -1114,7 +1123,7 @@ def main():
     parsed_args = parse_args()
 
     font_config = FontConfig(args=parsed_args)
-    build_option = BuildOption(font_config)
+    build_option = BuildOption(use_hinted=parsed_args.hinted)
     build_option.load_cn_dir_and_suffix(font_config.should_build_nf_cn())
 
     if parsed_args.dry:
@@ -1125,6 +1134,11 @@ def main():
         return
 
     should_use_cache = parsed_args.cache
+    target_styles = (
+        build_option.base_subfamily_list
+        if parsed_args.least_styles or font_config.debug
+        else None
+    )
 
     if not should_use_cache:
         print("🧹 Clean cache...\n")
@@ -1219,7 +1233,9 @@ def main():
             build_mono, font_config=font_config, build_option=build_option
         )
 
-        run_build(font_config.pool_size, _build_mono, build_option.output_ttf)
+        run_build(
+            font_config.pool_size, _build_mono, build_option.output_ttf, target_styles
+        )
 
         drop_mac_names(build_option.output_variable)
         drop_mac_names(build_option.output_ttf)
@@ -1254,7 +1270,9 @@ def main():
             f"\n🔧 Patch Nerd-Font v{_version} using {'Font Patcher' if use_font_patcher else 'prebuild base font'}...\n"
         )
 
-        run_build(font_config.pool_size, _build_fn, build_option.output_ttf)
+        run_build(
+            font_config.pool_size, _build_fn, build_option.output_ttf, target_styles
+        )
         drop_mac_names(build_option.output_ttf)
         build_option.is_nf_built = True
 
@@ -1271,7 +1289,9 @@ def main():
             makedirs(build_option.output_cn, exist_ok=True)
             fn = partial(build_cn, font_config=font_config, build_option=build_option)
 
-            run_build(font_config.pool_size, fn, build_option.cn_base_font_dir)
+            run_build(
+                font_config.pool_size, fn, build_option.cn_base_font_dir, target_styles
+            )
 
             if font_config.cn["use_hinted"]:
                 print("Auto hinting all glyphs")

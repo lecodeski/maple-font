@@ -602,7 +602,8 @@ python build.py
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--cn-narrow]
                 [--nerd-font | --no-nerd-font] [--cn | --no-cn] [--cn-both]
-                [--ttf-only] [--cache] [--cn-rebuild] [--archive]
+                [--ttf-only] [--least-styles] [--cache] [--cn-rebuild]
+                [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -610,7 +611,7 @@ options:
   -h, --help        显示此帮助信息并退出
   -v, --version     显示程序的版本号并退出
   -d, --dry         输出配置并退出
-  --debug           在字体名称中添加 `Debug` 后缀，跳过优化
+  --debug           在字体名称中添加 `Debug` 后缀并加快构建
 
 Feature Options:
   -n, --normal      使用 normal 预设，就像带有斜杠 0 的 `JetBrains Mono`
@@ -632,6 +633,7 @@ Build Options:
   --cn-both         同时构建 `Maple Mono CN` 和 `Maple Mono NF CN`。必须启用
                     Nerd-Font 版本
   --ttf-only        仅构建 TTF 格式
+  --least-styles    仅构建常规 / 粗体 / 斜体 / 粗体斜体样式
   --cache           重用 TTF、OTF 和 Woff2 格式的字体缓存
   --cn-rebuild      重新静态化中文基字
   --archive         构建带有配置和许可的字体压缩包。如果带有 `--cache`

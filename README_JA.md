@@ -602,7 +602,8 @@ CNグリフの間隔が**非常に大きい**と感じる場合、間隔を狭�
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--cn-narrow]
                 [--nerd-font | --no-nerd-font] [--cn | --no-cn] [--cn-both]
-                [--ttf-only] [--cache] [--cn-rebuild] [--archive]
+                [--ttf-only] [--least-styles] [--cache] [--cn-rebuild]
+                [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -610,7 +611,7 @@ options:
   -h, --help        このヘルプメッセージを表示して終了
   -v, --version     プログラムのバージョン番号を表示して終了
   -d, --dry         設定を出力して終了
-  --debug           ファミリ名に`Debug`サフィックスを追加し、最適化をスキップ
+  --debug           ファミリ名に`Debug`サフィックスを追加し、ビルドを高速化します
 
 Feature Options:
   -n, --normal      `JetBrains Mono`のように斜線付きゼロを持つ通常のプリセットを使用
@@ -629,6 +630,7 @@ Build Options:
   --no-cn           中国語バージョンをビルドしない（デフォルト）
   --cn-both         `Maple Mono CN`と`Maple Mono NF CN`の両方をビルド。Nerd-Fontバージョンが有効である必要があります
   --ttf-only        TTF形式のみをビルド
+  --least-styles    通常の / 太字 / 斜体 / 太字斜体スタイルのみを構築する
   --cache           TTF、OTF、Woff2形式のフォントキャッシュを再利用
   --cn-rebuild      CNベースフォントを再インスタンス化
   --archive         設定とライセンスを含むフォントアーカイブをビルド。`--cache`フラグがある場合、Nerd-FontとCN形式のみをアーカイブ
