@@ -1089,9 +1089,15 @@ def run_build(
                     pass
             pids.remove(pid)
 
-    files = listdir(dir)
     if target_styles:
-        files = [f for f in files if f.split("-")[1][:-4] in target_styles]
+        files = []
+        for f in listdir(dir):
+            if f.split("-")[1][:-4] in target_styles:
+                files.append(f)
+            else:
+                remove(joinPaths(dir, f))
+    else:
+        files = listdir(dir)
     pids = []
 
     if pool_size <= 1:
