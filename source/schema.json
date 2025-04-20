@@ -48,7 +48,7 @@
           "$ref": "#/definitions/freeze_options"
         },
         "cv02": {
-          "description": "Alternative 'a' with top arm, no effect on italic 'a'",
+          "description": "Alternative 'a' with top arm, no effect in italic style",
           "$ref": "#/definitions/freeze_options"
         },
         "cv03": {
@@ -57,6 +57,22 @@
         },
         "cv04": {
           "description": "Alternative 'l' with left bottom bar, like consolas, will be overrided by 'cv35' in italic style",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv05": {
+          "description": "Alternative 'g' in double story style, no effect in italic style",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv06": {
+          "description": "Alternative 'i' without bottom bar, no effect in italic style",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv07": {
+          "description": "Alternative 'J' without top bar, no effect in italic style",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv08": {
+          "description": "Alternative 'r' with bottom bar, no effect in italic style",
           "$ref": "#/definitions/freeze_options"
         },
         "cv31": {
@@ -87,6 +103,34 @@
           "description": "Alternative Italic 'y' with straight intersection",
           "$ref": "#/definitions/freeze_options"
         },
+        "cv38": {
+          "description": "Alternative italic 'g' in double story style",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv39": {
+          "description": "Alternative Italic 'i' without bottom bar",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv40": {
+          "description": "Alternative italic 'J' without top bar",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv41": {
+          "description": "Alternative italic 'r' with bottom bar",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv61": {
+          "description": "Alternative ',' and ';' with straight tail",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv62": {
+          "description": "Alternative '?' with larger openings",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "cv63": {
+          "description": "Alternative '<=' in arrow style",
+          "$ref": "#/definitions/freeze_options"
+        },
         "cv96": {
           "description": "Full width quotes ('\u201c' / '\u201d' / '\u2018' / '\u2019')",
           "$ref": "#/definitions/freeze_options"
@@ -104,7 +148,7 @@
           "$ref": "#/definitions/freeze_options"
         },
         "ss01": {
-          "description": "Broken multiple equals ligatures ('==', '===', '!=', '!==', '=/=')",
+          "description": "Broken multiple equals ligatures ('==', '===', '!=', '!==' ...)",
           "$ref": "#/definitions/freeze_options"
         },
         "ss02": {
@@ -133,6 +177,18 @@
         },
         "ss08": {
           "description": "Double headed arrows and reverse arrows ligatures ('>>=', '-<<', '->>', '>-' ...)",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "ss09": {
+          "description": "Asciitilde equal as not equal to ligature ('~=')",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "ss10": {
+          "description": "Approximately equal to and approximately not equal to ligatures ('=~', '!~')",
+          "$ref": "#/definitions/freeze_options"
+        },
+        "ss11": {
+          "description": "Equal and extra punctuation ligatures ('|=', '/=', '?=', '&=', ...)",
           "$ref": "#/definitions/freeze_options"
         },
         "zero": {

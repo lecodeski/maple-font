@@ -74,6 +74,7 @@ __
 {|
 |}
 {{--
+{{!--
 --}}
 [|
 |]
@@ -131,7 +132,7 @@ __
 =>=
 |=
 ||=
-\\ \" \.
+\\ \' \.
 <!--
 <#--
 <!---->
@@ -173,6 +174,11 @@ _|_
 [FATAL]
 [TODO]
 [FIXME]
+[NOTE]
+[HACK]
+[MARK]
+[EROR]
+[WARNING]
 todo))
 fixme))
 ```
@@ -188,9 +194,16 @@ fixme))
 
 <!-- CV -->
 - cv01: Normalize special symbols (`@ $ & % Q => ->`)
-- cv02: Alternative `a` with top arm, no effect on italic `a`
+- cv02: Alternative `a` with top arm, no effect in italic style
 - cv03: Alternative `i` without left bottom bar
 - cv04: Alternative `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style
+- cv05: Alternative `g` in double story style, no effect in italic style
+- cv06: Alternative `i` without bottom bar, no effect in italic style
+- cv07: Alternative `J` without top bar, no effect in italic style
+- cv08: Alternative `r` with bottom bar, no effect in italic style
+- cv61: Alternative `,` and `;` with straight tail
+- cv62: Alternative `?` with larger openings
+- cv63: Alternative `<=` in arrow style
 - zero: Dot style `0`
 <!-- CV -->
 
@@ -204,6 +217,10 @@ fixme))
 - cv35: Alternative Italic `l` without center tail
 - cv36: Alternative Italic `x` without top and bottom tails
 - cv37: Alternative Italic `y` with straight intersection
+- cv38: Alternative italic `g` in double story style
+- cv39: Alternative Italic `i` without bottom bar
+- cv40: Alternative italic `J` without top bar
+- cv41: Alternative italic `r` with bottom bar
 <!-- CV-IT -->
 
 #### CN Only
@@ -218,12 +235,15 @@ fixme))
 ### Stylistic Sets (ssXX)
 
 <!-- SS -->
-- ss01: Broken multiple equals ligatures (`==`, `===`, `!=`, `!==`, `=/=`)
+- ss01: Broken multiple equals ligatures (`==`, `===`, `!=`, `!==` ...)
 - ss02: Broken compare and equal ligatures (`<=`, `>=`)
 - ss03: Allow to use any case in all tags
 - ss04: Broken multiple underscores ligatures (`__`, `#__`)
-- ss05: Revert thin backslash in escape symbols (`\`, `\"`, `\.` ...)
+- ss05: Revert thin backslash in escape symbols (`\\`, `\"`, `\.` ...)
 - ss06: Break connected strokes between italic letters (`al`, `il`, `ull` ...)
 - ss07: Relax the conditions for multiple greaters ligatures (`>>` or `>>>`)
 - ss08: Double headed arrows and reverse arrows ligatures (`>>=`, `-<<`, `->>`, `>-` ...)
+- ss09: Asciitilde equal as not equal to ligature (`~=`)
+- ss10: Approximately equal to and approximately not equal to ligatures (`=~`, `!~`)
+- ss11: Equal and extra punctuation ligatures (`|=`, `/=`, `?=`, `&=`, ...)
 <!-- SS -->

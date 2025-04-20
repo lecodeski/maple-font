@@ -11,14 +11,33 @@ from source.py.feature.cv import (
     cv35,
     cv36,
     cv37,
+    cv38,
+    cv39,
+    cv40,
+    cv41,
+    cv61,
+    cv62,
+    cv63,
     cv96,
     cv97,
     cv98,
     cv99,
 )
-from source.py.feature.ss import ss01, ss02, ss03, ss04, ss05, ss06, ss07, ss08
+from source.py.feature.ss import (
+    ss01,
+    ss02,
+    ss03,
+    ss04,
+    ss05,
+    ss06,
+    ss07,
+    ss08,
+    ss09,
+    ss10,
+    ss11,
+)
 from source.py.feature.base.lang import lang_list
-from source.py.feature.base.clazz import base_class_list, digit
+from source.py.feature.base.clazz import base_class_list, cls_digit
 
 
 cls_a = ast.Clazz("A", ["A", "a", "a.cv31"])
@@ -27,10 +46,10 @@ cls_c = ast.Clazz("C", ["C", "c"])
 cls_d = ast.Clazz("D", ["D", "d"])
 cls_e = ast.Clazz("E", ["E", "e"])
 cls_f = ast.Clazz("F", ["F", "f", "f.cv32"])
-cls_g = ast.Clazz("G", ["G", "g"])
+cls_g = ast.Clazz("G", ["G", "g", "g.cv38"])
 cls_h = ast.Clazz("H", ["H", "h"])
-cls_i = ast.Clazz("I", ["I", "i", "i.cv33"])
-cls_j = ast.Clazz("J", ["J", "j", "j.cv33"])
+cls_i = ast.Clazz("I", ["I", "i", "i.cv33", "i.cv39"])
+cls_j = ast.Clazz("J", ["J", "j", "j.cv33", "J.cv40"])
 cls_k = ast.Clazz("K", ["K", "k", "k.cv34"])
 cls_l = ast.Clazz("L", ["L", "l", "l.cv35"])
 cls_m = ast.Clazz("M", ["M", "m"])
@@ -90,7 +109,7 @@ cls_letters_list = [
     cls_z,
 ]
 
-cls_var = ast.Clazz("Var", ["_", "__", *cls_letters_list, digit])
+cls_var = ast.Clazz("Var", ["_", "__", *cls_letters_list, cls_digit])
 
 class_list_italic = [
     *base_class_list,
@@ -113,6 +132,13 @@ cv_list_italic = [
     cv35.cv35_feat_italic,
     cv36.cv36_feat_italic,
     cv37.cv37_feat_italic,
+    cv38.cv38_feat_italic,
+    cv39.cv39_feat_italic,
+    cv40.cv40_feat_italic,
+    cv41.cv41_feat_italic,
+    cv61.cv61_feat_italic,
+    cv62.cv62_feat_italic,
+    cv63.cv63_feat_italic,
 ]
 
 cv_list_cn = [
@@ -131,6 +157,9 @@ ss_list_italic = [
     ss06.ss06_feat,
     ss07.ss07_feat,
     ss08.ss08_feat,
+    ss09.ss09_feat,
+    ss10.ss10_feat,
+    ss11.ss11_feat,
 ]
 
 feature_file_italic = ast.create(

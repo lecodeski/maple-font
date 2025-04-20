@@ -1,12 +1,10 @@
 from source.py.feature import ast
-
-
-start = "numbersign_start.liga"
-mid = "numbersign_middle.liga"
-end = "numbersign_end.liga"
-
+from source.py.feature.base.clazz import cls_question
 
 def get_lookup():
+    start = ast.gly_var("#", "start")
+    mid = ast.gly_var("#", "middle")
+    end = ast.gly_var("#", "end")
     return [
         ast.subst_liga(
             "__",
@@ -39,8 +37,8 @@ def get_lookup():
         ast.subst_liga(
             "#?",
             banner=[
-                ast.ignore("#", "#", "?"),
-                ast.ignore(None, "#", ["?", "?"]),
+                ast.ignore("#", "#", cls_question),
+                ast.ignore(None, "#", [cls_question, cls_question]),
             ],
         ),
         ast.subst_liga(

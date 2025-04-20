@@ -30,6 +30,7 @@ from source.py.utils import (
     merge_ttfonts,
 )
 from source.py.freeze import freeze_feature, get_freeze_config_str
+from source.py.feature import get_freeze_moving_rules
 
 FONT_VERSION = "v7.1-dev"
 # =========================================================================================
@@ -597,7 +598,7 @@ def handle_ligatures(
     freeze_feature(
         font=font,
         calt=enable_ligature,
-        moving_rules=["ss03", "ss07", "ss08"],
+        moving_rules=get_freeze_moving_rules(),
         config=freeze_config,
     )
 
@@ -696,8 +697,12 @@ def rename_glyph_name(
         **map,
         **{
             "uni2047.liga": "question_question.liga",
+            "uni2047.liga.cv62": "question_question.liga.cv62",
             "dotlessi": "idotless",
             "f_f": "f_f.liga",
+            "tag_uni061C.liga": "tag_mark.liga",
+            "tag_u1F5C8.liga": "tag_note.liga",
+            "tag_uni26A0.liga": "tag_warning.liga",
         },
     }
 

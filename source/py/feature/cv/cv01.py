@@ -23,7 +23,7 @@ def cv01_subst():
             target_suffix=sfx,
         ),
         ast.subst_map(
-            "Q",
+            ["Q", "Q.bg"],
             target_suffix=sfx,
         ),
         ast.subst_map(
@@ -56,5 +56,4 @@ def cv01_subst():
 
 
 cv01_desc = "Normalize special symbols (`@ $ & % Q => ->`)"
-cv01_feat_regular = ast.CharacterVariant(1, cv01_desc, cv01_subst())
-cv01_feat_italic = ast.CharacterVariant(1, cv01_desc, cv01_subst())
+cv01_feat_regular = cv01_feat_italic = ast.CharacterVariant(1, cv01_desc, cv01_subst())

@@ -54,11 +54,19 @@ class Lookup:
 
 
 class Feature:
-    __slots__ = ("tag", "content")
+    __slots__ = ("tag", "content", "has_lookup")
 
     def __init__(self, tag: str, content: Clazz | Lookup | Line | list):
         self.tag = tag
         self.content = content
+        self.has_lookup = False
+        if isinstance(content, Lookup):
+            self.has_lookup = True
+        elif isinstance(content, list):
+            for item in recursive_iterate(content):
+                if isinstance(item, Lookup):
+                    self.has_lookup = True
+                    break
 
     def use(self) -> Line:
         return Line(f"feature {self.tag};")
@@ -249,6 +257,15 @@ def gly(g: str | Clazz | Sequence[str | Clazz], suffix: str = "", overwrite=Fals
     return __gly(g) + suffix
 
 
+def gly_var(g: str, variant: str):
+    """
+    Normalize glyph names with variant
+    >>> gly_var("{", "start")
+    "braceleft_start.liga"
+    """
+    return gly(g, f"_{variant}.liga", True)
+
+
 def cls(glyphs: str | Clazz | Sequence[str | Clazz], *rest: str | Clazz) -> str:
     """
     Generate inline class.
@@ -355,7 +372,9 @@ def subst_liga(
     target: str | None = None,
     lookup_name: str | None = None,
     desc: str | None = None,
-    surround: list[tuple[Sequence[str | Clazz] | None, Sequence[str | Clazz] | None]] = [],
+    surround: list[
+        tuple[Sequence[str | Clazz] | None, Sequence[str | Clazz] | None]
+    ] = [],
     banner: list[Line] | None = None,
 ) -> Lookup:
     """
@@ -418,7 +437,7 @@ def subst_liga(
 
     subst_rules = []
     if not surround:
-        surround = [([],[])]
+        surround = [([], [])]
 
     for prfx, sfx in surround:
         prfx_list = to_list(prfx)
@@ -442,7 +461,7 @@ def subst_liga(
 
 def ignore(
     prefix: str | Clazz | Sequence[str | Clazz] | None,
-    glyph: str,
+    glyph: str | Clazz,
     suffix: str | Clazz | Sequence[str | Clazz] | None,
 ) -> Line:
     """
@@ -464,13 +483,13 @@ def recursive_iterate(data):
         yield data
 
 
-def flatten_to_lines(data: Line | Clazz | Lookup | Feature | list | tuple) -> list[Line]:
+def flatten_to_lines(
+    data: Line | Clazz | Lookup | Feature | list | tuple,
+) -> list[Line]:
     result = []
 
     for item in recursive_iterate(data):
-        if isinstance(item, list):
-            result += flatten_to_lines(item)
-        elif isinstance(item, Clazz):
+        if isinstance(item, Clazz):
             result.append(item.state())
         elif isinstance(item, Line):
             result.append(item)
