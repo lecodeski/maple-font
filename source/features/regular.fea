@@ -1884,6 +1884,7 @@ feature cv61 {
   sub semicolon by semicolon.cv61;
   sub semicolon_semicolon.liga by semicolon_semicolon.liga.cv61;
   sub semicolon_semicolon_semicolon.liga by semicolon_semicolon_semicolon.liga.cv61;
+  sub questiongreek by questiongreek.cv61;
 
 } cv61;
 
