@@ -927,7 +927,6 @@ def build_nf(
     build_option: BuildOption,
 ):
     print(f"👉 NerdFont version for {f}")
-    makedirs(build_option.output_nf, exist_ok=True)
     nf_font = get_ttfont(f, font_config, build_option)
 
     # format font name
@@ -1235,6 +1234,7 @@ def main():
     # =========================================================================================
 
     if font_config.nerd_font["enable"]:
+        makedirs(build_option.output_nf, exist_ok=True)
         use_font_patcher = build_option.should_use_font_patcher(font_config)
 
         get_ttfont = (
