@@ -584,6 +584,10 @@ class BuildOption:
             fn=partial(optimize_cn_base, base_dir=cn_static_dir),
             dir=cn_static_dir,
         )
+        with open(f"{self.cn_static_dir}.sha256", "w") as f:
+            f.write(generate_directory_hash(self.cn_static_dir))
+            f.flush()
+        print(f"Update {self.cn_static_dir}.sha256")
 
     def __check_file_count(self, dir: str, count: int = 16, end: str | None = None) -> bool:
         if not path.isdir(dir):
