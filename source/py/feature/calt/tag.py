@@ -1,10 +1,46 @@
 from source.py.feature import ast
 
+built_in_tag_text = [
+    "trace",
+    "debug",
+    "info",
+    "warn",
+    "error",
+    "fatal",
+    "todo",
+    "fixme",
+    "note",
+    "hack",
+    "mark",
+    "eror",
+    "warning",
+]
 
 def tag_upper(text_list: list[str]):
+    """
+    Create ligature substitution rules for uppercase tag sequences.
+
+    This function takes a list of text strings and generates ligature substitution rules
+    for each text, where the text is converted to uppercase and wrapped in square brackets.
+
+    Args:
+        text_list (list[str]): A list of strings to be converted into tag ligature rules.
+
+    Returns:
+        list: A list of substitution rules where each rule replaces a sequence of
+              uppercase characters enclosed in brackets with a corresponding ligature.
+
+    Example:
+        >>> tag_upper(['todo'])
+        # Generates rule to substitute '[TODO]' with 'tag_todo.liga'
+    """
     result = []
 
     for text in text_list:
+        if text not in built_in_tag_text:
+            print(f"{text} is not in {built_in_tag_text}, skip")
+            continue
+
         source = ["["] + [g.upper() for g in text] + ["]"]
         result.append(
             ast.subst_liga(
@@ -19,9 +55,31 @@ def tag_upper(text_list: list[str]):
 
 
 def tag_any(text_list: list[str], cls_var: ast.Clazz):
+    """
+    Generate substitution rules for tags based on a list of text strings.
+
+    This function creates ligature substitution rules for tag-like structures,
+    where each text string is converted into a tag format with parentheses.
+
+    Args:
+        text_list (list[str]): A list of strings to be converted into tag formats
+        cls_var (ast.Clazz): A class variable used for ignoring specific glyph combinations
+
+    Returns:
+        list: A list of substitution rules (ast.subst_liga objects) for tag formations
+
+    Example:
+        >>> tag_any(['todo', 'fixme'], my_class)
+        # Creates substitution rules for 'todo))' -> 'tag_hello.liga'
+        # and 'fixme))' -> 'tag_fixme.liga'
+    """
     result = []
 
     for text in text_list:
+        if text not in built_in_tag_text:
+            print(f"{text} is not in {built_in_tag_text}, skip")
+            continue
+
         glyphs_first = f"@{text[0].upper()}"
         glyphs_rest = [f"@{g.upper()}" for g in text[1:]] + [")", ")"]
         result.append(
@@ -49,17 +107,19 @@ __map = {
 
 def tag_custom(
     content_list: list[tuple[str, str]],
-    bg_cls: dict[str, ast.Clazz],
+    bg_cls_dict: dict[str, ast.Clazz],
 ):
     """
     Generate custom tag lookup.
-
-    ``content_list`` is `list[(content, target)]`
     Args:
-        content: The source glyphs to be replaced. Can be either a string or
-            a sequence of strings/ast.Clazz objects.
-        target: The target pattern to replace with. Must end with characters present
-            in the ["<", ">", "(", ")", "[", "]"]. Middle characters must be ASCII letters.
+        content_list (list[tuple[str, str]]): A list of tuples containing:
+            - source: Original string sequence to match
+            - target: Target pattern to replace with. Must follow these rules:
+                - End with one of ["<", ">", "(", ")", "[", "]"]
+                - Middle characters must be ASCII letters
+
+        bg_cls_dict (dict[str, ast.Clazz]): Dictionary mapping uppercase letters to background
+            class definitions
     Returns:
         ast.Lookup: A Lookup object containing the substitution rules, named with pattern
             "custom_tag_{target middle chars}".
@@ -96,8 +156,8 @@ def tag_custom(
                 target_list.append(f"{__map[target_gly]}.bg")
             elif target_gly.isalpha():
                 up = target_gly.upper()
-                if up in bg_cls:
-                    target_list.append(bg_cls[up])
+                if up in bg_cls_dict:
+                    target_list.append(bg_cls_dict[up])
                 else:
                     target_list.append(f"{up}.bg")
             else:
@@ -136,25 +196,13 @@ def tag_custom(
     return result
 
 
-upper_tag_text = [
-    "trace",
-    "debug",
-    "info",
-    "warn",
-    "error",
-    "fatal",
-    "todo",
-    "fixme",
-    "note",
-    "hack",
-    "mark",
-    "eror",
-    "warning",
-]
 
 
 def get_lookup(cls_var: ast.Clazz):
-    bg_cls = {}
+    # Dict to map letter and class.
+    # Only letter that has uppercase variant will be added.
+    # {"q": ast.Clazz("BgQ", ["Q", "Q.cv01"])}
+    bg_cls_dict = {}
     for item in cls_var.glyphs:
         if not isinstance(item, ast.Clazz):
             continue
@@ -170,11 +218,11 @@ def get_lookup(cls_var: ast.Clazz):
                 gly_list.append(f"{first}.bg.{feat}")
 
         if len(gly_list) > 1:
-            bg_cls[first] = ast.Clazz(f"Bg{first.capitalize()}", gly_list)
+            bg_cls_dict[first] = ast.Clazz(f"Bg{first.capitalize()}", gly_list)
 
     return [
-        ast.cls_states(*bg_cls.values()),
-        tag_upper(upper_tag_text),
+        ast.cls_states(*bg_cls_dict.values()),
+        tag_upper(built_in_tag_text),
         tag_any(["todo", "fixme"], cls_var),
         # =========================================================
         #                       Custom tags
@@ -184,7 +232,7 @@ def get_lookup(cls_var: ast.Clazz):
                 # ("_bug_", "[bug]"),
                 # ("_noqa_", "(noqa)"),
             ],
-            bg_cls,
+            bg_cls_dict,
         ),
         # =========================================================
         #                Mark annotation in Xcode

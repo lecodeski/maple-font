@@ -1,5 +1,5 @@
 from source.py.feature import ast
-from source.py.feature.calt.tag import upper_tag_text
+from source.py.feature.calt.tag import built_in_tag_text
 
 
 def ss03_subst():
@@ -22,7 +22,7 @@ def ss03_subst():
     #   - infO
     #   - info
     result = []
-    for text in upper_tag_text:
+    for text in built_in_tag_text:
         arr = ["["] + [f"@{g.upper()}" for g in text] + ["]"]
         result.append(
             ast.subst_liga(
