@@ -503,10 +503,7 @@ class BuildOption:
             print("Clean CN static fonts")
             shutil.rmtree(self.cn_static_dir, ignore_errors=True)
 
-        if use_static and self.__check_cn_exists(
-            static_path=self.cn_static_dir,
-            hash_path=f"{self.cn_variable_dir}/static.sha256",
-        ):
+        if use_static and self.__check_cn_exists():
             return True
 
         tag = "cn-base"
@@ -517,7 +514,11 @@ class BuildOption:
                 target_dir=self.cn_static_dir,
                 github_mirror=self.github_mirror,
             ):
-                return True
+                if self.__check_cn_exists():
+                    return True
+                else:
+                    print("❗Invalid CN static fonts hash")
+                    return False
 
         # Try using variable fonts if static fonts aren't available
         if (
@@ -551,7 +552,9 @@ class BuildOption:
         print("\nCN base fonts don't exist. Skip CN build.")
         return False
 
-    def __check_cn_exists(self, static_path: str, hash_path: str) -> bool:
+    def __check_cn_exists(self) -> bool:
+        static_path=self.cn_static_dir
+        hash_path=f"{self.cn_variable_dir}/static.sha256"
         if not path.exists(static_path):
             return False
         if len(listdir(static_path)) != 16:
