@@ -267,7 +267,10 @@ def compress_folder(
     return sha256.hexdigest(), zip_name_without_ext
 
 
-def generate_directory_hash(dir_path: str) -> str:
+def check_directory_hash(dir_path: str) -> bool:
+    if not path.exists(dir_path):
+        print(f"{dir_path} not exist, skip computing hash")
+        return False
     hasher = hashlib.sha256()
     for root, _, files in sorted(walk(dir_path)):
         for file in sorted(files):
@@ -284,7 +287,9 @@ def generate_directory_hash(dir_path: str) -> str:
             except (IOError, OSError) as e:
                 raise Exception(f"Error reading file: {file_path} - {e}")
 
-    return hasher.hexdigest()
+    hash = hasher.hexdigest()
+    with open(f"{dir_path}.sha256", "r") as f:
+        return f.readline() == hash
 
 
 def merge_ttfonts(base_font_path: str, extra_font_path: str) -> TTFont:

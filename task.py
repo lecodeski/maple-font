@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 import argparse
 
+from source.py.utils import check_directory_hash
+
 
 def main():
     parser = argparse.ArgumentParser(description="Task script for Maple Font")
 
     command = parser.add_subparsers(dest="command", help="Total tasks")
-    command.required = True
 
     nerdfont_parser = command.add_parser("nerd-font", help="Build Nerd-Font base font")
     nerdfont_parser.add_argument(
@@ -52,6 +53,12 @@ def main():
         from source.py.task.release import release
 
         release(args.tag, args.beta, args.dry)
+    else:
+        print("Test only")
+        if check_directory_hash("./source/cn/static"):
+            print("Matched CN static font hash")
+        else:
+            print("Unmatched CN static font hash")
 
 
 if __name__ == "__main__":

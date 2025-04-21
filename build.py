@@ -14,7 +14,7 @@ from fontTools.ttLib import TTFont, newTable
 from fontTools.feaLib.builder import addOpenTypeFeatures
 from source.py.utils import (
     check_font_patcher,
-    generate_directory_hash,
+    check_directory_hash,
     patch_fea_string,
     verify_glyph_width,
     compress_folder,
@@ -554,17 +554,16 @@ class BuildOption:
 
     def __check_cn_exists(self) -> bool:
         static_path=self.cn_static_dir
-        hash_path=f"{self.cn_variable_dir}/static.sha256"
         if not path.exists(static_path):
             return False
         if not self.__check_file_count(static_path):
             return False
-        with open(hash_path, "r") as f:
-            if f.readline() == generate_directory_hash(static_path):
-                return True
-            print("Unmatched CN static font hash, clean up")
-            shutil.rmtree(static_path)
-            return False
+
+        if check_directory_hash(static_path):
+            return True
+        print("Unmatched CN static font hash, clean up")
+        shutil.rmtree(static_path)
+        return False
 
     def __instantiate_cn_base(
         self, cn_variable_dir: str, cn_static_dir: str, pool_size: int
@@ -585,7 +584,7 @@ class BuildOption:
             dir=cn_static_dir,
         )
         with open(f"{self.cn_static_dir}.sha256", "w") as f:
-            f.write(generate_directory_hash(self.cn_static_dir))
+            f.write(check_directory_hash(self.cn_static_dir))
             f.flush()
         print(f"Update {self.cn_static_dir}.sha256")
 
