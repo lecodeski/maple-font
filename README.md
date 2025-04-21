@@ -573,9 +573,13 @@ There are three kind of options for feature freeze ([Why](https://github.com/sub
 2. `disable`: Remove the features in `cvXX` / `ssXX` / `zero`, which will no longer effect, even if you enable it manually
 3. `ignore`: Do nothing
 
-#### Load Custom Feature File
+#### Custom OpenType Feature
 
-Run `build.py` with `--apply-fea-file` flag, the feature file from [`source/features/{regular,italic}.fea`](./source/features) will be applied into variable font. You can modify it to change all features, e.g. remove some ligatures in `calt`.
+OpenType Feature is used to control the font's built-in variants and ligatures. You can remove some ligatures or features you don't want to, change feature's trigger rule or add some new rules by modifying OpenType Feature.
+
+By default, the Python module in [`source/py/feature/`](./source/py/feature) will generate feature rule string and load it at build time. You can modify the features or customize tags there.
+
+If you would like to modify the feature file instead, run `build.py` with `--apply-fea-file` flag, the feature file from [`source/features/{regular,italic}.fea`](./source/features) will be loaded.
 
 ### Chinese version
 

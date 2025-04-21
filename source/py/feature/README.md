@@ -43,7 +43,14 @@ tag_custom(
 )
 ```
 
-convert `:attention: _noqa_` to:
+This will convert
+
+```
+:attention: _noqa_
+```
+
+to:
+
 ![Image](https://github.com/user-attachments/assets/e67f282c-e961-4e55-9169-2f20d7ccfbc6)
 
 #### Limitation

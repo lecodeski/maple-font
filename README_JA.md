@@ -574,9 +574,13 @@ python build.py
 2. `disable`: `cvXX` / `ssXX` / `zero`の機能を削除し、手動で有効にしても効果がありません。
 3. `ignore`: 何もしません。
 
-#### カスタム機能ファイルの読み込み
+#### カスタマイズされた OpenType Feature
 
-`build.py`を`--apply-fea-file`フラグで実行すると、[`source/features/{regular,italic}.fea`](./source/features)から機能ファイルが読み込まれ、可変フォントに適用されます。これを変更してすべての機能を変更できます。例：`calt`の一部のリガチャを削除します。
+OpenType Feature は、フォントに組み込まれたバリエーションやリガチャを制御できます。不要なリガチャや機能を削除したり、機能のトリガー条件を変更したり、新しいルールを追加するために OpenType Feature を編集することが可能です。
+
+デフォルトでは、[`source/py/feature/`](./source/py/feature) 内の Python モジュールが OpenType Feature 文字列を生成し、ビルド時にロードします。ここで機能を変更したりカスタムタグを設定することができます。
+
+OpenType Feature ファイルを直接編集して実現したい場合、`build.py` を実行する際に `--apply-fea-file` 引数を追加すると、[`source/features/{regular,italic}.fea`](./source/features) の特性ファイルが読み込まれ、適用されます。
 
 ### 中国語バージョン
 

@@ -574,9 +574,13 @@ python build.py
 2. `disable`: 删除 `cvXX` / `ssXX` / `zero` 中的特性，即使您手动启用它，也不在生效
 3. `ignore`: 什么也不做
 
-#### 加载自定义特性文件
+#### 自定义 OpenType Feature
 
-运行 `build.py` 时添加 `--apply-fea-file` 参数，会读取 [`source/features/{regular,italic}.fea`](./source/features) 的特性文件并应用到可变字体中。您可以修改它来更改所有特性，例如删除 `calt` 中的一些连字。
+OpenType Feature 可以控制字体的内置变体和连字。您可以通过修改 OpenType Feature 来删除一些不需要的连字或特征，修改特征的触发规则或添加一些新规则。
+
+默认情况下，[`source/py/feature/`](./source/py/feature) 中的 Python 模块会生成 OpenType Feature 字符串并在构建时加载。您可以在此处修改功能或自定义标签。
+
+如果你想通过修改 OpenType Feature 文件实现，运行 `build.py` 时添加 `--apply-fea-file` 参数，会读取 [`source/features/{regular,italic}.fea`](./source/features) 的特性文件并加载。
 
 ### 中文版本
 
