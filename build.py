@@ -447,11 +447,11 @@ class BuildOption:
         self.is_nf_built = False
         self.is_cn_built = False
         self.has_cache = (
-            self.__check_cache_dir(self.output_variable, count=2)
-            and self.__check_cache_dir(self.output_otf)
-            and self.__check_cache_dir(self.output_ttf)
-            and self.__check_cache_dir(self.output_ttf_hinted)
-            and self.__check_cache_dir(self.output_woff2)
+            self.__check_file_count(self.output_variable, count=2)
+            and self.__check_file_count(self.output_otf)
+            and self.__check_file_count(self.output_ttf)
+            and self.__check_file_count(self.output_ttf_hinted)
+            and self.__check_file_count(self.output_woff2)
         )
         self.github_mirror = environ.get("GITHUB", "github.com")
 
@@ -523,7 +523,7 @@ class BuildOption:
         # Try using variable fonts if static fonts aren't available
         if (
             path.exists(self.cn_variable_dir)
-            and len(listdir(self.cn_variable_dir)) == 2
+            and self.__check_file_count(self.cn_variable_dir, 2, "-VF.ttf")
         ):
             print(
                 "No static CN fonts but detect variable version, start instantiating..."
@@ -557,7 +557,7 @@ class BuildOption:
         hash_path=f"{self.cn_variable_dir}/static.sha256"
         if not path.exists(static_path):
             return False
-        if len(listdir(static_path)) != 16:
+        if not self.__check_file_count(static_path):
             return False
         with open(hash_path, "r") as f:
             if f.readline() == generate_directory_hash(static_path):
@@ -585,10 +585,10 @@ class BuildOption:
             dir=cn_static_dir,
         )
 
-    def __check_cache_dir(self, cache_dir: str, count: int = 16) -> bool:
-        if not path.isdir(cache_dir):
+    def __check_file_count(self, dir: str, count: int = 16, end: str | None = None) -> bool:
+        if not path.isdir(dir):
             return False
-        return len(listdir(cache_dir)) == count
+        return len([f for f in listdir(dir) if end is None or f.endswith(end)]) == count
 
 
 def handle_ligatures(
