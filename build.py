@@ -508,16 +508,17 @@ class BuildOption:
 
         tag = "cn-base"
         if is_ci() or use_static:
+            zip_path = "cn-base-static.zip"
             if download_cn_base_font(
                 tag=tag,
-                zip_path="cn-base-static.zip",
+                zip_path=zip_path,
                 target_dir=self.cn_static_dir,
                 github_mirror=self.github_mirror,
             ):
                 if self.__check_cn_exists():
                     return True
                 else:
-                    print("❗Invalid CN static fonts hash")
+                    print(f"❗Invalid CN static fonts hash, please delete {zip_path} in root dir and rerun the script")
                     return False
 
         # Try using variable fonts if static fonts aren't available
@@ -561,7 +562,6 @@ class BuildOption:
 
         if check_directory_hash(static_path):
             return True
-        print("Unmatched CN static font hash, clean up")
         shutil.rmtree(static_path)
         return False
 
