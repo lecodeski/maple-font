@@ -1,4 +1,5 @@
 import os
+import shutil
 from source.py.feature import (
     get_cv_cn_version_info,
     get_cv_italic_version_info,
@@ -25,14 +26,19 @@ def page(base_path: str, var_dir: str, commit: bool = False) -> None:
         get_total_feat_ts(),
     )
 
-    os.system("python build.py --ttf-only --no-nerd-font --least-styles")
     font_dir = joinPaths(base_path, "public", "fonts")
+    os.system("python build.py --ttf-only --no-nerd-font --least-styles")
+    os.system(f"ftcli converter ft2wf -f woff2 {var_dir}")
+    shutil.rmtree(font_dir, ignore_errors=True)
+    os.makedirs(font_dir, exist_ok=True)
     for filename in os.listdir(var_dir):
-        new_name = filename.replace(".ttf", "-VF.ttf")
-        if new_name:
-            os.rename(joinPaths(var_dir, filename), joinPaths(font_dir, new_name))
+        if filename.endswith(".woff2"):
+            os.rename(
+                joinPaths(var_dir, filename),
+                joinPaths(font_dir, filename.replace(".woff2", "-VF.woff2")),
+            )
 
     # Commit changes if specified
     if commit:
         # todo))
-        print('Changes committed successfully')
+        print("Changes committed successfully")
