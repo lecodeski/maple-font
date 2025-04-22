@@ -14,4 +14,4 @@ def ss09_subst():
 
 
 ss09_name = "Asciitilde equal as not equal to ligature (`~=`)"
-ss09_feat = ast.StylisticSet(9, ss09_name, ss09_subst())
+ss09_feat = ast.StylisticSet(9, ss09_name, ss09_subst(), "7.1")

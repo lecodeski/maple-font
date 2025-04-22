@@ -33,5 +33,5 @@ def cv04_subst_italic():
 
 
 cv04_name = "Alternative `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style"
-cv04_feat_regular = ast.CharacterVariant(4, cv04_name, cv04_subst_regular())
-cv04_feat_italic = ast.CharacterVariant(4, cv04_name, cv04_subst_italic())
+cv04_feat_regular = ast.CharacterVariant(4, cv04_name, cv04_subst_regular(), "7.0")
+cv04_feat_italic = ast.CharacterVariant(4, cv04_name, cv04_subst_italic(), "7.0")

@@ -11,4 +11,6 @@ def cv63_subst():
 
 
 cv63_name = "Alternative `<=` in arrow style"
-cv63_feat_regular = cv63_feat_italic = ast.CharacterVariant(63, cv63_name, cv63_subst())
+cv63_feat_regular = cv63_feat_italic = ast.CharacterVariant(
+    63, cv63_name, cv63_subst(), "7.1"
+)

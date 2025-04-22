@@ -17,4 +17,4 @@ def cv31_subst():
 
 
 cv31_name = "Alternative italic `a` with top arm"
-cv31_feat_italic = ast.CharacterVariant(31, cv31_name, cv31_subst())
+cv31_feat_italic = ast.CharacterVariant(31, cv31_name, cv31_subst(), "7.0")

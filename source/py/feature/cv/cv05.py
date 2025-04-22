@@ -11,4 +11,4 @@ def cv05_subst():
 
 
 cv05_name = "Alternative `g` in double story style, no effect in italic style"
-cv05_feat_regular = ast.CharacterVariant(5, cv05_name, cv05_subst())
+cv05_feat_regular = ast.CharacterVariant(5, cv05_name, cv05_subst(), "7.1")

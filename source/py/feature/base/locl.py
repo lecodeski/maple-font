@@ -95,12 +95,13 @@ __locl_cn_only = [
     lookup_tw.use(),
 ]
 
-locl_feature = ast.Feature("locl", __locl)
-locl_features_cn_only = ast.Feature("locl", __locl_cn_only)
+locl_feature = ast.Feature("locl", __locl, "7.0")
+locl_features_cn_only = ast.Feature("locl", __locl_cn_only, "7.0")
 locl_features_cn = ast.Feature(
     "locl",
     [
         __locl,
         __locl_cn_only,
     ],
+    "7.0",
 )

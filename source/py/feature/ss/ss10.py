@@ -25,4 +25,4 @@ def ss10_subst():
 ss10_name = (
     "Approximately equal to and approximately not equal to ligatures (`=~`, `!~`)"
 )
-ss10_feat = ast.StylisticSet(10, ss10_name, ss10_subst())
+ss10_feat = ast.StylisticSet(10, ss10_name, ss10_subst(), "7.1")

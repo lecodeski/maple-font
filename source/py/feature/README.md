@@ -9,6 +9,8 @@ The `feature/` module is designed to simplify the creation of OpenType font feat
 ### Key Components
 
 - **`ast.py`**: Core utilities for defining OpenType features.
+- **`regular.py`**: Entry file for regular style.
+- **`italic.py`**: Entry file for italic style.
 - **`base/`**: Contains foundational classes and features like numbers, cases, and localized forms.
 - **`calt/`**: Default ligatures.
 - **`cv/`**: Character variants.

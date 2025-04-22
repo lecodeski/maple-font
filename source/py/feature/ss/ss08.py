@@ -123,4 +123,4 @@ def ss08_subst():
 ss08_name = (
     "Double headed arrows and reverse arrows ligatures (`>>=`, `-<<`, `->>`, `>-` ...)"
 )
-ss08_feat = ast.StylisticSet(8, ss08_name, ss08_subst())
+ss08_feat = ast.StylisticSet(8, ss08_name, ss08_subst(), "7.0")

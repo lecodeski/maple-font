@@ -54,12 +54,13 @@ class Lookup:
 
 
 class Feature:
-    __slots__ = ("tag", "content", "has_lookup")
+    __slots__ = ("tag", "content", "has_lookup", "version")
 
-    def __init__(self, tag: str, content: Clazz | Lookup | Line | list):
+    def __init__(self, tag: str, content: Clazz | Lookup | Line | list, version):
         self.tag = tag
         self.content = content
         self.has_lookup = False
+        self.version = version
         if isinstance(content, Lookup):
             self.has_lookup = True
         elif isinstance(content, list):
@@ -92,16 +93,18 @@ REGEXP = r"\(.*\)"
 
 
 class CharacterVariant(Feature):
-    __slots__ = ("id", "tag", "desc", "content")
+    __slots__ = ("id", "tag", "desc", "content", "version")
 
-    def __init__(self, id: int, desc: str, content: Clazz | Lookup | Line | list):
+    def __init__(
+        self, id: int, desc: str, content: Clazz | Lookup | Line | list, version: str
+    ):
         if id < 1 or id > 99:
             raise TypeError(
                 f"id should > 0 and < 100 in Character Variants, current is {id}"
             )
         self.id = id
         self.desc = desc
-        Feature.__init__(self, f"cv{id:02d}", content)
+        Feature.__init__(self, f"cv{id:02d}", content, version)
 
     def get_name_lines(self) -> list[Line]:
         _name = re.sub(REGEXP, "", self.desc.replace("`", "")).strip()
@@ -115,13 +118,15 @@ class CharacterVariant(Feature):
         ]
 
     def desc_item(self) -> str:
-        return f"- {self.tag}: {self.desc}"
+        return f"- [{self.version}] {self.tag}: {self.desc}"
 
 
 class StylisticSet(Feature):
-    __slots__ = ("id", "tag", "desc", "content")
+    __slots__ = ("id", "tag", "desc", "content", "version")
 
-    def __init__(self, id: int, desc: str, content: Clazz | Lookup | Line | list):
+    def __init__(
+        self, id: int, desc: str, content: Clazz | Lookup | Line | list, version: str
+    ):
         if id < 1 or id > 20:
             raise TypeError(
                 f"id should > 0 and < 20 in Stylistic Sets, current is {id}"
@@ -129,7 +134,7 @@ class StylisticSet(Feature):
 
         self.id = id
         self.desc = desc
-        Feature.__init__(self, f"ss{id:02d}", content)
+        Feature.__init__(self, f"ss{id:02d}", content, version)
 
     def get_name_lines(self) -> list[Line]:
         _name = re.sub(REGEXP, "", self.desc.replace("`", "")).strip()
@@ -141,7 +146,7 @@ class StylisticSet(Feature):
         ]
 
     def desc_item(self):
-        return f"- {self.tag}: {self.desc}"
+        return f"- [{self.version}] {self.tag}: {self.desc}"
 
 
 __PUNCTUATION_MAP = {

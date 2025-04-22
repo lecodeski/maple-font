@@ -56,12 +56,12 @@ frac = [
 ]
 
 number_features = [
-    ast.Feature("sinf", sinf),
-    ast.Feature("subs", subs),
-    ast.Feature("sups", sups),
-    ast.Feature("numr", numr),
-    ast.Feature("dnom", dnom),
-    ast.Feature("frac", frac),
-    ast.Feature("ordn", ordn),
-    ast.Feature("zero", zero),
+    ast.Feature("sinf", sinf, "7.0"),
+    ast.Feature("subs", subs, "7.0"),
+    ast.Feature("sups", sups, "7.0"),
+    ast.Feature("numr", numr, "7.0"),
+    ast.Feature("dnom", dnom, "7.0"),
+    ast.Feature("frac", frac, "7.0"),
+    ast.Feature("ordn", ordn, "7.0"),
+    ast.Feature("zero", zero, "7.0"),
 ]

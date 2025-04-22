@@ -193,57 +193,57 @@ fixme))
 ### Character Varients (cvXX)
 
 <!-- CV -->
-- cv01: Normalize special symbols (`@ $ & % Q => ->`)
-- cv02: Alternative `a` with top arm, no effect in italic style
-- cv03: Alternative `i` without left bottom bar
-- cv04: Alternative `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style
-- cv05: Alternative `g` in double story style, no effect in italic style
-- cv06: Alternative `i` without bottom bar, no effect in italic style
-- cv07: Alternative `J` without top bar, no effect in italic style
-- cv08: Alternative `r` with bottom bar, no effect in italic style
-- cv61: Alternative `,` and `;` with straight tail
-- cv62: Alternative `?` with larger openings
-- cv63: Alternative `<=` in arrow style
-- zero: Dot style `0`
+- [7.0] cv01: Normalize special symbols (`@ $ & % Q => ->`)
+- [7.0] cv02: Alternative `a` with top arm, no effect in italic style
+- [7.0] cv03: Alternative `i` without left bottom bar
+- [7.0] cv04: Alternative `l` with left bottom bar, like consolas, will be overrided by `cv35` in italic style
+- [7.1] cv05: Alternative `g` in double story style, no effect in italic style
+- [7.1] cv06: Alternative `i` without bottom bar, no effect in italic style
+- [7.1] cv07: Alternative `J` without top bar, no effect in italic style
+- [7.1] cv08: Alternative `r` with bottom bar, no effect in italic style
+- [7.1] cv61: Alternative `,` and `;` with straight tail
+- [7.1] cv62: Alternative `?` with larger openings
+- [7.1] cv63: Alternative `<=` in arrow style
+- [7.0] zero: Dot style `0`
 <!-- CV -->
 
 #### Italic Only
 
 <!-- CV-IT -->
-- cv31: Alternative italic `a` with top arm
-- cv32: Alternative Italic `f` without bottom tail
-- cv33: Alternative Italic `i` and `j` with left bottom bar and horizen top bar
-- cv34: Alternative Italic `k` without center circle
-- cv35: Alternative Italic `l` without center tail
-- cv36: Alternative Italic `x` without top and bottom tails
-- cv37: Alternative Italic `y` with straight intersection
-- cv38: Alternative italic `g` in double story style
-- cv39: Alternative Italic `i` without bottom bar
-- cv40: Alternative italic `J` without top bar
-- cv41: Alternative italic `r` with bottom bar
+- [7.0] cv31: Alternative italic `a` with top arm
+- [7.0] cv32: Alternative Italic `f` without bottom tail
+- [7.0] cv33: Alternative Italic `i` and `j` with left bottom bar and horizen top bar
+- [7.0] cv34: Alternative Italic `k` without center circle
+- [7.0] cv35: Alternative Italic `l` without center tail
+- [7.0] cv36: Alternative Italic `x` without top and bottom tails
+- [7.0] cv37: Alternative Italic `y` with straight intersection
+- [7.1] cv38: Alternative italic `g` in double story style
+- [7.1] cv39: Alternative Italic `i` without bottom bar
+- [7.1] cv40: Alternative italic `J` without top bar
+- [7.1] cv41: Alternative italic `r` with bottom bar
 <!-- CV-IT -->
 
 #### CN Only
 
 <!-- CV-CN -->
-- cv96: Full width quotes (`“` / `”` / `‘` / `’`)
-- cv97: Full width ellipsis (`…`)
-- cv98: Full width emdash (`—`)
-- cv99: Traditional centered punctuations
+- [7.0] cv96: Full width quotes (`“` / `”` / `‘` / `’`)
+- [7.0] cv97: Full width ellipsis (`…`)
+- [7.0] cv98: Full width emdash (`—`)
+- [7.0] cv99: Traditional centered punctuations
 <!-- CV-CN -->
 
 ### Stylistic Sets (ssXX)
 
 <!-- SS -->
-- ss01: Broken multiple equals ligatures (`==`, `===`, `!=`, `!==` ...)
-- ss02: Broken compare and equal ligatures (`<=`, `>=`)
-- ss03: Allow to use any case in all tags
-- ss04: Broken multiple underscores ligatures (`__`, `#__`)
-- ss05: Revert thin backslash in escape symbols (`\\`, `\"`, `\.` ...)
-- ss06: Break connected strokes between italic letters (`al`, `il`, `ull` ...)
-- ss07: Relax the conditions for multiple greaters ligatures (`>>` or `>>>`)
-- ss08: Double headed arrows and reverse arrows ligatures (`>>=`, `-<<`, `->>`, `>-` ...)
-- ss09: Asciitilde equal as not equal to ligature (`~=`)
-- ss10: Approximately equal to and approximately not equal to ligatures (`=~`, `!~`)
-- ss11: Equal and extra punctuation ligatures (`|=`, `/=`, `?=`, `&=`, ...)
+- [7.0] ss01: Broken multiple equals ligatures (`==`, `===`, `!=`, `!==` ...)
+- [7.0] ss02: Broken compare and equal ligatures (`<=`, `>=`)
+- [7.0] ss03: Allow to use any case in all tags
+- [7.0] ss04: Broken multiple underscores ligatures (`__`, `#__`)
+- [7.0] ss05: Revert thin backslash in escape symbols (`\\`, `\"`, `\.` ...)
+- [7.0] ss06: Break connected strokes between italic letters (`al`, `il`, `ull` ...)
+- [7.0] ss07: Relax the conditions for multiple greaters ligatures (`>>` or `>>>`)
+- [7.0] ss08: Double headed arrows and reverse arrows ligatures (`>>=`, `-<<`, `->>`, `>-` ...)
+- [7.1] ss09: Asciitilde equal as not equal to ligature (`~=`)
+- [7.1] ss10: Approximately equal to and approximately not equal to ligatures (`=~`, `!~`)
+- [7.1] ss11: Equal and extra punctuation ligatures (`|=`, `/=`, `?=`, `&=`, ...)
 <!-- SS -->

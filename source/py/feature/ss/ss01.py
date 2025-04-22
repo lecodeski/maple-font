@@ -15,4 +15,4 @@ def ss01_subst():
 
 
 ss01_name = "Broken multiple equals ligatures (`==`, `===`, `!=`, `!==` ...)"
-ss01_feat = ast.StylisticSet(1, ss01_name, ss01_subst())
+ss01_feat = ast.StylisticSet(1, ss01_name, ss01_subst(), "7.0")

@@ -23,4 +23,4 @@ def ss07_subst():
 
 
 ss07_name = "Relax the conditions for multiple greaters ligatures (`>>` or `>>>`)"
-ss07_feat = ast.StylisticSet(7, ss07_name, ss07_subst())
+ss07_feat = ast.StylisticSet(7, ss07_name, ss07_subst(), "7.0")

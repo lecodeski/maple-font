@@ -62,7 +62,7 @@ zero_desc = "Dot style `0`"
 
 def get_cv_desc():
     return "\n".join(
-        [cv.desc_item() for cv in cv_list_regular] + [f"- zero: {zero_desc}"]
+        [cv.desc_item() for cv in cv_list_regular] + [f"- [7.0] zero: {zero_desc}"]
     )
 
 
@@ -100,7 +100,7 @@ def get_total_feat() -> dict[str, str]:
 
     for item in __total_feat_list:
         if item.tag not in result:
-            result[item.tag] = item.desc.replace("`", "'")
+            result[item.tag] = f"[{item.version}] " + item.desc.replace("`", "'")
 
     result["zero"] = zero_desc.replace("`", "'")
 

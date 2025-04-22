@@ -49,4 +49,5 @@ case_feature = ast.Feature(
         ],
         target_suffix=".case",
     ),
+    "7.0",
 )

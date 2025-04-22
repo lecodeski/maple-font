@@ -18,4 +18,4 @@ def cv06_subst():
 
 
 cv06_name = "Alternative `i` without bottom bar, no effect in italic style"
-cv06_feat_regular = ast.CharacterVariant(6, cv06_name, cv06_subst())
+cv06_feat_regular = ast.CharacterVariant(6, cv06_name, cv06_subst(), "7.1")

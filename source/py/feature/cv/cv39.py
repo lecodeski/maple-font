@@ -31,4 +31,4 @@ def cv39_subst():
 
 
 cv39_name = "Alternative Italic `i` without bottom bar"
-cv39_feat_italic = ast.CharacterVariant(39, cv39_name, cv39_subst())
+cv39_feat_italic = ast.CharacterVariant(39, cv39_name, cv39_subst(), "7.1")

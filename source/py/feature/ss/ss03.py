@@ -36,4 +36,4 @@ def ss03_subst():
 
 
 ss03_name = "Allow to use any case in all tags"
-ss03_feat = ast.StylisticSet(3, ss03_name, ss03_subst())
+ss03_feat = ast.StylisticSet(3, ss03_name, ss03_subst(), "7.0")

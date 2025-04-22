@@ -10,4 +10,6 @@ def cv61_subst():
 
 
 cv61_name = "Alternative `,` and `;` with straight tail"
-cv61_feat_regular = cv61_feat_italic = ast.CharacterVariant(61, cv61_name, cv61_subst())
+cv61_feat_regular = cv61_feat_italic = ast.CharacterVariant(
+    61, cv61_name, cv61_subst(), "7.1"
+)

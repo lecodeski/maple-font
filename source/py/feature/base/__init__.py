@@ -25,6 +25,7 @@ def get_base_features(calt: ast.Feature, is_cn: bool):
     aalt_feature = ast.Feature(
         "aalt",
         [feat.use() for feat in result + [calt] if isinstance(feat, ast.Feature)],
+        "7.0",
     )
     result = [aalt_feature] + result + [calt]
 

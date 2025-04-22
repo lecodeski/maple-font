@@ -7,4 +7,4 @@ def cv99_subst():
 
 
 cv99_name = "Traditional centered punctuations"
-cv99_feat_cn = ast.CharacterVariant(99, cv99_name, cv99_subst())
+cv99_feat_cn = ast.CharacterVariant(99, cv99_name, cv99_subst(), "7.0")
