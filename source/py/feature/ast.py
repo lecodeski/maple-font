@@ -119,7 +119,7 @@ class CharacterVariant(Feature):
         ]
 
     def desc_item(self) -> str:
-        return f"- [{self.version}] {self.tag}: {self.desc}"
+        return f"- [v{self.version}] {self.tag}: {self.desc}"
 
 
 class StylisticSet(Feature):
@@ -148,7 +148,7 @@ class StylisticSet(Feature):
         ]
 
     def desc_item(self):
-        return f"- [{self.version}] {self.tag}: {self.desc}"
+        return f"- [v{self.version}] {self.tag}: {self.desc}"
 
 
 __PUNCTUATION_MAP = {
