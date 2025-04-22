@@ -13,4 +13,6 @@ def cv08_subst():
 
 
 cv08_name = "Alternative `r` with bottom bar, no effect in italic style"
-cv08_feat_regular = ast.CharacterVariant(8, cv08_name, cv08_subst(), "7.1")
+cv08_feat_regular = ast.CharacterVariant(
+    id=8, desc=cv08_name, content=cv08_subst(), version="7.1", example="r"
+)

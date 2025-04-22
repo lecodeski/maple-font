@@ -13,4 +13,6 @@ def cv41_subst():
 
 
 cv41_name = "Alternative italic `r` with bottom bar"
-cv41_feat_italic = ast.CharacterVariant(41, cv41_name, cv41_subst(), "7.1")
+cv41_feat_italic = ast.CharacterVariant(
+    id=41, desc=cv41_name, content=cv41_subst(), version="7.1", example="r"
+)

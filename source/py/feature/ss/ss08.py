@@ -1,6 +1,7 @@
 from source.py.feature import ast
 from source.py.feature.base.clazz import cls_question
 
+
 def ss08_subst():
     return [
         ast.subst_liga(
@@ -123,4 +124,6 @@ def ss08_subst():
 ss08_name = (
     "Double headed arrows and reverse arrows ligatures (`>>=`, `-<<`, `->>`, `>-` ...)"
 )
-ss08_feat = ast.StylisticSet(8, ss08_name, ss08_subst(), "7.0")
+ss08_feat = ast.StylisticSet(
+    id=8, desc=ss08_name, content=ss08_subst(), version="7.0", sample=">>="
+)

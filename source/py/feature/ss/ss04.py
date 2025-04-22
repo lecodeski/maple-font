@@ -12,4 +12,6 @@ def ss04_subst():
 
 
 ss04_name = "Broken multiple underscores ligatures (`__`, `#__`)"
-ss04_feat = ast.StylisticSet(4, ss04_name, ss04_subst(), "7.0")
+ss04_feat = ast.StylisticSet(
+    id=4, desc=ss04_name, content=ss04_subst(), version="7.0", sample="__"
+)

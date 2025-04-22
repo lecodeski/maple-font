@@ -10,4 +10,6 @@ def cv03_subst():
 
 
 cv03_name = "Alternative `i` without left bottom bar"
-cv03_feat_regular = ast.CharacterVariant(3, cv03_name, cv03_subst(), "7.0")
+cv03_feat_regular = ast.CharacterVariant(
+    id=3, desc=cv03_name, content=cv03_subst(), version="7.0", example="i"
+)

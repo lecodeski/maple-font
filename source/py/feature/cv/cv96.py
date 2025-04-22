@@ -14,4 +14,6 @@ def cv96_subst():
 
 
 cv96_name = "Full width quotes (`“` / `”` / `‘` / `’`)"
-cv96_feat_cn = ast.CharacterVariant(96, cv96_name, cv96_subst(), "7.0")
+cv96_feat_cn = ast.CharacterVariant(
+    id=96, desc=cv96_name, content=cv96_subst(), version="7.0", example="“‘’”"
+)

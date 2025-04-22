@@ -6,4 +6,6 @@ def cv34_subst():
 
 
 cv34_name = "Alternative Italic `k` without center circle"
-cv34_feat_italic = ast.CharacterVariant(34, cv34_name, cv34_subst(), "7.0")
+cv34_feat_italic = ast.CharacterVariant(
+    id=34, desc=cv34_name, content=cv34_subst(), version="7.0", example="k"
+)

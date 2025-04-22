@@ -57,5 +57,5 @@ def cv01_subst():
 
 cv01_desc = "Normalize special symbols (`@ $ & % Q => ->`)"
 cv01_feat_regular = cv01_feat_italic = ast.CharacterVariant(
-    1, cv01_desc, cv01_subst(), "7.0"
+    id=1, desc=cv01_desc, content=cv01_subst(), version="7.0", example="@$&"
 )

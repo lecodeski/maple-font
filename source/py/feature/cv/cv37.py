@@ -19,4 +19,6 @@ def cv37_subst():
 
 
 cv37_name = "Alternative Italic `y` with straight intersection"
-cv37_feat_italic = ast.CharacterVariant(37, cv37_name, cv37_subst(), "7.0")
+cv37_feat_italic = ast.CharacterVariant(
+    id=37, desc=cv37_name, content=cv37_subst(), version="7.0", example="y"
+)

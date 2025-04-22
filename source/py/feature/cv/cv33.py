@@ -24,4 +24,6 @@ def cv33_subst():
 
 
 cv33_name = "Alternative Italic `i` and `j` with left bottom bar and horizen top bar"
-cv33_feat_italic = ast.CharacterVariant(33, cv33_name, cv33_subst(), "7.0")
+cv33_feat_italic = ast.CharacterVariant(
+    id=33, desc=cv33_name, content=cv33_subst(), version="7.0", example="i"
+)

@@ -59,4 +59,6 @@ def cv35_subst():
 
 
 cv35_name = "Alternative Italic `l` without center tail"
-cv35_feat_italic = ast.CharacterVariant(35, cv35_name, cv35_subst(), "7.0")
+cv35_feat_italic = ast.CharacterVariant(
+    id=35, desc=cv35_name, content=cv35_subst(), version="7.0", example="l"
+)

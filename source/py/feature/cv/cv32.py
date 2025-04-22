@@ -6,4 +6,6 @@ def cv32_subst():
 
 
 cv32_name = "Alternative Italic `f` without bottom tail"
-cv32_feat_italic = ast.CharacterVariant(32, cv32_name, cv32_subst(), "7.0")
+cv32_feat_italic = ast.CharacterVariant(
+    id=32, desc=cv32_name, content=cv32_subst(), version="7.0", example="f"
+)

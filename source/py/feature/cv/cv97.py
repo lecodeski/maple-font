@@ -9,4 +9,6 @@ def cv97_subst():
 
 
 cv97_name = "Full width ellipsis (`…`)"
-cv97_feat_cn = ast.CharacterVariant(97, cv97_name, cv97_subst(), "7.0")
+cv97_feat_cn = ast.CharacterVariant(
+    id=97, desc=cv97_name, content=cv97_subst(), version="7.0", example="……"
+)

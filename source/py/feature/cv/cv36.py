@@ -9,4 +9,6 @@ def cv36_subst():
 
 
 cv36_name = "Alternative Italic `x` without top and bottom tails"
-cv36_feat_italic = ast.CharacterVariant(36, cv36_name, cv36_subst(), "7.0")
+cv36_feat_italic = ast.CharacterVariant(
+    id=36, desc=cv36_name, content=cv36_subst(), version="7.0", example="x"
+)

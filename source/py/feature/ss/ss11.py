@@ -57,7 +57,7 @@ def ss11_subst():
             ],
         ),
         ast.subst_liga(
-            [g_cv01, g_cv01,"="],
+            [g_cv01, g_cv01, "="],
             target=ast.gly("&&=", ".cv01.ss11"),
             banner=[
                 ast.ignore(g_cv01, g_cv01, [g_cv01, "="]),
@@ -73,7 +73,7 @@ def ss11_subst():
             ],
         ),
         ast.subst_liga(
-            [g_cv62,"="],
+            [g_cv62, "="],
             target=ast.gly("?=", ".cv62.ss11"),
             banner=[
                 ast.ignore(g_cv62, g_cv62, "="),
@@ -89,7 +89,7 @@ def ss11_subst():
             ],
         ),
         ast.subst_liga(
-            [g_cv62, g_cv62,"="],
+            [g_cv62, g_cv62, "="],
             target=ast.gly("??=", ".cv62.ss11"),
             banner=[
                 ast.ignore(g_cv62, g_cv62, [g_cv62, "="]),
@@ -100,4 +100,6 @@ def ss11_subst():
 
 
 ss11_name = "Equal and extra punctuation ligatures (`|=`, `/=`, `?=`, `&=`, ...)"
-ss11_feat = ast.StylisticSet(11, ss11_name, ss11_subst(), "7.1")
+ss11_feat = ast.StylisticSet(
+    id=11, desc=ss11_name, content=ss11_subst(), version="7.1", sample="|="
+)

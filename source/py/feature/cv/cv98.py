@@ -9,4 +9,6 @@ def cv98_subst():
 
 
 cv98_name = "Full width emdash (`—`)"
-cv98_feat_cn = ast.CharacterVariant(98, cv98_name, cv98_subst(), "7.0")
+cv98_feat_cn = ast.CharacterVariant(
+    id=98, desc=cv98_name, content=cv98_subst(), version="7.0", example="——"
+)

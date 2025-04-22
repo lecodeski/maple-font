@@ -10,4 +10,6 @@ def cv02_subst():
 
 
 cv02_name = "Alternative `a` with top arm, no effect in italic style"
-cv02_feat_regular = ast.CharacterVariant(2, cv02_name, cv02_subst(), "7.0")
+cv02_feat_regular = ast.CharacterVariant(
+    id=2, desc=cv02_name, content=cv02_subst(), version="7.0", example="a"
+)
