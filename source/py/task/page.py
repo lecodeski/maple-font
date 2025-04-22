@@ -66,7 +66,10 @@ def commit_and_push_submodule(submodule_path: str, commit_message: str) -> bool:
 def update_main_repo(submodule_path: str, main_commit_message: str) -> None:
     """Update the main repository's submodule reference"""
 
-    # Add submodule changes
+    # Update submodule to the latest commit
+    run_git_command(["git", "submodule", "update", "--remote"])
+
+    # Add submodule changes to the main repository
     run_git_command(["git", "add", submodule_path])
 
     # Check if main repo has changes to commit
@@ -118,7 +121,5 @@ def page(submodule_path: str, var_dir: str, commit: bool = False) -> None:
         modified = commit_and_push_submodule(submodule_path, commit_message)
 
         # Update main repo if submodule was modified
-        if modified:
-            update_main_repo(submodule_path, commit_message)
-        else:
+        if not modified:
             print("No changes to update in main repository")

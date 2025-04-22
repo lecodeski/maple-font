@@ -660,6 +660,8 @@ uv run build.py --ttf-only --cn --debug
 uv run task.py nerd-font
 # Update fea file
 uv run task.py fea
+# Update landing page info
+uv run task.py page
 # Release
 uv run task.py release 7.0
 ```
