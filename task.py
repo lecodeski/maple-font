@@ -38,6 +38,9 @@ def main():
         help="Dry run",
     )
 
+    page_parser = command.add_parser("page", help="Update landing page data")
+    page_parser.add_argument("--commit", action="store_true", help="Commit changes")
+
     args = parser.parse_args()
     if args.command == "nerd-font":
         from source.py.task.nerdfont import nerd_font
@@ -53,6 +56,10 @@ def main():
         from source.py.task.release import release
 
         release(args.tag, args.beta, args.dry)
+    elif args.command == "page":
+        from source.py.task.page import page
+
+        page("./maple-font-page", "./fonts/Variable", args.commit)
     else:
         print("Test only")
         if check_directory_hash("./source/cn/static"):

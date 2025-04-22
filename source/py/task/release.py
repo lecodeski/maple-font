@@ -1,10 +1,10 @@
-import json
 import os
 import re
 import shutil
 from typing import Callable
 from fontTools.ttLib import TTFont
-from source.py.utils import run
+from source.py.task._utils import write_json
+from source.py.utils import joinPaths, run
 
 # Mapping of style names to weights
 weight_map = {
@@ -39,13 +39,13 @@ def format_woff2_name(filename: str):
     return filename.replace(".woff2", "-VF.woff2")
 
 
-def rename_files(dir: str, fn: Callable[[str], str | None]):
+def rename_woff_files(dir: str, fn: Callable[[str], str | None]):
     for filename in os.listdir(dir):
         if not filename.endswith(".woff") and not filename.endswith(".woff2"):
             continue
         new_name = fn(filename)
         if new_name:
-            os.rename(os.path.join(dir, filename), os.path.join(dir, new_name))
+            os.rename(joinPaths(dir, filename), joinPaths(dir, new_name))
             print(f"Renamed: {filename} -> {new_name}")
 
 
@@ -74,11 +74,8 @@ def parse_tag(tag: str, beta: str):
 
 
 def update_build_script_version(tag):
-    with open("build.py", "r", encoding="utf-8") as f:
-        content = f.read()
-        f.close()
-    content = re.sub(r'FONT_VERSION = ".*"', f'FONT_VERSION = "{tag}"', content)
-    with open("build.py", "w", encoding="utf-8") as f:
+    with open("build.py", "w+", encoding="utf-8", newline="\n") as f:
+        content = re.sub(r'FONT_VERSION = ".*"', f'FONT_VERSION = "{tag}"', f.read())
         f.write(content)
         f.close()
 
@@ -92,14 +89,6 @@ def git_release_commit(tag, files):
     run("git push origin")
     run(f"git push origin {tag}")
     print("Pushed to origin")
-
-
-def update_submodule(cwd: str):
-    run("git pull", cwd=cwd)
-    run("git add .", cwd=cwd)
-    run(["git", "commit", "-m", "Update font"], cwd=cwd)
-    run("git push origin", cwd=cwd)
-    print("Update page files")
 
 
 def format_font_map_key(key: int) -> str:
@@ -116,8 +105,7 @@ def write_unicode_map_json(font_path: str, output: str):
         for k, v in font.getBestCmap().items()
         if k is not None
     }
-    with open(output, "w", encoding="utf-8") as f:
-        f.write(json.dumps(font_map, indent=2))
+    write_json(output, font_map)
     print(f"Write font map to {output}")
     font.close()
 
@@ -136,11 +124,12 @@ def release(tag: str, beta: str, dry: bool):
     run("python build.py --ttf-only --no-nerd-font --cn --no-hinted")
     run(f"ftcli converter ft2wf -f woff2 ./fonts/TTF -out {target_fontsource_dir}")
     run(f"ftcli converter ft2wf -f woff ./fonts/TTF -out {target_fontsource_dir}")
-    rename_files(target_fontsource_dir, format_fontsource_name)
+    rename_woff_files(target_fontsource_dir, format_fontsource_name)
     print("Generate fontsource files")
 
+    dep_file = "requirements.txt"
     run(
-        "uv export --format requirements-txt --no-hashes --output-file requirements.txt --quiet"
+        f"uv export --format requirements-txt --no-hashes --output-file {dep_file} --quiet"
     )
 
     shutil.copytree("./fonts/CN", "./cdn/cn")
@@ -150,13 +139,12 @@ def release(tag: str, beta: str, dry: bool):
     if os.path.exists(target_fontsource_dir):
         shutil.rmtree(woff2_dir)
     run(f"ftcli converter ft2wf -f woff2 ./fonts/Variable -out {woff2_dir}")
-    rename_files(woff2_dir, format_woff2_name)
+    rename_woff_files(woff2_dir, format_woff2_name)
 
     submodule_path = "./maple-font-page"
     public_path = f"{submodule_path}/public/fonts"
     shutil.rmtree(public_path, ignore_errors=True)
     shutil.copytree(woff2_dir, public_path)
-    update_submodule(submodule_path)
 
     print("Update variable WOFF2")
 
@@ -167,4 +155,4 @@ def release(tag: str, beta: str, dry: bool):
     if dry:
         print("Dry run")
     else:
-        git_release_commit(tag, ["build.py", "woff2"])
+        git_release_commit(tag, ["build.py", "woff2", dep_file])

@@ -9,23 +9,10 @@ from source.py.feature import (
     get_cv_italic_desc,
     get_cv_cn_desc,
     get_ss_desc,
-    get_total_feat,
+    get_total_feat_dict,
 )
+from source.py.task._utils import write_json, write_text
 from source.py.utils import joinPaths
-
-
-def write_fea_file(file_path: str, content: str, mode: str = "w") -> None:
-    if not isinstance(file_path, str) or not file_path:
-        raise ValueError("Invalid file path")
-    if not isinstance(content, str):
-        raise ValueError("Invalid content")
-    with open(file_path, encoding="utf-8", mode=mode, newline="\n") as file:
-        file.write(content)
-
-
-def update_json_file(file_path: str, data: dict) -> None:
-    with open(file_path, "w", encoding="utf-8", newline="\n") as file:
-        json.dump(data, file, indent=2)
 
 
 def replace_section(md_path: str, border: str, content: str) -> None:
@@ -35,7 +22,7 @@ def replace_section(md_path: str, border: str, content: str) -> None:
     updated_content = re.sub(
         pattern, f"{border}\n{content}\n{border}", md_content, flags=re.DOTALL
     )
-    write_fea_file(md_path, updated_content)
+    write_text(md_path, updated_content)
 
 
 def get_feature_freeze_config(
@@ -55,7 +42,7 @@ def update_feature_freeze(
     with open(file_path, "r", encoding="utf-8") as file:
         config = json.load(file)
     config["feature_freeze"] = get_feature_freeze_config(features, enable_keys)
-    update_json_file(file_path, config)
+    write_json(file_path, config)
 
 
 def update_schema(file_path: str, features: dict[str, str]) -> None:
@@ -65,7 +52,7 @@ def update_schema(file_path: str, features: dict[str, str]) -> None:
         tag: {"description": desc, "$ref": "#/definitions/freeze_options"}
         for tag, desc in features.items()
     }
-    update_json_file(file_path, schema)
+    write_json(file_path, schema)
 
 
 def fea(output: str, cn: bool) -> None:
@@ -77,7 +64,7 @@ def fea(output: str, cn: bool) -> None:
         "cn.fea": generate_fea_string_cn_only(),
     }
     for filename, content in files.items():
-        write_fea_file(joinPaths(output, filename), f"# {banner}\n\n{content}")
+        write_text(joinPaths(output, filename), f"# {banner}\n\n{content}")
 
     banner = banner.replace("fea`", "fea --cn`")
     files_cn = {
@@ -87,7 +74,7 @@ def fea(output: str, cn: bool) -> None:
     for filename, content in files_cn.items():
         fea_path = joinPaths(output, filename)
         if cn:
-            write_fea_file(fea_path, f"# {banner}\n\n{content}")
+            write_text(fea_path, f"# {banner}\n\n{content}")
         else:
             try:
                 os.remove(fea_path)
@@ -107,7 +94,7 @@ def fea(output: str, cn: bool) -> None:
         replace_section(md_path, border, content)
 
     # Update configuration files
-    features = get_total_feat()
+    features = get_total_feat_dict()
     normal_enable_keys = [
         "cv01",
         "cv02",
@@ -128,3 +115,5 @@ def fea(output: str, cn: bool) -> None:
         joinPaths("source", "preset-normal.json"), features, normal_enable_keys
     )
     update_feature_freeze(joinPaths("config.json"), features)
+
+
