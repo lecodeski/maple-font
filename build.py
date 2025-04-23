@@ -1103,9 +1103,9 @@ def run_build(
     if target_styles:
         files = []
         for f in listdir(dir):
-            if f.split("-")[1][:-4] in target_styles:
+            if f.split("-")[-1][:-4] in target_styles:
                 files.append(f)
-            else:
+            elif 'NF' not in f:
                 remove(joinPaths(dir, f))
     else:
         files = listdir(dir)
