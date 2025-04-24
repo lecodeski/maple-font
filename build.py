@@ -300,12 +300,12 @@ class FontConfig:
         self.version_str = f"Version {major}.{minor:03}"
 
     def __load_config(self):
+        config_file_path = (
+            "./source/preset-normal.json"
+            if self.use_normal_preset
+            else "config.json"
+        )
         try:
-            config_file_path = (
-                "./source/preset-normal.json"
-                if self.use_normal_preset
-                else "config.json"
-            )
             with open(config_file_path, "r") as f:
                 data = json.load(f)
                 for prop in [
@@ -334,7 +334,7 @@ class FontConfig:
         except json.JSONDecodeError:
             print(f"❗ Error: Invalid JSON in config file: {config_file_path}")
             exit(1)
-        except Exception as e:  # Catch any other unexpected error
+        except Exception as e:
             print(f"❗ An unexpected error occurred: {e}")
             exit(1)
 
@@ -704,7 +704,7 @@ def rename_glyph_name(
 
     print("Rename glyph names")
     glyph_names = font.getGlyphOrder()
-    extra_names = font["post"].extraNames
+    extra_names = font["post"].extraNames # type: ignore
     modified = False
     merged_map = {
         **map,
@@ -727,7 +727,7 @@ def rename_glyph_name(
             continue
 
         # print(f"[Rename] {old_name} -> {new_name}")
-        glyph_names[i] = new_name
+        glyph_names[i] = new_name # type: ignore
         modified = True
 
         if post_extra_names and old_name in extra_names:
@@ -759,14 +759,14 @@ def get_unique_identifier(
 
 
 def change_glyph_width(font: TTFont, match_width: int, target_width: int):
-    font["hhea"].advanceWidthMax = target_width
+    font["hhea"].advanceWidthMax = target_width # type: ignore
     for name in font.getGlyphOrder():
-        glyph = font["glyf"][name]
-        width, lsb = font["hmtx"][name]
+        glyph = font["glyf"][name] # type: ignore
+        width, lsb = font["hmtx"][name] # type: ignore
         if width != match_width:
             continue
         if glyph.numberOfContours == 0:
-            font["hmtx"][name] = (target_width, lsb)
+            font["hmtx"][name] = (target_width, lsb) # type: ignore
             continue
 
         delta = round((target_width - width) / 2)
@@ -774,7 +774,7 @@ def change_glyph_width(font: TTFont, match_width: int, target_width: int):
         glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
             glyph.coordinates.calcIntBounds()
         )
-        font["hmtx"][name] = (target_width, lsb + delta)
+        font["hmtx"][name] = (target_width, lsb + delta) # type: ignore
 
 
 def update_font_names(
@@ -804,7 +804,7 @@ def update_font_names(
 def add_gasp(font: TTFont):
     print("Fix GASP table")
     gasp = newTable("gasp")
-    gasp.gaspRange = {65535: 15}
+    gasp.gaspRange = {65535: 15} # type: ignore
     font["gasp"] = gasp
 
 
@@ -853,9 +853,9 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
 
     # https://github.com/ftCLI/FoundryTools-CLI/issues/166#issuecomment-2095433585
     if style_with_prefix_space == " Thin":
-        font["OS/2"].usWeightClass = 250
+        font["OS/2"].usWeightClass = 250 # type: ignore
     elif style_with_prefix_space == " ExtraLight":
-        font["OS/2"].usWeightClass = 275
+        font["OS/2"].usWeightClass = 275 # type: ignore
 
     handle_ligatures(
         font=font,
@@ -1035,7 +1035,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         preferred_style_name=style_in_17,
     )
 
-    cn_font["OS/2"].xAvgCharWidth = 600
+    cn_font["OS/2"].xAvgCharWidth = 600 # type: ignore
 
     # https://github.com/subframe7536/maple-font/issues/188
     # https://github.com/subframe7536/maple-font/issues/313
@@ -1062,7 +1062,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     if font_config.cn["fix_meta_table"]:
         # add code page, Latin / Japanese / Simplify Chinese / Traditional Chinese
-        cn_font["OS/2"].ulCodePageRange1 = 1 << 0 | 1 << 17 | 1 << 18 | 1 << 20
+        cn_font["OS/2"].ulCodePageRange1 = 1 << 0 | 1 << 17 | 1 << 18 | 1 << 20 # type: ignore
 
         # fix meta table, https://learn.microsoft.com/en-us/typography/opentype/spec/meta
         meta = newTable("meta")
@@ -1102,7 +1102,7 @@ def run_build(
                     if is_windows():
                         run(f"taskkill.exe /pid {pid}")
                     else:
-                        kill(pid, signal.SIGKILL)
+                        kill(pid, signal.SIGKILL) # type: ignore
                 except Exception:
                     pass
             pids.remove(pid)
