@@ -170,6 +170,7 @@ def get_feature_file_italic(is_cn: bool, normal: bool):
             lang_list,
             get_base_features(calt, is_cn=is_cn),
             cv_list_italic,
+            cv_list_cn if is_cn else None,
             ss_list_italic,
         ],
     )

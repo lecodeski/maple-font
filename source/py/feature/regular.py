@@ -139,6 +139,7 @@ def get_feature_file_regular(is_cn: bool):
             lang_list,
             get_base_features(calt, is_cn=is_cn),
             cv_list_regular,
+            cv_list_cn if is_cn else None,
             ss_list_regular,
         ],
     )

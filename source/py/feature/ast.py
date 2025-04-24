@@ -496,7 +496,9 @@ def flatten_to_lines(
     result = []
 
     for item in recursive_iterate(data):
-        if isinstance(item, Clazz):
+        if not item:
+            continue
+        elif isinstance(item, Clazz):
             result.append(item.state())
         elif isinstance(item, Line):
             result.append(item)
