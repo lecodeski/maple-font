@@ -281,7 +281,8 @@ class FontConfig:
         }
         self.glyph_width = 600
         self.glyph_width_cn_narrow = 1000
-        self.__load_config(args.normal)
+        self.use_normal_preset = args.normal
+        self.__load_config()
         self.__load_args(args)
 
         ver = FONT_VERSION
@@ -297,10 +298,12 @@ class FontConfig:
 
         self.version_str = f"Version {major}.{minor:03}"
 
-    def __load_config(self, use_normal):
+    def __load_config(self):
         try:
             config_file_path = (
-                "./source/preset-normal.json" if use_normal else "config.json"
+                "./source/preset-normal.json"
+                if self.use_normal_preset
+                else "config.json"
             )
             with open(config_file_path, "r") as f:
                 data = json.load(f)
@@ -518,13 +521,14 @@ class BuildOption:
                 if self.__check_cn_exists():
                     return True
                 else:
-                    print(f"❗Invalid CN static fonts hash, please delete {zip_path} in root dir and rerun the script")
+                    print(
+                        f"❗Invalid CN static fonts hash, please delete {zip_path} in root dir and rerun the script"
+                    )
                     return False
 
         # Try using variable fonts if static fonts aren't available
-        if (
-            path.exists(self.cn_variable_dir)
-            and self.__check_file_count(self.cn_variable_dir, 2, "-VF.ttf")
+        if path.exists(self.cn_variable_dir) and self.__check_file_count(
+            self.cn_variable_dir, 2, "-VF.ttf"
         ):
             print(
                 "No static CN fonts but detect variable version, start instantiating..."
@@ -554,7 +558,7 @@ class BuildOption:
         return False
 
     def __check_cn_exists(self) -> bool:
-        static_path=self.cn_static_dir
+        static_path = self.cn_static_dir
         if not path.exists(static_path):
             return False
         if not self.__check_file_count(static_path):
@@ -588,7 +592,9 @@ class BuildOption:
             f.flush()
         print(f"Update {self.cn_static_dir}.sha256")
 
-    def __check_file_count(self, dir: str, count: int = 16, end: str | None = None) -> bool:
+    def __check_file_count(
+        self, dir: str, count: int = 16, end: str | None = None
+    ) -> bool:
         if not path.isdir(dir):
             return False
         return len([f for f in listdir(dir) if end is None or f.endswith(end)]) == count
@@ -1034,7 +1040,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
     # https://github.com/subframe7536/maple-font/issues/313
     # fix_cn_cv(cn_font)
 
-    patch_fea_string(cn_font, is_italic, True)
+    patch_fea_string(cn_font, is_italic, True, font_config.use_normal_preset)
 
     handle_ligatures(
         font=cn_font,
@@ -1105,7 +1111,7 @@ def run_build(
         for f in listdir(dir):
             if f.split("-")[-1][:-4] in target_styles:
                 files.append(f)
-            elif 'NF' not in f:
+            elif "NF" not in f:
                 remove(joinPaths(dir, f))
     else:
         files = listdir(dir)
@@ -1203,11 +1209,7 @@ def main():
                 )
             else:
                 print("Apply feature string")
-                patch_fea_string(
-                    font,
-                    is_italic,
-                    False,
-                )
+                patch_fea_string(font, is_italic, False, font_config.use_normal_preset)
 
             set_font_name(
                 font,

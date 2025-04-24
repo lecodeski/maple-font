@@ -3,8 +3,7 @@ from source.py.feature import ast
 from source.py.feature.base import get_base_feature_cn_only
 from source.py.feature.calt import get_calt_lookup
 from source.py.feature.regular import (
-    feature_file_regular,
-    feature_file_regular_cn,
+    get_feature_file_regular,
     cls_var,
     cls_hex_letter,
     cv_list_regular,
@@ -12,25 +11,18 @@ from source.py.feature.regular import (
     ss_list_regular,
 )
 from source.py.feature.italic import (
-    feature_file_italic,
-    feature_file_italic_cn,
+    get_feature_file_italic,
     cv_list_italic,
     ss_list_italic,
 )
 from source.py.feature.cv import cv96, cv97, cv98, cv99
 
 
-def generate_fea_string(italic: bool, cn: bool):
+def generate_fea_string(italic: bool, cn: bool, normal: bool = False):
     if italic:
-        if cn:
-            return feature_file_italic_cn
-        else:
-            return feature_file_italic
+        return get_feature_file_italic(cn, normal)
     else:
-        if cn:
-            return feature_file_regular_cn
-        else:
-            return feature_file_regular
+        return get_feature_file_regular(cn)
 
 
 def generate_fea_string_cn_only():

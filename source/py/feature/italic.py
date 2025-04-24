@@ -162,23 +162,14 @@ ss_list_italic = [
     ss11.ss11_feat,
 ]
 
-feature_file_italic = ast.create(
-    [
-        class_list_italic,
-        lang_list,
-        get_base_features(calt_italic, False),
-        cv_list_italic,
-        ss_list_italic,
-    ],
-)
-
-feature_file_italic_cn = ast.create(
-    [
-        class_list_italic,
-        lang_list,
-        get_base_features(calt_italic, True),
-        cv_list_italic,
-        cv_list_cn,
-        ss_list_italic,
-    ],
-)
+def get_feature_file_italic(is_cn: bool, normal: bool):
+    calt = get_calt(cls_var, cls_hex_letter, is_italic=True, normal=normal)
+    return ast.create(
+        [
+            class_list_italic,
+            lang_list,
+            get_base_features(calt, is_cn=is_cn),
+            cv_list_italic,
+            ss_list_italic,
+        ],
+    )

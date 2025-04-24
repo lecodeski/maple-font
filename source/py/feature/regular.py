@@ -95,8 +95,6 @@ cls_var = ast.Clazz("Var", ["_", "__", *cls_letters_list, cls_digit])
 
 class_list_regular = [*base_class_list, *cls_letters_list, cls_hex_letter, cls_var]
 
-calt_regular = get_calt(cls_var, cls_hex_letter, is_italic=False)
-
 cv_list_regular = [
     cv01.cv01_feat_regular,
     cv02.cv02_feat_regular,
@@ -133,24 +131,15 @@ ss_list_regular = [
     ss11.ss11_feat,
 ]
 
+def get_feature_file_regular(is_cn: bool):
+    calt = get_calt(cls_var, cls_hex_letter, is_italic=False)
+    return ast.create(
+        [
+            class_list_regular,
+            lang_list,
+            get_base_features(calt, is_cn=is_cn),
+            cv_list_regular,
+            ss_list_regular,
+        ],
+    )
 
-feature_file_regular = ast.create(
-    [
-        class_list_regular,
-        lang_list,
-        get_base_features(calt_regular, False),
-        cv_list_regular,
-        ss_list_regular,
-    ],
-)
-
-feature_file_regular_cn = ast.create(
-    [
-        class_list_regular,
-        lang_list,
-        get_base_features(calt_regular, True),
-        cv_list_regular,
-        cv_list_cn,
-        ss_list_regular,
-    ],
-)
