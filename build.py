@@ -15,6 +15,7 @@ from fontTools.feaLib.builder import addOpenTypeFeatures
 from source.py.utils import (
     check_font_patcher,
     check_directory_hash,
+    get_directory_hash,
     patch_fea_string,
     verify_glyph_width,
     compress_folder,
@@ -588,7 +589,7 @@ class BuildOption:
             dir=cn_static_dir,
         )
         with open(f"{self.cn_static_dir}.sha256", "w") as f:
-            f.write(check_directory_hash(self.cn_static_dir))
+            f.write(get_directory_hash(self.cn_static_dir))
             f.flush()
         print(f"Update {self.cn_static_dir}.sha256")
 
