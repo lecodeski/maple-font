@@ -1,5 +1,5 @@
 import json
-from os import path, remove
+from os import environ, path, remove
 from urllib.request import urlopen
 from fontTools.varLib import TTFont
 from fontTools.subset import Subsetter
@@ -17,7 +17,7 @@ family_name = "Maple Mono"
 font_forge_bin = get_font_forge_bin()
 
 if not path.exists(base_font_path):
-    print("font not exist, please run `python build.py` first")
+    print("font not exist, please run this command first:\n\n    python build.py --ttf-only --no-nerd-font --least-styles\n")
     exit(1)
 
 
@@ -77,7 +77,7 @@ def check_update():
         print(
             f"Current version {current_version} not match latest version {latest_version}, update"
         )
-        if not check_font_patcher(latest_version):
+        if not check_font_patcher(latest_version, environ.get("GITHUB", "github.com")):
             print("Fail to update Font-Patcher, exit")
             exit(1)
         update_config_json("./config.json", latest_version)
