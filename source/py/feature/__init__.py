@@ -241,6 +241,8 @@ def get_total_feat_ts() -> str:
 export interface FeatureDescription {{{js_object}}}
 
 export const featureArray = {json.dumps(list(feat_dict.keys()), indent=2)}
+
+export const normalFeatureArray = {json.dumps(normal_enabled_features, indent=2)}
 """
 
 
