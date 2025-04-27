@@ -11,6 +11,7 @@ from source.py.feature import (
     get_ss_desc,
     get_total_feat_dict,
 )
+from source.py.feature import normal_enabled_features
 from source.py.task._utils import write_json, write_text
 from source.py.utils import joinPaths
 
@@ -25,23 +26,13 @@ def replace_section(md_path: str, border: str, content: str) -> None:
     write_text(md_path, updated_content)
 
 
-def get_feature_freeze_config(
-    features: dict[str, str], enable_keys: list[str] | None = None
-) -> dict:
-    feature_freeze = {}
-    for tag in features.keys():
-        feature_freeze[tag] = (
-            "enable" if enable_keys and tag in enable_keys else "ignore"
-        )
-    return feature_freeze
-
-
 def update_feature_freeze(
-    file_path: str, features: dict[str, str], enable_keys: list[str] | None = None
+    file_path: str,
+    features: dict[str, str],
 ) -> None:
     with open(file_path, "r", encoding="utf-8") as file:
         config = json.load(file)
-    config["feature_freeze"] = get_feature_freeze_config(features, enable_keys)
+    config["feature_freeze"] = {tag: "ignore" for tag in features}
     write_json(file_path, config)
 
 
@@ -67,10 +58,12 @@ def fea(output: str, cn: bool) -> None:
         write_text(joinPaths(output, filename), f"# {banner}\n\n{content}")
 
     banner = banner.replace("fea`", "fea --cn`")
-    files_cn = {
-        "regular_cn.fea": generate_fea_string(False, True),
-        "italic_cn.fea": generate_fea_string(True, True),
-    }
+    files_cn = {}
+    if cn:
+        files_cn = {
+            "regular_cn.fea": generate_fea_string(False, True),
+            "italic_cn.fea": generate_fea_string(True, True),
+        }
     for filename, content in files_cn.items():
         fea_path = joinPaths(output, filename)
         if cn:
@@ -95,25 +88,9 @@ def fea(output: str, cn: bool) -> None:
 
     # Update configuration files
     features = get_total_feat_dict()
-    normal_enable_keys = [
-        "cv01",
-        "cv02",
-        "cv33",
-        "cv34",
-        "cv35",
-        "cv36",
-        "cv61",
-        "cv62",
-        "ss05",
-        "ss06",
-        "ss07",
-        "ss08",
-    ]
 
     update_schema(joinPaths("source", "schema.json"), features)
-    update_feature_freeze(
-        joinPaths("source", "preset-normal.json"), features, normal_enable_keys
-    )
-    update_feature_freeze(joinPaths("config.json"), features)
-
-
+    update_feature_freeze("config.json", features)
+    feat_str = ", ".join(normal_enabled_features)
+    for f in ["README.md", "README_CN.md", "README_JA.md"]:
+        replace_section(f, "<!-- NORMAL -->", f"```\n{feat_str}\n```")

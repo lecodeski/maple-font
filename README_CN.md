@@ -129,7 +129,7 @@ brew install --cask font-maple-mono-nf-cn
 
 ### Arch Linux
 
-ArchLinuxCN仓库允许下载单个软件包的zip文件，而无需下载pkgbase中的所有软件包的zip文件，但AUR不允许。(如果您有好的解决方案，请联系Cyberczy(czysheep@gmail.com))
+ArchLinuxCN 仓库允许下载单个软件包的 zip 文件，而无需下载 pkgbase 中的所有软件包的 zip 文件，但 AUR 不允许。(如果您有好的解决方案，请联系 Cyberczy(czysheep@gmail.com))
 
 #### ArchLinuxCN (推荐)
 
@@ -565,6 +565,15 @@ python build.py
 #### 预设
 
 运行 `build.py` 时添加 `--normal` 参数，让字形不那么独特~~奇怪~~，就像 `JetBrains Mono` 一样（除了 `0` 的中间是斜线而不是点）。
+
+如果您使用的是可变字体（不推荐），请启用 `calt` 特性以使所有特性正常工作。
+
+启用的特性：
+<!-- NORMAL -->
+```
+cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
+```
+<!-- NORMAL -->
 
 #### 字体特性强制开启
 

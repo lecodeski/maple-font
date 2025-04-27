@@ -565,9 +565,18 @@ Default args: `-l --careful --outputdir dir`
 
 Run `build.py` with `--normal` flag, make the font looks not such "Opinioned" , just like `JetBrains Mono` (with slashed zero).
 
+If you are using variable font (NOT recommended), please enable `calt` to make all features work.
+
+Enabled features:
+<!-- NORMAL -->
+```
+cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
+```
+<!-- NORMAL -->
+
 #### Font Feature Freeze
 
-There are three kind of options for feature freeze ([Why](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)):
+There are three kinds of options for feature freeze ([Why](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)):
 
 1. `enable`: Forcely enable the features without setting up `cvXX` / `ssXX` / `zero` in font features config, just as default glyphs / ligatures
 2. `disable`: Remove the features in `cvXX` / `ssXX` / `zero`, which will no longer effect, even if you enable it manually

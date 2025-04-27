@@ -11,12 +11,11 @@ from functools import partial
 from os import environ, getcwd, getpid, kill, listdir, makedirs, path, remove, getenv
 from typing import Callable
 from fontTools.ttLib import TTFont, newTable
-from fontTools.feaLib.builder import addOpenTypeFeatures
+from fontTools.feaLib.builder import addOpenTypeFeatures, addOpenTypeFeaturesFromString
 from source.py.utils import (
     check_font_patcher,
     check_directory_hash,
     get_directory_hash,
-    patch_fea_string,
     verify_glyph_width,
     compress_folder,
     download_cn_base_font,
@@ -30,8 +29,12 @@ from source.py.utils import (
     joinPaths,
     merge_ttfonts,
 )
-from source.py.freeze import freeze_feature, get_freeze_config_str
-from source.py.feature import get_freeze_moving_rules
+from source.py.freeze import freeze_feature, get_freeze_config_str, is_enable
+from source.py.feature import (
+    generate_fea_string,
+    get_freeze_moving_rules,
+    normal_enabled_features,
+)
 
 FONT_VERSION = "v7.1-dev"
 # =========================================================================================
@@ -199,11 +202,11 @@ def parse_args():
 
 class FontConfig:
     def __init__(self, args):
-        self.archive = None
-        self.use_cn_both = None
-        self.ttf_only = None
-        self.debug = None
-        self.apply_fea_file = None
+        self.archive = False
+        self.use_cn_both = False
+        self.ttf_only = False
+        self.debug = False
+        self.apply_fea_file = False
         # the number of parallel tasks
         # when run in codespace, this will be 1
         self.pool_size = 1 if not getenv("CODESPACE_NAME") else 4
@@ -282,7 +285,7 @@ class FontConfig:
         }
         self.glyph_width = 600
         self.glyph_width_cn_narrow = 1000
-        self.use_normal_preset = args.normal
+        self.use_normal_preset = False
         self.__load_config()
         self.__load_args(args)
 
@@ -300,11 +303,7 @@ class FontConfig:
         self.version_str = f"Version {major}.{minor:03}"
 
     def __load_config(self):
-        config_file_path = (
-            "./source/preset-normal.json"
-            if self.use_normal_preset
-            else "config.json"
-        )
+        config_file_path = "config.json"
         try:
             with open(config_file_path, "r") as f:
                 data = json.load(f)
@@ -330,10 +329,10 @@ class FontConfig:
 
         except FileNotFoundError:
             print(f"🚨 Config file not found: {config_file_path}, use default config")
-            pass
         except json.JSONDecodeError:
-            print(f"❗ Error: Invalid JSON in config file: {config_file_path}")
-            exit(1)
+            print(
+                f"❗ Error: Invalid JSON in config file: {config_file_path}, use default config"
+            )
         except Exception as e:
             print(f"❗ An unexpected error occurred: {e}")
             exit(1)
@@ -345,6 +344,11 @@ class FontConfig:
 
         if "font_forge_bin" not in self.nerd_font:
             self.nerd_font["font_forge_bin"] = get_font_forge_bin()
+
+        if args.normal:
+            self.use_normal_preset = True
+            for feat in normal_enabled_features:
+                self.feature_freeze[feat] = "enable"
 
         if args.feat is not None:
             for f in args.feat:
@@ -377,6 +381,8 @@ class FontConfig:
             self.cn["use_static_base_font"] = False
 
         name_arr = [word.capitalize() for word in self.family_name.split(" ")]
+        if self.use_normal_preset:
+            name_arr.append("Normal")
         if not self.enable_liga:
             name_arr.append("NL")
         if self.debug:
@@ -409,6 +415,36 @@ class FontConfig:
             ]
         else:
             return [0, self.glyph_width]
+
+    def patch_fea_string(
+        self,
+        font: TTFont,
+        issue_fea_dir: str,
+        is_italic: bool,
+        is_cn: bool,
+        is_variable: bool,
+    ):
+        fea_str = generate_fea_string(
+            is_italic=is_italic,
+            is_cn=is_cn,
+            is_normal=self.use_normal_preset,
+            is_calt=self.enable_liga,
+            variable_enabled_feature_list=[
+                key for key, val in self.feature_freeze.items() if is_enable(val)
+            ]
+            if is_variable
+            else [],
+        )
+        try:
+            addOpenTypeFeaturesFromString(font, fea_str)
+        except Exception as e:
+            issue_fea_path = joinPaths(issue_fea_dir, "issue.fea")
+            with open(issue_fea_path, "w+") as f:
+                banner = f"Generated feature with italic={is_italic}, cn={is_cn}, normal={self.use_normal_preset}, calt={self.enable_liga}, variable={is_variable}"
+                f.write(f"# {banner}\n\n{fea_str}")
+            raise SyntaxError(
+                f"Error patching fea string: {e}\n\nSee generated fea string in {issue_fea_path}"
+            ) from e
 
 
 class BuildOption:
@@ -704,7 +740,7 @@ def rename_glyph_name(
 
     print("Rename glyph names")
     glyph_names = font.getGlyphOrder()
-    extra_names = font["post"].extraNames # type: ignore
+    extra_names = font["post"].extraNames  # type: ignore
     modified = False
     merged_map = {
         **map,
@@ -727,7 +763,7 @@ def rename_glyph_name(
             continue
 
         # print(f"[Rename] {old_name} -> {new_name}")
-        glyph_names[i] = new_name # type: ignore
+        glyph_names[i] = new_name  # type: ignore
         modified = True
 
         if post_extra_names and old_name in extra_names:
@@ -741,32 +777,35 @@ def get_unique_identifier(
     font_config: FontConfig,
     postscript_name: str,
     narrow: bool = False,
-    ignore_suffix: bool = False,
+    variable: bool = False,
 ) -> str:
-    if ignore_suffix:
-        suffix = ""
-    else:
-        suffix = font_config.freeze_config_str
-        if "CN" in postscript_name and narrow:
-            suffix += "Narrow;"
+    suffix = ""
 
-        if "NF" in postscript_name:
-            nf_ver = font_config.nerd_font["version"]
-            suffix = f"NF{nf_ver};{suffix}"
+    if variable:
+        suffix += "Variable;"
+
+    if "NF" in postscript_name:
+        nf_ver = font_config.nerd_font["version"]
+        suffix += f"NF{nf_ver};"
+
+    if "CN" in postscript_name and narrow:
+        suffix += "Narrow;"
+
+    suffix += font_config.freeze_config_str
 
     beta_str = f"-{font_config.beta}" if font_config.beta else ""
     return f"{font_config.version_str}{beta_str};SUBF;{postscript_name};2024;FL830;{suffix}"
 
 
 def change_glyph_width(font: TTFont, match_width: int, target_width: int):
-    font["hhea"].advanceWidthMax = target_width # type: ignore
+    font["hhea"].advanceWidthMax = target_width  # type: ignore
     for name in font.getGlyphOrder():
-        glyph = font["glyf"][name] # type: ignore
-        width, lsb = font["hmtx"][name] # type: ignore
+        glyph = font["glyf"][name]  # type: ignore
+        width, lsb = font["hmtx"][name]  # type: ignore
         if width != match_width:
             continue
         if glyph.numberOfContours == 0:
-            font["hmtx"][name] = (target_width, lsb) # type: ignore
+            font["hmtx"][name] = (target_width, lsb)  # type: ignore
             continue
 
         delta = round((target_width - width) / 2)
@@ -774,7 +813,7 @@ def change_glyph_width(font: TTFont, match_width: int, target_width: int):
         glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
             glyph.coordinates.calcIntBounds()
         )
-        font["hmtx"][name] = (target_width, lsb + delta) # type: ignore
+        font["hmtx"][name] = (target_width, lsb + delta)  # type: ignore
 
 
 def update_font_names(
@@ -804,7 +843,7 @@ def update_font_names(
 def add_gasp(font: TTFont):
     print("Fix GASP table")
     gasp = newTable("gasp")
-    gasp.gaspRange = {65535: 15} # type: ignore
+    gasp.gaspRange = {65535: 15}  # type: ignore
     font["gasp"] = gasp
 
 
@@ -826,7 +865,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
 
     style_compact = f.split("-")[-1].split(".")[0]
 
-    style_with_prefix_space, style_in_2, style_in_17, is_skip_subfamily, _ = (
+    style_with_prefix_space, style_in_2, style_in_17, is_skip_subfamily, is_italic = (
         parse_style_name(
             style_name_compact=style_compact,
             skip_subfamily_list=build_option.base_subfamily_list,
@@ -853,9 +892,17 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
 
     # https://github.com/ftCLI/FoundryTools-CLI/issues/166#issuecomment-2095433585
     if style_with_prefix_space == " Thin":
-        font["OS/2"].usWeightClass = 250 # type: ignore
+        font["OS/2"].usWeightClass = 250  # type: ignore
     elif style_with_prefix_space == " ExtraLight":
-        font["OS/2"].usWeightClass = 275 # type: ignore
+        font["OS/2"].usWeightClass = 275  # type: ignore
+
+    font_config.patch_fea_string(
+        font=font,
+        issue_fea_dir=build_option.output_dir,
+        is_italic=is_italic,
+        is_cn=False,
+        is_variable=False,
+    )
 
     handle_ligatures(
         font=font,
@@ -1035,13 +1082,19 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         preferred_style_name=style_in_17,
     )
 
-    cn_font["OS/2"].xAvgCharWidth = 600 # type: ignore
+    cn_font["OS/2"].xAvgCharWidth = 600  # type: ignore
 
     # https://github.com/subframe7536/maple-font/issues/188
     # https://github.com/subframe7536/maple-font/issues/313
     # fix_cn_cv(cn_font)
 
-    patch_fea_string(cn_font, is_italic, True, font_config.use_normal_preset)
+    font_config.patch_fea_string(
+        font=cn_font,
+        issue_fea_dir=build_option.output_dir,
+        is_italic=is_italic,
+        is_cn=True,
+        is_variable=False,
+    )
 
     handle_ligatures(
         font=cn_font,
@@ -1062,7 +1115,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     if font_config.cn["fix_meta_table"]:
         # add code page, Latin / Japanese / Simplify Chinese / Traditional Chinese
-        cn_font["OS/2"].ulCodePageRange1 = 1 << 0 | 1 << 17 | 1 << 18 | 1 << 20 # type: ignore
+        cn_font["OS/2"].ulCodePageRange1 = 1 << 0 | 1 << 17 | 1 << 18 | 1 << 20  # type: ignore
 
         # fix meta table, https://learn.microsoft.com/en-us/typography/opentype/spec/meta
         meta = newTable("meta")
@@ -1102,7 +1155,7 @@ def run_build(
                     if is_windows():
                         run(f"taskkill.exe /pid {pid}")
                     else:
-                        kill(pid, signal.SIGKILL) # type: ignore
+                        kill(pid, signal.SIGKILL)  # type: ignore
                 except Exception:
                     pass
             pids.remove(pid)
@@ -1210,18 +1263,30 @@ def main():
                 )
             else:
                 print("Apply feature string")
-                patch_fea_string(font, is_italic, False, font_config.use_normal_preset)
+                font_config.patch_fea_string(
+                    font=font,
+                    issue_fea_dir=build_option.output_dir,
+                    is_italic=is_italic,
+                    is_cn=False,
+                    is_variable=True,
+                )
 
-            set_font_name(
-                font,
-                get_unique_identifier(
+            style_name = "Italic" if is_italic else "Regular"
+            postscript_name = f"{font_config.family_name_compact}-{style_name}"
+            update_font_names(
+                font=font,
+                family_name=font_config.family_name,
+                style_name=style_name,
+                full_name=f"{font_config.family_name} {style_name}",
+                version_str=font_config.version_str,
+                postscript_name=postscript_name,
+                unique_identifier=get_unique_identifier(
                     font_config=font_config,
                     postscript_name=get_font_name(font, 6),
-                    ignore_suffix=True,
+                    variable=True,
                 ),
-                3,
+                is_skip_subfamily=True,
             )
-
             verify_glyph_width(
                 font=font,
                 expect_widths=font_config.get_valid_glyph_width_list(),
@@ -1230,11 +1295,11 @@ def main():
 
             add_gasp(font)
 
-            font.save(
-                input_file.replace(
-                    build_option.src_dir, build_option.output_variable
-                ).replace("-VF", "")
-            )
+            file_name = font_config.family_name_compact
+            if is_italic:
+                file_name += "-Italic"
+
+            font.save(joinPaths(build_option.output_variable, f"{file_name}[wght].ttf"))
 
         print("\n✨ Instatiate and optimize fonts...\n")
 

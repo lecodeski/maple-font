@@ -58,16 +58,19 @@ class Feature:
 
     def __init__(self, tag: str, content: Clazz | Lookup | Line | list, version):
         self.tag = tag
-        self.content = content
+        self.content = []
         self.has_lookup = False
         self.version = version
         if isinstance(content, Lookup):
             self.has_lookup = True
+            self.content.append(content)
         elif isinstance(content, list):
             for item in recursive_iterate(content):
                 if isinstance(item, Lookup):
                     self.has_lookup = True
-                    break
+                self.content.append(item)
+        else:
+            self.content.append(content)
 
     def use(self) -> Line:
         return Line(f"feature {self.tag};")
@@ -96,7 +99,12 @@ class CharacterVariant(Feature):
     __slots__ = ("id", "desc", "sample")
 
     def __init__(
-        self, id: int, desc: str, content: Clazz | Lookup | Line | list, version: str, example: str
+        self,
+        id: int,
+        desc: str,
+        content: Clazz | Lookup | Line | list,
+        version: str,
+        example: str,
     ):
         if id < 1 or id > 99:
             raise TypeError(
@@ -126,7 +134,12 @@ class StylisticSet(Feature):
     __slots__ = ("id", "desc", "sample")
 
     def __init__(
-        self, id: int, desc: str, content: Clazz | Lookup | Line | list, version: str, sample: str
+        self,
+        id: int,
+        desc: str,
+        content: Clazz | Lookup | Line | list,
+        version: str,
+        sample: str,
     ):
         if id < 1 or id > 20:
             raise TypeError(

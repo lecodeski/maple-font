@@ -9,9 +9,10 @@ The `feature/` module is designed to simplify the creation of OpenType font feat
 ### Key Components
 
 - **`ast.py`**: Core utilities for defining OpenType features.
-- **`regular.py`**: Entry file for regular style.
-- **`italic.py`**: Entry file for italic style.
-- **`base/`**: Contains foundational classes and features like numbers, cases, and localized forms.
+- **`common.py`**: Shared feature and feature file generation logic.
+- **`regular.py`**: Entry file for regular features.
+- **`italic.py`**: Entry file for italic features.
+- **`base/`**: Foundational classes and features (e.g., numbers, cases, localized forms).
 - **`calt/`**: Default ligatures.
 - **`cv/`**: Character variants.
 - **`ss/`**: Stylistic sets.
@@ -44,22 +45,33 @@ tag_custom(
     bg_cls_dict,
 )
 ```
-
-This will convert
-
+This converts:
 ```
 :attention: _noqa_
 ```
 
-to:
+into a styled tag:
 
 ![Image](https://github.com/user-attachments/assets/e67f282c-e961-4e55-9169-2f20d7ccfbc6)
 
-#### Limitation
+#### Limitations
 
-1. The built-in tags are optimized for glyph spacing, but the custom tags not.
-2. The tag will be splited if letter spacing > 0, see in [#381](https://github.com/subframe7536/maple-font/issues/381#issuecomment-2808022878)
-3. The tag's color follows the original text color, see in [#381](https://github.com/subframe7536/maple-font/issues/381#issuecomment-2809622541)
+1. Built-in tags are optimized for spacing; custom tags are not.
+2. Tags may split if letter spacing > 0. See [#381](https://github.com/subframe7536/maple-font/issues/381#issuecomment-2808022878).
+3. Tags inherit the original text color. See [#381](https://github.com/subframe7536/maple-font/issues/381#issuecomment-2809622541).
+
+## Freeze Feature in Variable Format
+
+There are two strategies to freeze a feature:
+
+1. For lookups implementing new ligatures (e.g., `ss08`), move rules into `calt`.
+2. For glyph replacements (e.g., `cv01`), substitute glyphs directly with their originals.
+
+Currently, the second approach cannot be implemented in variable format, so in the V7.0 release all variable format variants are identical except for the family name. The build script provides an escape hatch with the `--apply-fea-file` flag.
+
+Since the feature-loading logic was refactored to Python, features are loaded dynamically. The logic in [`common.py`](./common.py) moves rules from the target feature to `calt` (method 1). Enabling the `calt` feature will yield styling equivalent to the static version.
+
+So, please **ENABLE FONT LIGATURE** to make all features work if you are using variable font (NOT recommended).
 
 ### AST Utilities
 
@@ -137,7 +149,7 @@ feature calt {
 }
 ```
 
-#### `create`
+#### Create
 
 Generates the final OpenType feature file content.
 
@@ -152,7 +164,11 @@ print(fea_content)
 
 In most of time, you don't need to update the fea files. The generated fea string will be automatically applied at build time without using `--apply-fea-file` flag.
 
-You can use `uv run task.py fea` to update exists fea files.
+To update existing fea files, you can run:
+
+```sh
+uv run task.py fea
+```
 
 Here is an example to show how to use the `generate_fea_string` function to generate feature files
 
