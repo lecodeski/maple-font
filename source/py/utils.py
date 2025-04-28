@@ -6,8 +6,8 @@ import subprocess
 from urllib.request import Request, urlopen
 from zipfile import ZIP_DEFLATED, ZipFile
 from fontTools.ttLib import TTFont
+from fontTools.merge import Merger
 from glyphsLib import GSFont
-
 
 
 def is_ci():
@@ -295,19 +295,26 @@ def check_directory_hash(dir_path: str) -> bool:
         return f.readline() == get_directory_hash(dir_path)
 
 
-def merge_ttfonts(base_font_path: str, extra_font_path: str) -> TTFont:
+def merge_ttfonts(
+    base_font_path: str, extra_font_path: str, use_pyftmerge: bool = False
+) -> TTFont:
     """
     Merge glyphs from ``source_font`` into ``base_font``, skipping duplicate glyph names.
 
     ``fontTools.merge.Merger`` will erase the glyph names, so merge them manually
 
     Args:
-        base_font (TTFont): The base font to merge into
-        source_font (TTFont): The font to merge from
+        base_font (str): The base font path to merge into
+        source_font (str): The font path to merge from
+        use_pyftmerge (bool): Force to use pyftmerge
 
     Returns:
         TTFont: The modified base_font with merged glyphs
     """
+    if use_pyftmerge:
+        merger = Merger()
+        return merger.merge([base_font_path, extra_font_path])
+
     try:
         base_font = TTFont(base_font_path)
         extra_font = TTFont(extra_font_path)

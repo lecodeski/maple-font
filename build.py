@@ -1050,6 +1050,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         extra_font_path=joinPaths(
             build_option.cn_static_dir, f"MapleMonoCN-{style_compact_cn}.ttf"
         ),
+        use_pyftmerge=True,
     )
 
     (
