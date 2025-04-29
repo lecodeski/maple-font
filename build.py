@@ -54,7 +54,7 @@ def check_ftcli():
 # =========================================================================================
 
 
-def parse_args():
+def parse_args(args: list[str] | None = None):
     parser = argparse.ArgumentParser(
         description="✨ Builder and optimizer for Maple Mono",
     )
@@ -194,14 +194,19 @@ def parse_args():
         help="Build font archives with config and license. If has `--cache` flag, only archive Nerd-Font and CN formats",
     )
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 # =========================================================================================
 
 
 class FontConfig:
-    def __init__(self, args):
+    def __init__(self, args, version: str | None = None):
+
+        if version:
+            global FONT_VERSION
+            FONT_VERSION = version
+
         self.archive = False
         self.use_cn_both = False
         self.ttf_only = False
@@ -1196,11 +1201,11 @@ def run_build(
             raise
 
 
-def main():
+def main(args: list[str] | None = None, version: str | None = None):
     check_ftcli()
-    parsed_args = parse_args()
+    parsed_args = parse_args(args)
 
-    font_config = FontConfig(args=parsed_args)
+    font_config = FontConfig(args=parsed_args, version=version)
     build_option = BuildOption(use_hinted=parsed_args.hinted)
     build_option.load_cn_dir_and_suffix(font_config.should_build_nf_cn())
 
@@ -1227,7 +1232,7 @@ def main():
     makedirs(build_option.output_variable, exist_ok=True)
 
     start_time = time.time()
-    print("🚩 Start building ...\n")
+    print(f"🚩 Start building {font_config.family_name} {font_config.version_str} ...\n")
 
     # =========================================================================================
     # ===================================   Build basic   =====================================

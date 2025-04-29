@@ -5,6 +5,7 @@ from typing import Callable
 from fontTools.ttLib import TTFont
 from source.py.task._utils import write_json, write_text
 from source.py.utils import joinPaths, run
+from build import main
 
 # Mapping of style names to weights
 weight_map = {
@@ -78,6 +79,7 @@ def update_build_script_version(script_path: str, tag: str):
         content = re.sub(r'FONT_VERSION = ".*"', f'FONT_VERSION = "{tag}"', f.read())
     write_text(script_path, content)
 
+
 def git_release_commit(tag, files):
     run(f"git add {' '.join(files)}")
     run(["git", "commit", "-m", f"Release {tag}"])
@@ -119,7 +121,7 @@ def release(tag: str, beta: str, dry: bool):
     script_path = "build.py"
     update_build_script_version(script_path, tag)
     target_fontsource_dir = "cdn/fontsource"
-    run(f"python {script_path} --ttf-only --no-nerd-font --cn --no-hinted")
+    main(["--ttf-only", "--no-nerd-font", "--cn", "--no-hinted"], tag)
 
     shutil.rmtree("./cdn", ignore_errors=True)
     run(f"ftcli converter ft2wf -f woff2 ./fonts/TTF -out {target_fontsource_dir}")
@@ -148,4 +150,4 @@ def release(tag: str, beta: str, dry: bool):
     if dry:
         print("Dry run")
     else:
-        git_release_commit(tag, ["build.py", "woff2", dep_file])
+        git_release_commit(tag, [script_path, "woff2", dep_file])
