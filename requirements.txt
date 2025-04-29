@@ -41,11 +41,11 @@ fontmath==0.9.4
     #   fontparts
     #   mutatormath
     #   ufoprocessor
-fontparts==0.12.3
+fontparts==0.12.5
     # via ufoprocessor
 fontpens==0.2.4
     # via defcon
-fonttools==4.56.0
+fonttools==4.57.0
     # via
     #   afdko
     #   booleanoperations
@@ -68,7 +68,7 @@ glyphslib==6.10.1
     # via maple-font
 loguru==0.7.3
     # via foundrytools-cli
-lxml==5.3.1
+lxml==5.4.0
     # via
     #   afdko
     #   fonttools
@@ -90,7 +90,7 @@ pygments==2.19.1
     # via rich
 rich==14.0.0
     # via foundrytools-cli
-setuptools==78.1.0
+setuptools==80.0.0
     # via fs
 six==1.17.0
     # via fs
@@ -100,7 +100,7 @@ tqdm==4.67.1
     # via afdko
 ttfautohint-py==0.5.1
     # via foundrytools-cli
-typing-extensions==4.13.0 ; python_full_version < '3.11'
+typing-extensions==4.13.2 ; python_full_version < '3.11'
     # via rich
 ufolib2==0.17.1
     # via glyphslib
