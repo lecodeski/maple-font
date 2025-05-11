@@ -638,7 +638,7 @@ Feature Options:
   --no-liga             删除所有连字
   --cn-narrow           减小中文字形间距（实验性）
   --cn-scale-factor CN_SCALE_FACTOR
-                        CN 字形的缩放因子（例如 1.1）
+                        中文字形的缩放因子（例如 1.1）
 
 Build Options:
   --nerd-font           构建 Nerd-Font 版本（默认）

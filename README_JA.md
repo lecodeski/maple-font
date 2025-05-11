@@ -638,7 +638,7 @@ Feature Options:
   --no-hinted           NF / CN / NF-CNでヒントなしフォントをベースフォントとして使用
   --liga                すべてのリガチャを保持（デフォルト）
   --no-liga             すべてのリガチャを削除
-  --cn-narrow           CN文字を狭くする（実験的）
+  --cn-narrow           CN 文字を狭くする（実験的）
   --cn-scale-factor CN_SCALE_FACTOR
                         CN グリフのスケール係数（例：1.1）
 
