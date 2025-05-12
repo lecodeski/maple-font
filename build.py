@@ -129,7 +129,7 @@ def parse_args(args: list[str] | None = None):
     feature_group.add_argument(
         "--cn-narrow",
         action="store_true",
-        help="Make CN characters narrow (experimental)",
+        help="Make CN characters narrow (And the font cannot be recogized as monospaced font)",
     )
     feature_group.add_argument(
         "--cn-scale-factor",
@@ -1151,6 +1151,9 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
     if target_width or scale_factor:
         match_width = 2 * font_config.glyph_width
 
+        # Change glyph width and keep monospace identifier will cause
+        # Intellij IDEA / Windows Notepad and other applications to
+        # render the font incorrectly. See details in #249
         if target_width:
             cn_font["post"].isFixedPitch = False  # type: ignore
             cn_font["OS/2"].panose.bProportion = 0  # type: ignore
