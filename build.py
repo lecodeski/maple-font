@@ -1150,11 +1150,21 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
     )
     if target_width or scale_factor:
         match_width = 2 * font_config.glyph_width
-        target_width = target_width or match_width
-        scale_factor = scale_factor or 1
-        print(
-            f"Patching CN glyphs, target width is {target_width}, scale factor is {scale_factor}"
-        )
+
+        if target_width:
+            cn_font["post"].isFixedPitch = False  # type: ignore
+            cn_font["OS/2"].panose.bProportion = 0  # type: ignore
+            cn_font["OS/2"].panose.bSpacing = 0  # type: ignore
+            cn_font["hhea"].advanceWidthMax = target_width  # type: ignore
+            print("Changed CN glyph width, mark font file as not monospaced")
+        else:
+            target_width = match_width
+
+        if scale_factor:
+            print(f"Scale CN glyph to {scale_factor}x")
+        else:
+            scale_factor = 1
+
         change_glyph_width_or_scale(
             font=cn_font,
             match_width=match_width,
