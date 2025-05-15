@@ -577,6 +577,8 @@ cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
 ```
 <!-- NORMAL -->
 
+[オンラインプレビュー](https://font.subf.dev/en/playground?normal)
+
 #### フォント機能のフリーズ
 
 フォント機能のフリーズには 3 つのオプションがあります（[なぜ](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)）：

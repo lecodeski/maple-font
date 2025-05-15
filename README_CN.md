@@ -576,6 +576,8 @@ cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
 ```
 <!-- NORMAL -->
 
+[在线预览](https://font.subf.dev/zh-cn/playground?normal)
+
 #### 字体特性强制开启
 
 有三种选项（[为什么](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)）：
