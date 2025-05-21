@@ -1026,7 +1026,7 @@ def build_nf_by_font_patcher(
 
     _nf_args += font_config.nerd_font["extra_args"]
 
-    run(_nf_args + [joinPaths(build_option.ttf_base_dir, font_basename)], log=True)
+    run(_nf_args + [joinPaths(build_option.ttf_base_dir, font_basename)])
     nf_file_name = "NerdFont"
     if font_config.nerd_font["mono"]:
         nf_file_name += "Mono"
