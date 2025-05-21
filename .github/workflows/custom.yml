@@ -79,6 +79,7 @@ jobs:
 
           if [[ $build_args == *"--font-patcher"* ]]; then
             sudo apt install -y fontforge python3-fontforge
+            chmod -R 777 /home/runner/.config/fontforge
           fi
 
           echo "BUILD_ARGS=$build_args" >> $GITHUB_ENV
