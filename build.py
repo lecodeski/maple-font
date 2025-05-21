@@ -550,7 +550,10 @@ class BuildOption:
         ):
             exit(1)
 
-        ff_bin = config.nerd_font["font_forge_bin"] or get_font_forge_bin() or "UNKOWN"
+        if "font_forge_bun" in config.nerd_font:
+            ff_bin = config.nerd_font["font_forge_bin"] or "UNKOWN"
+        else:
+            ff_bin = get_font_forge_bin() or "UNKOWN"
         if not path.exists(ff_bin):
             print(
                 f"FontForge bin ({ff_bin}) not found, cannot build with Nerd Font Patcher"
@@ -1281,6 +1284,7 @@ def main(args: list[str] | None = None, version: str | None = None):
     if parsed_args.dry:
         print("font_config:", json.dumps(font_config.__dict__, indent=4))
         if not is_ci():
+            print("use font patcher:", build_option.should_use_font_patcher(font_config))
             print("build_option:", json.dumps(build_option.__dict__, indent=4))
             print("parsed_args:", json.dumps(parsed_args.__dict__, indent=4))
         return
