@@ -555,7 +555,7 @@ class BuildOption:
 
         if not path.exists(config.nerd_font["font_forge_bin"]):
             print(
-                f"FontForge bin ({config.nerd_font["font_forge_bin"]}) not found, cannot build with Nerd Font Patcher"
+                f"FontForge bin ({config.nerd_font['font_forge_bin']}) not found, cannot build with Nerd Font Patcher"
             )
             exit(1)
 
@@ -1035,6 +1035,11 @@ def build_nf_by_font_patcher(
     )
     font = TTFont(_path)
     remove(_path)
+
+    # Check if the glyph 'nonmarkingreturn' exists in the font
+    extra_name = "nonmarkingreturn"
+    if extra_name in font.getGlyphNames():
+        font["hmtx"][extra_name] = (600, 0) # type: ignore
     return font
 
 
@@ -1283,7 +1288,9 @@ def main(args: list[str] | None = None, version: str | None = None):
     if parsed_args.dry:
         print("font_config:", json.dumps(font_config.__dict__, indent=4))
         if not is_ci():
-            print("use font patcher:", build_option.should_use_font_patcher(font_config))
+            print(
+                "use font patcher:", build_option.should_use_font_patcher(font_config)
+            )
             print("build_option:", json.dumps(build_option.__dict__, indent=4))
             print("parsed_args:", json.dumps(parsed_args.__dict__, indent=4))
         return
