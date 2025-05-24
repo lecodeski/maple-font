@@ -20,7 +20,6 @@ from source.py.utils import (
     compress_folder,
     download_cn_base_font,
     get_font_forge_bin,
-    get_font_name,
     is_ci,
     is_windows,
     match_unicode_names,
@@ -1039,7 +1038,7 @@ def build_nf_by_font_patcher(
     # Check if the glyph 'nonmarkingreturn' exists in the font
     extra_name = "nonmarkingreturn"
     if extra_name in font.getGlyphNames():
-        font["hmtx"][extra_name] = (600, 0) # type: ignore
+        font["hmtx"][extra_name] = (600, 0)  # type: ignore
     return font
 
 
@@ -1347,7 +1346,8 @@ def main(args: list[str] | None = None, version: str | None = None):
                 is_variable=True,
                 fea_path=joinPaths(
                     build_option.src_dir,
-                    "features/italic.fea" if is_italic else "features/regular.fea",
+                    "features",
+                    "italic.fea" if is_italic else "regular.fea",
                 ),
             )
 
@@ -1362,7 +1362,7 @@ def main(args: list[str] | None = None, version: str | None = None):
                 postscript_name=postscript_name,
                 unique_identifier=get_unique_identifier(
                     font_config=font_config,
-                    postscript_name=get_font_name(font, 6),
+                    postscript_name=postscript_name,
                     variable=True,
                 ),
                 is_skip_subfamily=True,
