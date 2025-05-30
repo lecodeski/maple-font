@@ -52,7 +52,7 @@ def rename_woff_files(dir: str, fn: Callable[[str], str | None]):
 
 def parse_tag(type: str):
     out = os.popen(f"uv version --bump {type}").readline()
-    return "v" + out.split(" ")[-1]
+    return "v" + out.split(" ")[-1][:-1]
 
 
 def update_build_script_version(script_path: str, tag: str):
