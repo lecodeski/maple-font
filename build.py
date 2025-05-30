@@ -35,7 +35,7 @@ from source.py.feature import (
     normal_enabled_features,
 )
 
-FONT_VERSION = "v7.3-dev"
+FONT_VERSION = "v7.3"
 # =========================================================================================
 
 
