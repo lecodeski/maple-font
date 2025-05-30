@@ -556,7 +556,7 @@ python build.py
 
 #### カスタム Nerd-Font
 
-固定幅度の Nerd Font アイコンを取得する必要がある場合は、`config.json` に `"nerd_font.mono": true` を設定するか、ビルドスクリプトに `--nf-mono` パラメータを追加してください。
+固定幅の Nerd Font アイコンを取得したい場合は、`config.json` に `"nerd_font.mono": true` と設定するか、ビルドスクリプトに `--nf-mono` パラメータを追加するだけです。
 
 カスタム `font-patcher` 引数の場合、`font-forge`（おそらく `python3-fontforge` も）が必要です。
 

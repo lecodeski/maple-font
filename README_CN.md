@@ -569,7 +569,7 @@ python build.py
 
 #### 预设
 
-如果您只需要获得固定宽度的 Nerd Font 图标，只需要在 `config.json` 中设置 `"nerd_font.mono": true` 或者在构建脚本中添加 `--nf-mono` 参数。
+如果您想要获得固定宽度的 Nerd Font 图标，只需要在 `config.json` 中设置 `"nerd_font.mono": true` 或者在构建脚本中添加 `--nf-mono` 参数即可。
 
 运行 `build.py` 时添加 `--normal` 参数，让字形不那么独特~~奇怪~~，就像 `JetBrains Mono` 一样（除了 `0` 的中间是斜线而不是点）。
 
