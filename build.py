@@ -126,6 +126,11 @@ def parse_args(args: list[str] | None = None):
         help="Remove all the ligatures",
     )
     feature_group.add_argument(
+        "--nf-mono",
+        action="store_true",
+        help="Fixed Nerd Font icons' width",
+    )
+    feature_group.add_argument(
         "--cn-narrow",
         action="store_true",
         help="Make CN / JP characters narrow (And the font cannot be recogized as monospaced font)",
@@ -377,6 +382,9 @@ class FontConfig:
 
         if args.nerd_font is not None:
             self.nerd_font["enable"] = args.nerd_font
+
+        if args.nf_mono:
+            self.nerd_font["mono"] = args.nf_mono
 
         if args.cn is not None:
             self.cn["enable"] = args.cn
