@@ -45,7 +45,7 @@ def check_ftcli():
 
     if not package_installed:
         print(
-            f"❗ {package_name} is not found. Please run `pip install foundrytools-cli`"
+            f"❗ {package_name} is not found. Please run `pip install foundrytools-cli==1.1.22`"
         )
         exit(1)
 
