@@ -12,7 +12,8 @@ def get_lookup():
             "{{",
             [
                 ast.ign("{", "{", "{"),
-                ast.ign(None, "{", ["{", ast.cls("{", "!", "-")]),
+                ast.ign(None, "{", ["{", ast.cls("{", "!")]),
+                ast.ign(None, "{", ["{", "-", "-"]),
                 ast.subst(None, "{", "{", left_start),
                 ast.subst(left_start, "{", None, left_end),
             ],
