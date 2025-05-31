@@ -7,10 +7,11 @@ __USE_INFINITE = True
 def use_infinite():
     return __USE_INFINITE
 
-def ignore_when_using_infinite(*items: ast.Lookup):
+
+def ignore_when_using_infinite(*items: str | ast.Lookup) -> list:
     if __USE_INFINITE:
-        return None
-    return items
+        return []
+    return items  # type: ignore
 
 
 def infinite_rules(
