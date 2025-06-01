@@ -54,10 +54,11 @@ def infinite_equals():
                     ast.subst(eq_end, ":", "=", ast.gly(":", ".case", True)),
                     # Disable >=<
                     ast.subst(
-                        ">", "=", ["<", ast.cls("=", "<")], ast.gly_seq(">=", "sta")
+                        ">", "=", ["<", "="], ast.gly_seq(">=", "sta")
                     ),
                     # Disable =<
-                    ast.subst(None, "=", ["<", ast.cls("=", "<")], eq_start),
+                    ast.subst(None, "=", ["<", "="], eq_start),
+                    ast.ign(None, "=", "<"),
                 ],
             ),
         ],

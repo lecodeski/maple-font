@@ -627,7 +627,8 @@ feature calt {
   # {{
   lookup braceleft_braceleft.liga {
     ignore sub braceleft braceleft' braceleft;
-    ignore sub braceleft' braceleft [braceleft exclam hyphen];
+    ignore sub braceleft' braceleft [braceleft exclam];
+    ignore sub braceleft' braceleft hyphen hyphen;
     sub braceleft' braceleft by braceleft.sta.seq;
     sub braceleft.sta.seq braceleft' by braceleft.end.seq;
   } braceleft_braceleft.liga;
@@ -1184,8 +1185,9 @@ feature calt {
     sub @EqualStart bar' by bar_equal.end.seq;
     sub bar' equal by bar_equal.sta.seq;
     sub equal.end.seq colon' equal by colon.case;
-    sub greater equal' less [equal less] by greater_equal.sta.seq;
-    sub equal' less [equal less] by equal.sta.seq;
+    sub greater equal' less equal by greater_equal.sta.seq;
+    sub equal' less equal by equal.sta.seq;
+    ignore sub equal' less;
     sub equal' [less greater bar equal] by equal.sta.seq;
   } infinite_equal;
 
