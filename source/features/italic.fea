@@ -1110,6 +1110,16 @@ feature calt {
     sub equal' equal equal by SPC;
   } equal_equal_equal.liga;
 
+  # >===</
+  lookup equal_equal_equal.liga__ALT__ {
+    sub greater SPC SPC equal' less slash by equal_equal_equal.liga;
+    sub greater SPC equal' equal less slash by SPC;
+    sub greater equal' equal equal less slash by SPC;
+    sub greater SPC SPC equal' SPC less_slash.liga by equal_equal_equal.liga;
+    sub greater SPC equal' equal SPC less_slash.liga by SPC;
+    sub greater equal' equal equal SPC less_slash.liga by SPC;
+  } equal_equal_equal.liga__ALT__;
+
   # !=
   lookup exclam_equal.liga {
     ignore sub [exclam equal] exclam' equal;
@@ -1173,6 +1183,8 @@ feature calt {
     ignore sub greater' equal [SPC greater];
     ignore sub greater' equal equal SPC;
     ignore sub greater' equal equal equal SPC;
+    ignore sub greater equal' equal equal SPC;
+    ignore sub greater equal equal' equal SPC;
     sub [less_equal.sta.seq less_equal.mid.seq greater_equal.sta.seq greater_equal.mid.seq bar_equal.sta.seq bar_equal.mid.seq @EqualStart] equal' [less greater bar equal] by equal.mid.seq;
     sub [less_equal.sta.seq less_equal.mid.seq greater_equal.sta.seq greater_equal.mid.seq bar_equal.sta.seq bar_equal.mid.seq @EqualStart] equal' by equal.end.seq;
     sub @EqualStart less' equal by less_equal.mid.seq;

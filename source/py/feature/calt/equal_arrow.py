@@ -46,6 +46,8 @@ def infinite_equals():
             ast.ign(None, ">", ["=", "=", ast.SPC]),
             # Disable >===</
             ast.ign(None, ">", ["=", "=", "=", ast.SPC]),
+            ast.ign(">", "=", ["=", "=", ast.SPC]),
+            ast.ign([">", "="], "=", ["=", ast.SPC]),
             *infinite_rules(
                 g="=",
                 cls_start=cls_start,
@@ -176,6 +178,15 @@ def get_lookup(cls_var: ast.Clazz):
                 ast.ign(["(", cls_question], "=", ["=", "="]),
                 ast.ign(["(", cls_question, "<"], "=", ["=", "="]),
             ],
+        ),
+        ast.subst_liga(
+            "===",
+            lookup_name=ast.gly("===", "__ALT__"),
+            desc=">===</",
+            surround=[
+                (">", [ast.SPC, ast.gly("</")]),
+                (">", ["<", "/"]),
+            ]
         ),
         ast.subst_liga(
             "!=",
