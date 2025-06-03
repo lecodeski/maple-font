@@ -15,28 +15,28 @@ def ignore_when_using_infinite(*items: str | ast.Lookup) -> list:
 
 
 def infinite_rules(
-    g: str, cls_start: ast.Clazz, symbols: list[str], extra_rules: list[ast.Line] = []
+    glyph: str, cls_start: ast.Clazz, symbols: list[str], extra_rules: list[ast.Line] = []
 ):
     prefix = []
 
     for s in symbols:
-        prefix.append(ast.gly_seq(s + g, "sta"))
-        prefix.append(ast.gly_seq(s + g, "mid"))
+        prefix.append(ast.gly_seq(s + glyph, "sta"))
+        prefix.append(ast.gly_seq(s + glyph, "mid"))
 
     prefix_cls = ast.cls(prefix, cls_start)
 
     return [
-        ast.subst(prefix_cls, g, ast.cls(symbols, g), ast.gly_seq(g, "mid")),
-        ast.subst(prefix_cls, g, None, ast.gly_seq(g, "end")),
+        ast.subst(prefix_cls, glyph, ast.cls(symbols, glyph), ast.gly_seq(glyph, "mid")),
+        ast.subst(prefix_cls, glyph, None, ast.gly_seq(glyph, "end")),
         *[
             [
-                ast.subst(cls_start, s, g, ast.gly_seq(s + g, "mid")),
-                ast.subst(cls_start, s, None, ast.gly_seq(s + g, "end")),
-                ast.subst(None, s, g, ast.gly_seq(s + g, "sta")),
+                ast.subst(cls_start, s, glyph, ast.gly_seq(s + glyph, "mid")),
+                ast.subst(cls_start, s, None, ast.gly_seq(s + glyph, "end")),
+                ast.subst(None, s, glyph, ast.gly_seq(s + glyph, "sta")),
             ]
             for s in symbols
         ],
         *extra_rules,
         # Must be end of rules
-        ast.subst(None, g, ast.cls(symbols, g), ast.gly_seq(g, "sta")),
+        ast.subst(None, glyph, ast.cls(symbols, glyph), ast.gly_seq(glyph, "sta")),
     ]

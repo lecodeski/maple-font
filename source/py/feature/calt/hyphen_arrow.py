@@ -45,7 +45,7 @@ def infinite_hyphens():
             ast.ign(None, "<", ["-", ast.cls("+", "/", cls_digit)]),
             ast.ign(None, ">", ["-", ast.SPC]),
             ast.ign(None, "-", ["<", "/"]),
-            *infinite_rules("-", cls_start, ["<", ">", "|"]),
+            *infinite_rules(glyph="-", cls_start=cls_start, symbols=["<", ">", "|"]),
         ],
     )
 

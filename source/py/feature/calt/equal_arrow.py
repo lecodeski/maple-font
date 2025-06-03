@@ -54,7 +54,7 @@ def infinite_equals():
             ast.ign([">", "="], "=", ["=", ast.SPC]),
             ast.ign([">", "="], "=", ["=", "<", "/"]),
             *infinite_rules(
-                g="=",
+                glyph="=",
                 cls_start=cls_start,
                 symbols=["<", ">", "|"],
                 extra_rules=[
