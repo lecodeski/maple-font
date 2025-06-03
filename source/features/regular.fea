@@ -321,7 +321,7 @@ feature calt {
   # ::
   lookup colon_colon.liga {
     ignore sub colon colon' colon;
-    ignore sub colon' colon [equal colon];
+    ignore sub colon' colon colon;
     sub SPC colon' by colon_colon.liga;
     sub colon' colon by SPC;
   } colon_colon.liga;
@@ -362,43 +362,6 @@ feature calt {
 
   @IgnoreColon = [less colon greater equal];
   @IgnoreMarkup = [less slash greater];
-
-  # :=
-  lookup colon_equal.liga {
-    ignore sub [@IgnoreColon @Question] colon' equal;
-    ignore sub colon' equal [equal colon];
-    sub SPC equal' by colon_equal.liga;
-    sub colon' equal by SPC;
-  } colon_equal.liga;
-
-  # =:
-  lookup equal_colon.liga {
-    ignore sub @IgnoreColon equal' colon;
-    ignore sub equal' colon [equal colon];
-    ignore sub parenleft @Question equal' colon;
-    sub SPC colon' by equal_colon.liga;
-    sub equal' colon by SPC;
-  } equal_colon.liga;
-
-  # :=:
-  lookup colon_equal_colon.liga {
-    ignore sub [@IgnoreColon @Question] colon' equal colon;
-    ignore sub colon' equal colon [@IgnoreColon @Question];
-    ignore sub parenleft @Question colon' equal colon;
-    sub SPC SPC colon' by colon_equal_colon.liga;
-    sub SPC equal' colon by SPC;
-    sub colon' equal colon by SPC;
-  } colon_equal_colon.liga;
-
-  # =:=
-  lookup equal_colon_equal.liga {
-    ignore sub equal equal' colon equal;
-    ignore sub equal' colon equal equal;
-    ignore sub parenleft @Question equal' colon equal;
-    sub SPC SPC equal' by equal_colon_equal.liga;
-    sub SPC colon' equal by SPC;
-    sub equal' colon equal by SPC;
-  } equal_colon_equal.liga;
 
   # <:
   lookup less_colon.liga {
@@ -441,15 +404,6 @@ feature calt {
     sub SPC colon' greater by SPC;
     sub greater' colon greater by SPC;
   } greater_colon_greater.liga;
-
-  # ::=
-  lookup colon_colon_equal.liga {
-    ignore sub colon colon' colon equal;
-    ignore sub colon' colon equal equal;
-    sub SPC SPC equal' by colon_colon_equal.liga;
-    sub SPC colon' equal by SPC;
-    sub colon' colon equal by SPC;
-  } colon_colon_equal.liga;
 
   # __
   lookup underscore_underscore.liga {
@@ -1170,7 +1124,7 @@ feature calt {
     sub bar' equal by SPC;
   } bar_equal.liga;
 
-  # <=> <==> <== ==> => <=| |=> =<= =>= ======= >=<
+  # := =: :=: =:= <=> <==> <== ==> => <=| |=> =<= =>= ======= >=<
   lookup infinite_equal {
     @EqualStart = [equal.sta.seq equal.mid.seq];
     ignore sub exclam' equal equal;
@@ -1200,7 +1154,10 @@ feature calt {
     sub @EqualStart bar' equal by bar_equal.mid.seq;
     sub @EqualStart bar' by bar_equal.end.seq;
     sub bar' equal by bar_equal.sta.seq;
-    sub equal.end.seq colon' equal by colon.case;
+    ignore sub colon colon' equal;
+    ignore sub equal.end.seq colon' colon;
+    sub colon' equal by colon.case;
+    sub [equal equal.end.seq] colon' by colon.case;
     sub equal' less equal by equal.sta.seq;
     ignore sub equal' less;
     sub equal' [less greater bar equal] by equal.sta.seq;

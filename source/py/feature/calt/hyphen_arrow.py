@@ -10,6 +10,9 @@ from source.py.feature.calt._infinite_utils import (
 # Inspirde by Fira Code, source:
 # https://github.com/tonsky/FiraCode/blob/master/features/calt/hyphen_arrows.fea
 def infinite_hyphens():
+    if not use_infinite():
+        return None
+
     hy_start = ast.gly_seq("-", "sta")
     hy_middle = ast.gly_seq("-", "mid")
     cls_start = ast.Clazz("HyphenStart", [hy_start, hy_middle])
@@ -134,5 +137,5 @@ def get_lookup():
                 ign_suffix=ast.cls(">", "-"),
             ),
         ),
-        infinite_hyphens() if use_infinite() else None,
+        infinite_hyphens(),
     ]
