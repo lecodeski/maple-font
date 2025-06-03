@@ -1180,10 +1180,15 @@ feature calt {
     ignore sub parenleft @Question less equal' [less greater bar equal];
     ignore sub parenleft @Question less equal' equal [less greater bar];
     ignore sub greater' equal [SPC greater];
+    ignore sub greater' equal less slash;
     ignore sub greater' equal equal SPC;
+    ignore sub greater' equal equal less slash;
     ignore sub greater' equal equal equal SPC;
+    ignore sub greater' equal equal equal less slash;
     ignore sub greater equal' equal equal SPC;
+    ignore sub greater equal' equal equal less slash;
     ignore sub greater equal equal' equal SPC;
+    ignore sub greater equal equal' equal less slash;
     sub [less_equal.sta.seq less_equal.mid.seq greater_equal.sta.seq greater_equal.mid.seq bar_equal.sta.seq bar_equal.mid.seq @EqualStart] equal' [less greater bar equal] by equal.mid.seq;
     sub [less_equal.sta.seq less_equal.mid.seq greater_equal.sta.seq greater_equal.mid.seq bar_equal.sta.seq bar_equal.mid.seq @EqualStart] equal' by equal.end.seq;
     sub @EqualStart less' equal by less_equal.mid.seq;
@@ -1196,7 +1201,6 @@ feature calt {
     sub @EqualStart bar' by bar_equal.end.seq;
     sub bar' equal by bar_equal.sta.seq;
     sub equal.end.seq colon' equal by colon.case;
-    sub greater equal' less equal by greater_equal.sta.seq;
     sub equal' less equal by equal.sta.seq;
     ignore sub equal' less;
     sub equal' [less greater bar equal] by equal.sta.seq;

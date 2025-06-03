@@ -42,22 +42,23 @@ def infinite_equals():
             ast.ign(["(", cls_question, "<"], "=", ["=", ast.cls("<", ">", "|")]),
             # Disable >=</
             ast.ign(None, ">", ["=", ast.cls(ast.SPC, ">")]),
+            ast.ign(None, ">", ["=", "<", "/"]),
             # Disable >==</
             ast.ign(None, ">", ["=", "=", ast.SPC]),
+            ast.ign(None, ">", ["=", "=", "<", "/"]),
             # Disable >===</
             ast.ign(None, ">", ["=", "=", "=", ast.SPC]),
+            ast.ign(None, ">", ["=", "=", "=", "<", "/"]),
             ast.ign(">", "=", ["=", "=", ast.SPC]),
+            ast.ign(">", "=", ["=", "=", "<", "/"]),
             ast.ign([">", "="], "=", ["=", ast.SPC]),
+            ast.ign([">", "="], "=", ["=", "<", "/"]),
             *infinite_rules(
                 g="=",
                 cls_start=cls_start,
                 symbols=["<", ">", "|"],
                 extra_rules=[
                     ast.subst(eq_end, ":", "=", ast.gly(":", ".case", True)),
-                    # Disable >=<
-                    ast.subst(
-                        ">", "=", ["<", "="], ast.gly_seq(">=", "sta")
-                    ),
                     # Disable =<
                     ast.subst(None, "=", ["<", "="], eq_start),
                     ast.ign(None, "=", "<"),
