@@ -648,7 +648,8 @@ Feature Options:
   --cn-narrow           Make CN / JP characters narrow (And the font cannot be
                         recogized as monospaced font)
   --cn-scale-factor CN_SCALE_FACTOR
-                        Scale factor for CN / JP glyphs (e.g. 1.1)
+                        Scale factor for CN / JP glyphs. Format: <factor> or
+                        <w_factor>,<h_factor> (e.g. 1.1 or 1.2,1.1)
 
 Build Options:
   --nerd-font           Build Nerd-Font version (default)

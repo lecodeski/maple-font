@@ -651,7 +651,8 @@ Feature Options:
   --nf_mono             固定 Nerd Font 图标的宽度
   --cn-narrow           减小中文/日文字形间距（同时会让系统无法识别为等宽字体）
   --cn-scale-factor CN_SCALE_FACTOR
-                        中文/日文字形的缩放因子（例如 1.1）
+                        中文/日文字形的缩放因子。格式：<因子> 或
+                        <宽度因子>,<高度因子> (例如 1.1 或 1.2,1.1)
 
 Build Options:
   --nerd-font           构建 Nerd-Font 版本（默认）

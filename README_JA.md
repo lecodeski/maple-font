@@ -649,7 +649,8 @@ Feature Options:
   --cn-narrow           中国語/日本語の文字間隔を縮小する（同時にシステムが等幅フォントと
                         して認識できなくなる）
   --cn-scale-factor CN_SCALE_FACTOR
-                        中国語/日本語グリフのスケール係数（例：1.1）
+                        中国語/日本語グリフのスケール係数。形式：<factor> または
+                        <w_factor>,<h_factor> (例：1.1 または 1.2,1.1)
 
 Build Options:
   --nerd-font           Nerd-Fontバージョンをビルド（デフォルト）

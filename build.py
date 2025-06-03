@@ -52,6 +52,25 @@ def check_ftcli():
 
 # =========================================================================================
 
+def parse_scale_factor(value) -> tuple[float, float]:
+    if isinstance(value, float):
+        return (value, value)
+    if isinstance(value, list):
+        return (float(value[0]), float(value[1]))
+
+    # Split the value by comma to handle width and height
+    parts = value.split(",")
+
+    if len(parts) == 1:
+        # Single number case
+        return float(parts[0]), float(parts[0])  # Same scale for width and height
+    elif len(parts) == 2:
+        # Two numbers case
+        return float(parts[0]), float(parts[1])
+    else:
+        raise argparse.ArgumentTypeError(
+            "Invalid scale factor format. Use <factor> or <w_factor>,<h_factor>."
+        )
 
 def parse_args(args: list[str] | None = None):
     parser = argparse.ArgumentParser(
@@ -137,8 +156,8 @@ def parse_args(args: list[str] | None = None):
     )
     feature_group.add_argument(
         "--cn-scale-factor",
-        type=float,
-        help="Scale factor for CN / JP glyphs (e.g. 1.1)",
+        type=parse_scale_factor,
+        help="Scale factor for CN / JP glyphs. Format: <factor> or <w_factor>,<h_factor> (e.g. 1.1 or 1.2,1.1)",
     )
 
     build_group = parser.add_argument_group("Build Options")
@@ -301,7 +320,7 @@ class FontConfig:
             # whether to use pre-instantiated static CN font as base font
             "use_static_base_font": True,
             # scale factor for CN glyphs
-            "scale_factor": 1.0,
+            "scale_factor": (1.0, 1.0),
         }
         self.glyph_width = 600
         self.glyph_width_cn_narrow = 1000
@@ -394,6 +413,8 @@ class FontConfig:
 
         if args.cn_scale_factor:
             self.cn["scale_factor"] = args.cn_scale_factor
+        if isinstance(self.cn["scale_factor"], (float, list)):
+            self.cn["scale_factor"] = parse_scale_factor(self.cn["scale_factor"])
 
         if args.ttf_only:
             self.ttf_only = True
@@ -676,7 +697,9 @@ class BuildOption:
     ) -> bool:
         if not path.isdir(dir):
             return False
-        return len([f for f in listdir(dir) if end is None or f.endswith(end)]) >= minCount
+        return (
+            len([f for f in listdir(dir) if end is None or f.endswith(end)]) >= minCount
+        )
 
 
 def handle_ligatures(
@@ -840,7 +863,7 @@ def get_unique_identifier(
 
 
 def change_glyph_width_or_scale(
-    font: TTFont, match_width: int, target_width: int, scale_factor: float
+    font: TTFont, match_width: int, target_width: int, scale_factor: tuple[float, float]
 ):
     font["hhea"].advanceWidthMax = target_width  # type: ignore
     for name in font.getGlyphOrder():
@@ -852,12 +875,13 @@ def change_glyph_width_or_scale(
             font["hmtx"][name] = (target_width, lsb)  # type: ignore
             continue
 
-        glyph.coordinates.scale((scale_factor, scale_factor))
+        scale_w, scale_h = scale_factor
+        glyph.coordinates.scale((scale_w, scale_h))
         glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
             glyph.coordinates.calcIntBounds()
         )
 
-        scaled_width = int(round(width * scale_factor))
+        scaled_width = int(round(width * scale_w))
         delta = (target_width - scaled_width) / 2
 
         glyph.coordinates.translate((delta, 0))
@@ -1164,9 +1188,9 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
     target_width = (
         font_config.glyph_width_cn_narrow if font_config.cn["narrow"] else None
     )
-    scale_factor = (
+    scale_factor: tuple[float, float] | None = (
         font_config.cn["scale_factor"]
-        if font_config.cn["scale_factor"] != 1.0
+        if font_config.cn["scale_factor"] != (1.0, 1.0)
         else None
     )
     if target_width or scale_factor:
@@ -1185,9 +1209,9 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
             target_width = match_width
 
         if scale_factor:
-            print(f"Scale CN glyph to {scale_factor}x")
+            print(f"Scale CN / JP glyph to ({scale_factor[0]}x, {scale_factor[1]}x)")
         else:
-            scale_factor = 1
+            scale_factor = (1.0, 1.0)
 
         change_glyph_width_or_scale(
             font=cn_font,
