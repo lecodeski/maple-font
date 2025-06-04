@@ -157,7 +157,7 @@ def parse_args(args: list[str] | None = None):
     feature_group.add_argument(
         "--cn-scale-factor",
         type=parse_scale_factor,
-        help="Scale factor for CN / JP glyphs. Format: <factor> or <w_factor>,<h_factor> (e.g. 1.1 or 1.2,1.1)",
+        help="Scale factor for CN / JP glyphs. Format: <factor> or <width_factor>,<height_factor> (e.g. 1.1 or 1.2,1.1)",
     )
 
     build_group = parser.add_argument_group("Build Options")

@@ -310,7 +310,7 @@
             "number",
             "array"
           ],
-          "description": "Scale factor for CN / JP glyphs with <factor> or [<w_factor>, <h_factor>](e.g. 1.1 or [1.2, 1.1])",
+          "description": "Scale factor for CN / JP glyphs with <factor> or [<width_factor>,<height_factor>](e.g. 1.1 or [1.2, 1.1])",
           "default": 1.0
         }
       },

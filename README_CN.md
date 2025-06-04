@@ -522,7 +522,7 @@ fonts.packages = with pkgs; [
 
 ### 浏览器中构建
 
-进入 [特性测试页面](https://font.subf.dev/zh-cn/playground)，点击左下角的 “自定义构建” 按钮
+进入 [特性测试页面](https://font.subf.dev/zh-cn/playground)，点击左下角的“自定义构建”按钮
 
 ### 使用 Github Actions
 
