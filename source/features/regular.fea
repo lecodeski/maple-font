@@ -1124,7 +1124,7 @@ feature calt {
     sub bar' equal by SPC;
   } bar_equal.liga;
 
-  # := =: :=: =:= <=> <==> <== ==> => <=| |=> =<= =>= ======= >=<
+  # <=> <==> <== ==> => <=| |=> =<= =>= ======= >=< := =: :=: =:=
   lookup infinite_equal {
     @EqualStart = [equal.sta.seq equal.mid.seq];
     ignore sub exclam' equal equal;
@@ -1234,7 +1234,7 @@ feature calt {
     ignore sub parenleft @Question less exclam hyphen' hyphen;
     ignore sub greater hyphen' less;
     ignore sub less' hyphen [plus slash @Digit];
-    ignore sub greater' hyphen SPC;
+    ignore sub greater' hyphen [SPC @Digit];
     ignore sub hyphen' less slash;
     sub [less_hyphen.sta.seq less_hyphen.mid.seq greater_hyphen.sta.seq greater_hyphen.mid.seq bar_hyphen.sta.seq bar_hyphen.mid.seq @HyphenStart] hyphen' [less greater bar hyphen] by hyphen.mid.seq;
     sub [less_hyphen.sta.seq less_hyphen.mid.seq greater_hyphen.sta.seq greater_hyphen.mid.seq bar_hyphen.sta.seq bar_hyphen.mid.seq @HyphenStart] hyphen' by hyphen.end.seq;
