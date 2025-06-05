@@ -1233,7 +1233,6 @@ feature calt {
     ignore sub hyphen hyphen' bar;
     ignore sub parenleft @Question less exclam hyphen' hyphen;
     ignore sub less' hyphen [plus slash @Digit];
-    ignore sub greater' hyphen [SPC @Digit];
     ignore sub hyphen' less slash;
     ignore sub greater' hyphen hyphen SPC less_slash.liga;
     ignore sub greater' hyphen hyphen less slash;
