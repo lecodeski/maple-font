@@ -367,6 +367,8 @@ class FontConfig:
                             if type(val) is not dict
                             else {**getattr(self, prop), **val},
                         )
+                if data["ligature"] is not None:
+                    self.enable_liga = data["ligature"]
 
         except FileNotFoundError:
             print(f"🚨 Config file not found: {config_file_path}, use default config")
