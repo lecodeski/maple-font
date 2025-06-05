@@ -49,17 +49,17 @@ def infinite_equals():
             ast.ign(["(", cls_question, "<"], "=", ast.cls("<", ">", "|", "=")),
             ast.ign(["(", cls_question, "<"], "=", ["=", ast.cls("<", ">", "|")]),
             # Disable >=</
-            ast.ign(None, ">", ["=", ast.cls(ast.SPC, ">")]),
+            ast.ign(None, ">", ["=", ast.SPC, ast.gly("</")]),
             ast.ign(None, ">", ["=", "<", "/"]),
             # Disable >==</
-            ast.ign(None, ">", ["=", "=", ast.SPC]),
+            ast.ign(None, ">", ["=", "=", ast.SPC, ast.gly("</")]),
             ast.ign(None, ">", ["=", "=", "<", "/"]),
             # Disable >===</
-            ast.ign(None, ">", ["=", "=", "=", ast.SPC]),
+            ast.ign(None, ">", ["=", "=", "=", ast.SPC, ast.gly("</")]),
             ast.ign(None, ">", ["=", "=", "=", "<", "/"]),
-            ast.ign(">", "=", ["=", "=", ast.SPC]),
+            ast.ign(">", "=", ["=", "=", ast.SPC, ast.gly("</")]),
             ast.ign(">", "=", ["=", "=", "<", "/"]),
-            ast.ign([">", "="], "=", ["=", ast.SPC]),
+            ast.ign([">", "="], "=", ["=", ast.SPC, ast.gly("</")]),
             ast.ign([">", "="], "=", ["=", "<", "/"]),
             *infinite_rules(
                 glyph="=",

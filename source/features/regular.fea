@@ -1133,15 +1133,15 @@ feature calt {
     ignore sub parenleft @Question less' equal;
     ignore sub parenleft @Question less equal' [less greater bar equal];
     ignore sub parenleft @Question less equal' equal [less greater bar];
-    ignore sub greater' equal [SPC greater];
+    ignore sub greater' equal SPC less_slash.liga;
     ignore sub greater' equal less slash;
-    ignore sub greater' equal equal SPC;
+    ignore sub greater' equal equal SPC less_slash.liga;
     ignore sub greater' equal equal less slash;
-    ignore sub greater' equal equal equal SPC;
+    ignore sub greater' equal equal equal SPC less_slash.liga;
     ignore sub greater' equal equal equal less slash;
-    ignore sub greater equal' equal equal SPC;
+    ignore sub greater equal' equal equal SPC less_slash.liga;
     ignore sub greater equal' equal equal less slash;
-    ignore sub greater equal equal' equal SPC;
+    ignore sub greater equal equal' equal SPC less_slash.liga;
     ignore sub greater equal equal' equal less slash;
     sub [less_equal.sta.seq less_equal.mid.seq greater_equal.sta.seq greater_equal.mid.seq bar_equal.sta.seq bar_equal.mid.seq @EqualStart] equal' [less greater bar equal] by equal.mid.seq;
     sub [less_equal.sta.seq less_equal.mid.seq greater_equal.sta.seq greater_equal.mid.seq bar_equal.sta.seq bar_equal.mid.seq @EqualStart] equal' by equal.end.seq;
@@ -1224,7 +1224,7 @@ feature calt {
     sub less' exclam hyphen hyphen hyphen hyphen greater by SPC;
   } xml_empty_comment.liga;
 
-  # <-> <--> -> <- --> <-- >-> <-< |-> <-| ------- >- -< >-<
+  # <-> <--> -> <- --> <-- >-> <-< |-> <-| ------- >-- --<
   lookup infinite_hyphen {
     @HyphenStart = [hyphen.sta.seq hyphen.mid.seq];
     ignore sub less' [exclam numbersign] hyphen hyphen;
@@ -1232,10 +1232,29 @@ feature calt {
     ignore sub hyphen bar' bar;
     ignore sub hyphen hyphen' bar;
     ignore sub parenleft @Question less exclam hyphen' hyphen;
-    ignore sub greater hyphen' less;
     ignore sub less' hyphen [plus slash @Digit];
     ignore sub greater' hyphen [SPC @Digit];
     ignore sub hyphen' less slash;
+    ignore sub greater' hyphen hyphen SPC less_slash.liga;
+    ignore sub greater' hyphen hyphen less slash;
+    ignore sub greater hyphen' hyphen SPC less_slash.liga;
+    ignore sub greater hyphen' hyphen less slash;
+    ignore sub greater' hyphen hyphen hyphen SPC less_slash.liga;
+    ignore sub greater' hyphen hyphen hyphen less slash;
+    ignore sub greater hyphen' hyphen hyphen SPC less_slash.liga;
+    ignore sub greater hyphen' hyphen hyphen less slash;
+    ignore sub greater hyphen hyphen' hyphen SPC less_slash.liga;
+    ignore sub greater hyphen hyphen' hyphen less slash;
+    sub @HyphenStart greater' hyphen by greater_hyphen.mid.seq;
+    sub greater' hyphen [hyphen bar greater] by greater_hyphen.sta.seq;
+    sub greater' hyphen less hyphen by greater_hyphen.sta.seq;
+    ignore sub greater' hyphen;
+    sub [greater_hyphen.mid.seq less_hyphen.sta.seq less_hyphen.mid.seq bar_hyphen.sta.seq bar_hyphen.mid.seq greater_hyphen.sta.seq @HyphenStart] hyphen' less by hyphen.mid.seq;
+    sub hyphen' less hyphen by hyphen.sta.seq;
+    ignore sub hyphen' less;
+    sub greater' hyphen less hyphen by greater_hyphen.sta.seq;
+    sub hyphen greater' hyphen less by greater_hyphen.mid.seq;
+    ignore sub greater' hyphen less;
     sub [less_hyphen.sta.seq less_hyphen.mid.seq greater_hyphen.sta.seq greater_hyphen.mid.seq bar_hyphen.sta.seq bar_hyphen.mid.seq @HyphenStart] hyphen' [less greater bar hyphen] by hyphen.mid.seq;
     sub [less_hyphen.sta.seq less_hyphen.mid.seq greater_hyphen.sta.seq greater_hyphen.mid.seq bar_hyphen.sta.seq bar_hyphen.mid.seq @HyphenStart] hyphen' by hyphen.end.seq;
     sub @HyphenStart less' hyphen by less_hyphen.mid.seq;

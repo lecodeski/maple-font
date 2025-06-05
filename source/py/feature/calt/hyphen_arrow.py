@@ -15,6 +15,8 @@ def infinite_hyphens():
 
     hy_start = ast.gly_seq("-", "sta")
     hy_middle = ast.gly_seq("-", "mid")
+    ghy_start = ast.gly_seq(">-", "sta")
+    ghy_middle = ast.gly_seq(">-", "mid")
     cls_start = ast.Clazz("HyphenStart", [hy_start, hy_middle])
 
     return ast.Lookup(
@@ -32,9 +34,8 @@ def infinite_hyphens():
                 "|->",
                 "<-|",
                 "-------",
-                ">-",
-                "-<",
-                ">-<",
+                ">--",
+                "--<",
             ]
         ),
         [
@@ -44,10 +45,50 @@ def infinite_hyphens():
             ast.ign("-", "|", "|"),
             ast.ign("-", "-", "|"),
             ast.ign(["(", cls_question, "<", "!"], "-", "-"),
-            ast.ign(">", "-", "<"),
             ast.ign(None, "<", ["-", ast.cls("+", "/", cls_digit)]),
             ast.ign(None, ">", ["-", ast.cls(ast.SPC, cls_digit)]),
             ast.ign(None, "-", ["<", "/"]),
+            # # Disable >-</
+            # ast.ign(None, ">", ["-", ast.cls(ast.SPC, ">")]),
+            # ast.ign(None, ">", ["-", "<", "/"]),
+            # Disable >--</
+            ast.ign(None, ">", ["-", "-", ast.SPC, ast.gly("</")]),
+            ast.ign(None, ">", ["-", "-", "<", "/"]),
+            ast.ign(">", "-", ["-", ast.SPC, ast.gly("</")]),
+            ast.ign(">", "-", ["-", "<", "/"]),
+            # Disable >---</
+            ast.ign(None, ">", ["-", "-", "-", ast.SPC, ast.gly("</")]),
+            ast.ign(None, ">", ["-", "-", "-", "<", "/"]),
+            ast.ign(">", "-", ["-", "-", ast.SPC, ast.gly("</")]),
+            ast.ign(">", "-", ["-", "-", "<", "/"]),
+            ast.ign([">", "-"], "-", ["-", ast.SPC, ast.gly("</")]),
+            ast.ign([">", "-"], "-", ["-", "<", "/"]),
+            # Disable >-
+            ast.subst(cls_start, ">", "-", ghy_middle),
+            ast.subst(None, ">", ["-", ast.cls("-", "|", ">")], ghy_start),
+            ast.subst(None, ">", ["-", "<", "-"], ghy_start),
+            ast.ign(None, ">", "-"),
+            # Disable -<
+            ast.subst(
+                ast.cls(
+                    ghy_middle,
+                    ast.gly_seq("<-", "sta"),
+                    ast.gly_seq("<-", "mid"),
+                    ast.gly_seq("|-", "sta"),
+                    ast.gly_seq("|-", "mid"),
+                    ghy_start,
+                    cls_start,
+                ),
+                "-",
+                "<",
+                hy_middle,
+            ),
+            ast.subst(None, "-", ["<", "-"], hy_start),
+            ast.ign(None, "-", "<"),
+            # Disable >-<
+            ast.subst(None, ">", ["-", "<", "-"], ghy_start),
+            ast.subst("-", ">", ["-", "<"], ghy_middle),
+            ast.ign(None, ">", ["-", "<"]),
             *infinite_rules(glyph="-", cls_start=cls_start, symbols=["<", ">", "|"]),
         ],
     )
