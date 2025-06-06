@@ -1183,6 +1183,14 @@ feature calt {
     sub hyphen' hyphen by SPC;
   } hyphen_hyphen.liga;
 
+  # >--</
+  lookup hyphen_hyphen.liga__ALT__ {
+    sub greater SPC hyphen' less slash by hyphen_hyphen.liga;
+    sub greater hyphen' hyphen less slash by SPC;
+    sub greater SPC hyphen' SPC less_slash.liga by hyphen_hyphen.liga;
+    sub greater hyphen' hyphen SPC less_slash.liga by SPC;
+  } hyphen_hyphen.liga__ALT__;
+
   # ---
   lookup hyphen_hyphen_hyphen.liga {
     ignore sub [less greater hyphen bar SPC] hyphen' hyphen hyphen;
@@ -1192,6 +1200,16 @@ feature calt {
     sub SPC hyphen' hyphen by SPC;
     sub hyphen' hyphen hyphen by SPC;
   } hyphen_hyphen_hyphen.liga;
+
+  # >---</
+  lookup hyphen_hyphen_hyphen.liga__ALT__ {
+    sub greater SPC SPC hyphen' less slash by hyphen_hyphen_hyphen.liga;
+    sub greater SPC hyphen' hyphen less slash by SPC;
+    sub greater hyphen' hyphen hyphen less slash by SPC;
+    sub greater SPC SPC hyphen' SPC less_slash.liga by hyphen_hyphen_hyphen.liga;
+    sub greater SPC hyphen' hyphen SPC less_slash.liga by SPC;
+    sub greater hyphen' hyphen hyphen SPC less_slash.liga by SPC;
+  } hyphen_hyphen_hyphen.liga__ALT__;
 
   # <!--
   lookup less_exclam_hyphen_hyphen.liga {

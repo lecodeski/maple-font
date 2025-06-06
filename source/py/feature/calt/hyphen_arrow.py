@@ -110,11 +110,29 @@ def get_lookup():
             ],
         ),
         ast.subst_liga(
+            "--",
+            lookup_name=ast.gly("--", "__ALT__"),
+            desc=">--</",
+            surround=[
+                (">", [ast.SPC, ast.gly("</")]),
+                (">", ["<", "/"]),
+            ],
+        ),
+        ast.subst_liga(
             "---",
             ign_prefix=ast.cls("<", ">", "-", "|", ast.SPC),
             ign_suffix=ast.cls("<", ">", "-", "|", ast.SPC),
             extra_rules=[
                 ast.ign("<", "-", ["-", "-", ">"]),
+            ],
+        ),
+        ast.subst_liga(
+            "---",
+            lookup_name=ast.gly("---", "__ALT__"),
+            desc=">---</",
+            surround=[
+                (">", [ast.SPC, ast.gly("</")]),
+                (">", ["<", "/"]),
             ],
         ),
         ast.subst_liga(
