@@ -14,8 +14,17 @@ def ignore_when_using_infinite(*items: str | ast.Lookup) -> list:
     return items  # type: ignore
 
 
+def ignore_when_not_using_infinite(*items: str | ast.Lookup) -> list:
+    if not __USE_INFINITE:
+        return []
+    return items  # type: ignore
+
+
 def infinite_rules(
-    glyph: str, cls_start: ast.Clazz, symbols: list[str], extra_rules: list[ast.Line] = []
+    glyph: str,
+    cls_start: ast.Clazz,
+    symbols: list[str],
+    extra_rules: list[ast.Line] = [],
 ):
     prefix = []
 
@@ -26,7 +35,9 @@ def infinite_rules(
     prefix_cls = ast.cls(prefix, cls_start)
 
     return [
-        ast.subst(prefix_cls, glyph, ast.cls(symbols, glyph), ast.gly_seq(glyph, "mid")),
+        ast.subst(
+            prefix_cls, glyph, ast.cls(symbols, glyph), ast.gly_seq(glyph, "mid")
+        ),
         ast.subst(prefix_cls, glyph, None, ast.gly_seq(glyph, "end")),
         *[
             [
