@@ -22,7 +22,7 @@ weight_map = {
 
 
 def format_fontsource_name(filename: str):
-    match = re.match(r"MapleMono-(.*)\\.(.*)$", filename)
+    match = re.match(r"MapleMono-(.*)\.(.*)$", filename.replace(".ttf", ""))
 
     if not match:
         return None
