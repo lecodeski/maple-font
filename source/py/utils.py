@@ -7,7 +7,6 @@ from urllib.request import Request, urlopen
 from zipfile import ZIP_DEFLATED, ZipFile
 from fontTools.ttLib import TTFont
 from fontTools.merge import Merger
-from glyphsLib import GSFont
 
 
 def is_ci():
@@ -188,6 +187,12 @@ def download_cn_base_font(
 
 
 def match_unicode_names(file_path: str) -> dict[str, str]:
+    try:
+        from glyphsLib import GSFont
+    except ImportError:
+        print("❗ glyphsLib is not found. Please run `pip install glyphsLib`")
+        exit(1)
+
     font = GSFont(file_path)
     result = {}
 
