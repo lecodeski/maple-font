@@ -51,14 +51,16 @@ def check_ftcli():
 
     if not package_spec_v1 and not package_spec_v2:
         print(
-            f"❗ foundrytools-cli is not found. Please run `pip install foundrytools-cli`"
+            "❗ foundrytools-cli is not found. Please run `pip install foundrytools-cli`"
         )
         exit(1)
 
     try:
-        installed_package = importlib.import_module(package_name_v2 if package_spec_v2 else package_name_v1)
-        version = getattr(installed_package, '__version__', None)
-        if version and version < '2':
+        installed_package = importlib.import_module(
+            package_name_v2 if package_spec_v2 else package_name_v1
+        )
+        version = getattr(installed_package, "__version__", None)
+        if version and version < "2":
             print(
                 f"❗ foundrytools-cli version {version} is too old. Please run `pip install --upgrade foundrytools-cli`"
             )
@@ -994,7 +996,6 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
         run(f"ftcli ttf dehint {source_path}")
         run(f"ftcli fix transformed-components {source_path}")
 
-
     font = TTFont(source_path)
 
     style_compact = f.split("-")[-1].split(".")[0]
@@ -1068,9 +1069,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
         build_option.output_otf, path.basename(target_path).replace(".ttf", ".otf")
     )
     print(f"Convert {postscript_name}.ttf to OTF")
-    run(
-        f"ftcli converter ttf2otf {target_path} -out {build_option.output_otf}"
-    )
+    run(f"ftcli converter ttf2otf {target_path} -out {build_option.output_otf}")
     if not font_config.debug:
         print(f"Optimize {postscript_name}.otf")
         run(f"ftcli font correct-contours {_otf_path}")
