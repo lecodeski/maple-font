@@ -26,7 +26,7 @@ def is_ci():
     return False
 
 
-def run(command, extra_args=None, log=not is_ci()):
+def run(command: str | list[str], extra_args: list[str] | None = None, log=not is_ci()):
     """
     Run a command line interface (CLI) command.
     """
@@ -37,6 +37,7 @@ def run(command, extra_args=None, log=not is_ci()):
     subprocess.run(
         command + extra_args,
         stdout=subprocess.DEVNULL if not log else None,
+        stderr=subprocess.DEVNULL if not log else None,
         check=True,
     )
 
