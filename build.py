@@ -16,6 +16,7 @@ from fontTools.feaLib.builder import addOpenTypeFeatures, addOpenTypeFeaturesFro
 from ttfautohint import StemWidthMode, ttfautohint
 from source.py.utils import (
     add_ital_axis_to_stat,
+    adjust_line_height,
     check_font_patcher,
     check_directory_hash,
     get_directory_hash,
@@ -177,6 +178,11 @@ def parse_args(args: list[str] | None = None):
         default=None,
         action="store_true",
         help="Remove plain text tag ligatures like `[TODO]`",
+    )
+    feature_group.add_argument(
+        "--line-height",
+        type=float,
+        help="Scale factor for line height (e.g. 1.1)",
     )
     feature_group.add_argument(
         "--nf-mono",
@@ -364,6 +370,7 @@ class FontConfig:
         self.glyph_width_cn_narrow = 1000
         self.use_normal_preset = False
         self.ttfautohint_param = {}
+        self.line_height_factor = 1.0
 
         self.__load_config()
         self.__load_args(args)
@@ -389,11 +396,12 @@ class FontConfig:
                 data = json.load(f)
                 for prop in [
                     "family_name",
+                    "pool_size",
                     "use_hinted",
                     "enable_liga",
                     "ttfautohint_param",
                     "keep_infinite_arrow",
-                    "pool_size",
+                    "line_height",
                     "github_mirror",
                     "feature_freeze",
                     "nerd_font",
@@ -452,6 +460,9 @@ class FontConfig:
 
         if args.remove_tag_liga:
             self.remove_tag_liga = True
+
+        if args.line_height is not None:
+            self.line_height_factor = args.line_height
 
         if args.nf_mono:
             self.nerd_font["mono"] = args.nf_mono
@@ -1045,6 +1056,8 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
         freeze_config=font_config.feature_freeze,
     )
 
+    adjust_line_height(font, font_config.line_height_factor)
+
     verify_glyph_width(
         font=font,
         expect_widths=font_config.get_valid_glyph_width_list(),
@@ -1230,6 +1243,9 @@ def build_nf(
         preferred_family_name=f"{font_config.family_name} NF",
         preferred_style_name=style_in_17,
     )
+
+    adjust_line_height(nf_font, font_config.line_height_factor)
+
     verify_glyph_width(
         font=nf_font,
         expect_widths=font_config.get_valid_glyph_width_list(),
@@ -1358,11 +1374,14 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         }
         cn_font["meta"] = meta
 
+    adjust_line_height(cn_font, font_config.line_height_factor)
+
     verify_glyph_width(
         font=cn_font,
         expect_widths=font_config.get_valid_glyph_width_list(True),
         file_name=postscript_name,
     )
+
     target_path = joinPaths(
         build_option.output_cn,
         f"{postscript_name}.ttf",

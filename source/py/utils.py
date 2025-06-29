@@ -416,3 +416,29 @@ def add_ital_axis_to_stat(font: TTFont):
     axisValRec.Value = 1.0
     stat_table.AxisValueArray.AxisValue.append(axisValRec)
     stat_table.AxisValueCount += 1
+
+
+def adjust_line_height(font: TTFont, factor: float) -> None:
+    """
+    Adjust the line height of the font by modifying the hhea and OS/2 table.
+
+    Offset is ``int(550 * (factor - 1))``
+    """
+    if factor == 1.0:
+        return
+
+    if "hhea" not in font:
+        raise ValueError("No hhea table found.")
+    if "OS/2" not in font:
+        raise ValueError("No OS/2 table found.")
+
+    hhea = font["hhea"]
+    os2 = font["OS/2"]
+    offset = int(550 * (factor - 1))  # type: ignore
+    hhea.ascender += offset  # type: ignore
+    hhea.descender -= offset  # type: ignore
+    os2.sTypoAscender += offset  # type: ignore
+    os2.sTypoDescender -= offset  # type: ignore
+    os2.usWinAscent += offset  # type: ignore
+    # this is correct since this value is positive
+    os2.usWinDescent += offset  # type: ignore
