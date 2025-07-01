@@ -16,6 +16,7 @@ built_in_tag_text = [
     "warning",
 ]
 
+
 def tag_upper(text_list: list[str]):
     """
     Create ligature substitution rules for uppercase tag sequences.
@@ -87,7 +88,24 @@ def tag_any(text_list: list[str], cls_var: ast.Clazz):
                 target=f"tag_{text}.liga",
                 lookup_name=f"tag_{text}_alt",
                 desc=f"{text}))",
-                ign_prefix=cls_var,
+                ign_prefix=ast.cls(
+                    "(",
+                    ".",
+                    ":",
+                    "::",
+                    "~",
+                    ast.gly_seq(">-", "end"),
+                    ast.gly_seq(">-", "end") + ".cv01",
+                    "->",
+                    ast.gly("->", ".cv01"),
+                    "&",
+                    ast.gly("&", ".cv01"),
+                    "$",
+                    ast.gly("$", ".cv01"),
+                    "-",
+                    cls_var,
+                ),
+                ign_suffix=ast.cls(";", ")", ".")
             )
         )
 
@@ -193,8 +211,6 @@ def tag_custom(
         )
 
     return result
-
-
 
 
 def get_lookup(cls_var: ast.Clazz):
