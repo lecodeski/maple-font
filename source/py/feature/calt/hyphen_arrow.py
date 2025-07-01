@@ -105,7 +105,7 @@ def get_lookup():
                 ),
             ],
         ),
-        infinite_helper.ignore_when_not_using(
+        infinite_helper.ignore_when_disabled(
             ast.subst_liga(
                 "--",
                 lookup_name=ast.gly("--", "__ALT__"),
@@ -124,7 +124,7 @@ def get_lookup():
                 ast.ign("<", "-", ["-", "-", ">"]),
             ],
         ),
-        infinite_helper.ignore_when_not_using(
+        infinite_helper.ignore_when_disabled(
             ast.subst_liga(
                 "---",
                 lookup_name=ast.gly("---", "__ALT__"),
@@ -149,7 +149,7 @@ def get_lookup():
             ign_suffix="-",
         ),
         ast.subst_liga("<!---->", target="xml_empty_comment.liga"),
-        infinite_helper.ignore_when_using(
+        infinite_helper.ignore_when_enabled(
             ast.subst_liga(
                 "<->",
                 ign_prefix=ast.cls("<", "-"),

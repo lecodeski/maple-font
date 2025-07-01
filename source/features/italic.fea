@@ -1502,7 +1502,7 @@ feature calt {
 
   # todo))
   lookup tag_todo_alt {
-    ignore sub [parenleft period colon colon_colon.liga greater_hyphen.end.seq greater_hyphen.end.seq.cv01 hyphen_greater.liga hyphen_greater.liga.cv01 ampersand ampersand.cv01 dollar dollar.cv01 hyphen @Var] @T' @O @D @O parenright parenright;
+    ignore sub [parenleft period colon colon_colon.liga asciitilde greater_hyphen.end.seq greater_hyphen.end.seq.cv01 hyphen_greater.liga hyphen_greater.liga.cv01 ampersand ampersand.cv01 dollar dollar.cv01 hyphen @Var] @T' @O @D @O parenright parenright;
     ignore sub @T' @O @D @O parenright parenright [semicolon parenright period];
     sub SPC SPC SPC SPC SPC parenright' by tag_todo.liga;
     sub SPC SPC SPC SPC parenright' parenright by SPC;
@@ -1514,7 +1514,7 @@ feature calt {
 
   # fixme))
   lookup tag_fixme_alt {
-    ignore sub [parenleft period colon colon_colon.liga greater_hyphen.end.seq greater_hyphen.end.seq.cv01 hyphen_greater.liga hyphen_greater.liga.cv01 ampersand ampersand.cv01 dollar dollar.cv01 hyphen @Var] @F' @I @X @M @E parenright parenright;
+    ignore sub [parenleft period colon colon_colon.liga asciitilde greater_hyphen.end.seq greater_hyphen.end.seq.cv01 hyphen_greater.liga hyphen_greater.liga.cv01 ampersand ampersand.cv01 dollar dollar.cv01 hyphen @Var] @F' @I @X @M @E parenright parenright;
     ignore sub @F' @I @X @M @E parenright parenright [semicolon parenright period];
     sub SPC SPC SPC SPC SPC SPC parenright' by tag_fixme.liga;
     sub SPC SPC SPC SPC SPC parenright' parenright by SPC;
