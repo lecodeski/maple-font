@@ -2,6 +2,10 @@
 
 This module provides utilities for defining and managing OpenType font features. It includes tools for creating stylistic sets, character variants, ligatures, and more.
 
+## Why
+
+Many open-source font projects manage OpenType feature files manually, which feels trivial for a typical programmer. The `ast` module in fonttools suggests it’s possible to automate feature file maintenance, but there’s no available guide, forcing me to debug it myself. After struggling with it, I decided to reinvent the `ast` module to generate `.fea` files and use FontTools to parse and patch them in the build script.
+
 ## Overview
 
 The `feature/` module is designed to simplify the creation of OpenType font features. It uses an abstract syntax tree (AST) approach to define and manage features programmatically.
