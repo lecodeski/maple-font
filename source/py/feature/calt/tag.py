@@ -1,4 +1,5 @@
 from source.py.feature import ast
+from source.py.feature.base.clazz import cls_space, cls_comma
 
 built_in_tag_text = [
     "trace",
@@ -88,9 +89,15 @@ def tag_any(text_list: list[str], cls_var: ast.Clazz):
                 target=f"tag_{text}.liga",
                 lookup_name=f"tag_{text}_alt",
                 desc=f"{text}))",
+                extra_rules=[
+                    ast.ign([ast.cls(":", "::", ","), cls_space], glyphs[0], glyphs[1:])
+                ],
                 ign_prefix=ast.cls(
                     "(",
                     ".",
+                    "..",
+                    "...",
+                    cls_comma,
                     ":",
                     "::",
                     "~",
@@ -103,9 +110,10 @@ def tag_any(text_list: list[str], cls_var: ast.Clazz):
                     "$",
                     ast.gly("$", ".cv01"),
                     "-",
+                    ast.gly_seq("-", "end"),
                     cls_var,
                 ),
-                ign_suffix=ast.cls(";", ")", ".")
+                ign_suffix=ast.cls(";", ")", "."),
             )
         )
 
