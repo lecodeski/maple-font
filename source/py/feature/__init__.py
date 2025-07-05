@@ -144,7 +144,7 @@ def get_all_calt_text():
                 result.append(item.desc.replace("\\ ", "\\\\ "))
             elif item.name.startswith('infinite'):
                 result.extend(item.desc.split(' '))
-            elif not item.name.endswith("__ALT__"):
+            elif not item.name.endswith("__"):
                 result.append(item.desc)
 
     # Split into three columns

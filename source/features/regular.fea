@@ -1178,9 +1178,22 @@ feature calt {
     ignore sub hyphen' hyphen [less greater hyphen bar];
     ignore sub less [numbersign exclam] hyphen' hyphen;
     ignore sub parenleft @Question less exclam hyphen' hyphen;
+    sub bar SPC hyphen' less @Var by hyphen_hyphen.liga;
+    sub bar hyphen' hyphen less @Var by SPC;
+    sub bar SPC hyphen' @Var by hyphen_hyphen.liga;
+    sub bar hyphen' hyphen @Var by SPC;
     sub SPC hyphen' by hyphen_hyphen.liga;
     sub hyphen' hyphen by SPC;
   } hyphen_hyphen.liga;
+
+  # --
+  lookup hyphen_hyphen.liga__REGEX__ {
+    ignore sub [less greater hyphen exclam] hyphen' hyphen less;
+    sub SPC hyphen' less @Var by hyphen_hyphen.liga;
+    sub hyphen' hyphen less @Var by SPC;
+    sub bar SPC hyphen' @Var by hyphen_hyphen.liga;
+    sub bar hyphen' hyphen @Var by SPC;
+  } hyphen_hyphen.liga__REGEX__;
 
   # >--</
   lookup hyphen_hyphen.liga__ALT__ {
@@ -1247,6 +1260,10 @@ feature calt {
     @HyphenStart = [hyphen.sta.seq hyphen.mid.seq];
     ignore sub less' [exclam numbersign] hyphen hyphen;
     ignore sub bar bar' hyphen;
+    ignore sub bar' hyphen hyphen @Var;
+    ignore sub bar hyphen' hyphen @Var;
+    ignore sub bar' hyphen hyphen less @Var;
+    ignore sub bar hyphen' hyphen less @Var;
     ignore sub hyphen bar' bar;
     ignore sub hyphen hyphen' bar;
     ignore sub parenleft @Question less exclam hyphen' hyphen;
