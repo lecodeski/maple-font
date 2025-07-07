@@ -10,7 +10,7 @@ import signal
 import time
 from functools import partial
 from os import environ, getcwd, getpid, kill, listdir, makedirs, path, remove, getenv
-from typing import Callable
+from typing import Callable, Literal
 from fontTools.ttLib import TTFont, newTable
 from fontTools.feaLib.builder import addOpenTypeFeatures, addOpenTypeFeaturesFromString
 from ttfautohint import StemWidthMode, ttfautohint
@@ -507,6 +507,19 @@ class FontConfig:
 
     def should_build_nf_cn(self) -> bool:
         return self.cn["with_nerd_font"] and self.nerd_font["enable"]
+
+    def get_nf_prefix(self) -> Literal["Mono", "Propo", ""]:
+        extra_args = self.nerd_font["extra_args"]
+        if (
+            self.nerd_font["mono"]
+            or "-s" in extra_args
+            or "--mono" in extra_args
+            or "--single-width-glyphs" in extra_args
+        ):
+            return "Mono"
+        elif "--variable-width-glyphs" in extra_args:
+            return "Propo"
+        return ""
 
     def toggle_nf_cn_config(self) -> bool:
         if not self.nerd_font["enable"]:
@@ -1183,16 +1196,7 @@ def build_nf_by_font_patcher(
 
     run(_nf_args + [joinPaths(build_option.ttf_base_dir, font_basename)])
 
-    nf_file_name = "NerdFont"
-    if (
-        font_config.nerd_font["mono"]
-        or "-s" in extra_args
-        or "--mono" in extra_args
-        or "--single-width-glyphs" in extra_args
-    ):
-        nf_file_name += "Mono"
-    elif "--variable-width-glyphs" in extra_args:
-        nf_file_name += "Propo"
+    nf_file_name = "NerdFont" + font_config.get_nf_prefix()
 
     _path = joinPaths(
         build_option.output_nf, font_basename.replace("-", f"{nf_file_name}-")
@@ -1246,11 +1250,15 @@ def build_nf(
 
     adjust_line_height(nf_font, font_config.line_height_factor)
 
-    verify_glyph_width(
-        font=nf_font,
-        expect_widths=font_config.get_valid_glyph_width_list(),
-        file_name=postscript_name,
-    )
+    if not (
+        build_option.should_use_font_patcher(font_config)
+        or font_config.get_nf_prefix() == "Propo"
+    ):
+        verify_glyph_width(
+            font=nf_font,
+            expect_widths=font_config.get_valid_glyph_width_list(),
+            file_name=postscript_name,
+        )
 
     target_path = joinPaths(
         build_option.output_nf,
@@ -1376,11 +1384,16 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     adjust_line_height(cn_font, font_config.line_height_factor)
 
-    verify_glyph_width(
-        font=cn_font,
-        expect_widths=font_config.get_valid_glyph_width_list(True),
-        file_name=postscript_name,
-    )
+    if not (
+        font_config.should_build_nf_cn()
+        and build_option.should_use_font_patcher(font_config)
+        and font_config.get_nf_prefix() == "Propo"
+    ):
+        verify_glyph_width(
+            font=cn_font,
+            expect_widths=font_config.get_valid_glyph_width_list(True),
+            file_name=postscript_name,
+        )
 
     target_path = joinPaths(
         build_option.output_cn,
