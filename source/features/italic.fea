@@ -1167,7 +1167,7 @@ feature calt {
   # \\ \' \.
   lookup escape {
 
-    @Escape = [braceleft braceright bracketleft bracketright parenleft parenright less greater period comma hyphen underscore equal plus colon semicolon question exclam at numbersign dollar percent asciicircum ampersand asterisk quotesingle quotedbl slash backslash bar grave asciitilde @Comma @Question];
+    @Escape = [asciicircum dollar quotedbl quotesingle grave period asterisk plus parenleft parenright bracketleft bracketright braceleft braceright bar slash backslash @Question];
     ignore sub backslash.liga backslash' @Escape;
     ignore sub backslash' percent percent;
     sub backslash' @Escape by backslash.liga;
