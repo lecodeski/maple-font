@@ -642,7 +642,7 @@ class BuildOption:
             self.cn_suffix = "NF CN"
             self.cn_suffix_compact = "NF-CN"
         else:
-            self.cn_base_font_dir = joinPaths(self.output_dir, "TTF")
+            self.cn_base_font_dir = self.ttf_base_dir
             self.cn_suffix = self.cn_suffix_compact = "CN"
         self.output_cn = joinPaths(self.output_dir, self.cn_suffix_compact)
 
