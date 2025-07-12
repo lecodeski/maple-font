@@ -203,6 +203,7 @@ def parse_args(args: list[str] | None = None):
     build_group = parser.add_argument_group("Build Options")
     nf_group = build_group.add_mutually_exclusive_group()
     nf_group.add_argument(
+        "--nf",
         "--nerd-font",
         dest="nerd_font",
         default=None,
@@ -210,6 +211,7 @@ def parse_args(args: list[str] | None = None):
         help="Build Nerd-Font version (default)",
     )
     nf_group.add_argument(
+        "--no-nf",
         "--no-nerd-font",
         dest="nerd_font",
         default=None,
@@ -452,6 +454,8 @@ class FontConfig:
         if args.liga is not None:
             self.enable_liga = args.liga
 
+        if self.debug:
+            self.nerd_font["enable"] = False
         if args.nerd_font is not None:
             self.nerd_font["enable"] = args.nerd_font
 
