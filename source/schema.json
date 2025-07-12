@@ -304,7 +304,12 @@
         },
         "mono": {
           "type": "boolean",
-          "description": "Whether to make icon width fixed",
+          "description": "Whether to make icons' width fixed",
+          "default": false
+        },
+        "propo": {
+          "type": "boolean",
+          "description": "Whether to make icons' width variable, override \"mono\"",
           "default": false
         },
         "font_forge_bin": {

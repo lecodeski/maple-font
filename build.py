@@ -187,7 +187,12 @@ def parse_args(args: list[str] | None = None):
     feature_group.add_argument(
         "--nf-mono",
         action="store_true",
-        help="Fixed Nerd Font icons' width",
+        help="Make Nerd Font icons' width fixed",
+    )
+    feature_group.add_argument(
+        "--nf-propo",
+        action="store_true",
+        help="Make Nerd Font icons' width variable, override `--nf-mono`",
     )
     feature_group.add_argument(
         "--cn-narrow",
@@ -332,8 +337,10 @@ class FontConfig:
             "enable": True,
             # target version of Nerd-Font if font-patcher not exists
             "version": "3.2.1",
-            # whether to make icon width fixed
-            "mono": False,
+            # whether to make icons' x-width fixed
+            "mono": None,
+            # whether to make icons' glyph width variable, override "mono"
+            "propo": None,
             # prefer to use Font Patcher instead of using prebuild NerdFont base font
             # if you want to custom build Nerd-Font using font-patcher, you need to set this to True
             "use_font_patcher": False,
@@ -470,6 +477,11 @@ class FontConfig:
 
         if args.nf_mono:
             self.nerd_font["mono"] = args.nf_mono
+            self.nerd_font["enable"] = True
+
+        if args.nf_propo:
+            self.nerd_font["propo"] = args.nf_propo
+            self.nerd_font["enable"] = True
 
         if args.cn is not None:
             self.cn["enable"] = args.cn
@@ -512,7 +524,7 @@ class FontConfig:
     def should_build_nf_cn(self) -> bool:
         return self.cn["with_nerd_font"] and self.nerd_font["enable"]
 
-    def get_nf_prefix(self) -> Literal["Mono", "Propo", ""]:
+    def get_nf_suffix(self) -> Literal["Mono", "Propo", ""]:
         extra_args = self.nerd_font["extra_args"]
         if (
             self.nerd_font["mono"]
@@ -521,7 +533,7 @@ class FontConfig:
             or "--single-width-glyphs" in extra_args
         ):
             return "Mono"
-        elif "--variable-width-glyphs" in extra_args:
+        elif self.nerd_font["propo"] or "--variable-width-glyphs" in extra_args:
             return "Propo"
         return ""
 
@@ -640,15 +652,19 @@ class BuildOption:
         )
         self.github_mirror = environ.get("GITHUB", "github.com")
 
-    def load_cn_dir_and_suffix(self, with_nerd_font: bool) -> None:
-        if with_nerd_font:
+    def load_cn_dir_and_suffix(self, font_config: FontConfig) -> None:
+        suffix = font_config.get_nf_suffix()
+        if font_config.should_build_nf_cn():
             self.cn_base_font_dir = self.output_nf
-            self.cn_suffix = "NF CN"
-            self.cn_suffix_compact = "NF-CN"
+            self.cn_suffix = f"NF{suffix} CN"
+            self.cn_suffix_compact = f"NF{suffix}-CN"
         else:
             self.cn_base_font_dir = self.ttf_base_dir
             self.cn_suffix = self.cn_suffix_compact = "CN"
-        self.output_cn = joinPaths(self.output_dir, self.cn_suffix_compact)
+        self.output_cn = joinPaths(
+            self.output_dir,
+            self.cn_suffix_compact.replace(suffix, ""),
+        )
 
     def should_use_font_patcher(
         self, config: FontConfig, should_exit: bool = True
@@ -1170,10 +1186,12 @@ def build_mono_autohint(f: str, font_config: FontConfig, build_option: BuildOpti
 def build_nf_by_prebuild_nerd_font(
     font_basename: str, font_config: FontConfig, build_option: BuildOption
 ) -> TTFont:
-    prefix = "-Mono" if font_config.nerd_font["mono"] else ""
+    suffix = font_config.get_nf_suffix()
+    if suffix:
+        suffix = "-" + suffix
     return merge_ttfonts(
         base_font_path=joinPaths(build_option.ttf_base_dir, font_basename),
-        extra_font_path=f"{build_option.src_dir}/MapleMono-NF-Base{prefix}.ttf",
+        extra_font_path=f"{build_option.src_dir}/MapleMono-NF-Base{suffix}.ttf",
     )
 
 
@@ -1192,7 +1210,9 @@ def build_nf_by_font_patcher(
         build_option.output_nf,
     ] + font_config.nerd_font["glyphs"]
 
-    if font_config.nerd_font["mono"]:
+    if font_config.nerd_font["propo"]:
+        _nf_args += ["--variable-width-glyphs"]
+    elif font_config.nerd_font["mono"]:
         _nf_args += ["--mono"]
 
     extra_args = font_config.nerd_font["extra_args"]
@@ -1200,7 +1220,7 @@ def build_nf_by_font_patcher(
 
     run(_nf_args + [joinPaths(build_option.ttf_base_dir, font_basename)])
 
-    nf_file_name = "NerdFont" + font_config.get_nf_prefix()
+    nf_file_name = "NerdFont" + font_config.get_nf_suffix()
 
     _path = joinPaths(
         build_option.output_nf, font_basename.replace("-", f"{nf_file_name}-")
@@ -1221,7 +1241,7 @@ def build_nf(
     font_config: FontConfig,
     build_option: BuildOption,
 ):
-    print(f"👉 NerdFont version for {f}")
+    print(f"👉 NerdFont{font_config.get_nf_suffix()} version for {f}")
     nf_font = get_ttfont(f, font_config, build_option)
 
     # format font name
@@ -1234,13 +1254,14 @@ def build_nf(
         )
     )
 
-    postscript_name = f"{font_config.family_name_compact}-NF-{style_compact_nf}"
+    nf_sym = f"NF{font_config.get_nf_suffix()}"
+    postscript_name = f"{font_config.family_name_compact}-{nf_sym}-{style_compact_nf}"
 
     update_font_names(
         font=nf_font,
-        family_name=f"{font_config.family_name} NF{style_nf_with_prefix_space}",
+        family_name=f"{font_config.family_name} {nf_sym}{style_nf_with_prefix_space}",
         style_name=style_in_2,
-        full_name=f"{font_config.family_name} NF {style_in_17}",
+        full_name=f"{font_config.family_name} {nf_sym} {style_in_17}",
         version_str=font_config.version_str,
         postscript_name=postscript_name,
         unique_identifier=get_unique_identifier(
@@ -1248,7 +1269,7 @@ def build_nf(
             postscript_name=postscript_name,
         ),
         is_skip_subfamily=is_skip_sufamily,
-        preferred_family_name=f"{font_config.family_name} NF",
+        preferred_family_name=f"{font_config.family_name} {nf_sym}",
         preferred_style_name=style_in_17,
     )
 
@@ -1256,7 +1277,7 @@ def build_nf(
 
     if not (
         build_option.should_use_font_patcher(font_config)
-        or font_config.get_nf_prefix() == "Propo"
+        or font_config.get_nf_suffix() == "Propo"
     ):
         verify_glyph_width(
             font=nf_font,
@@ -1390,8 +1411,10 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     if not (
         font_config.should_build_nf_cn()
-        and build_option.should_use_font_patcher(font_config)
-        and font_config.get_nf_prefix() == "Propo"
+        and (
+            build_option.should_use_font_patcher(font_config)
+            or font_config.get_nf_suffix() == "Propo"
+        )
     ):
         verify_glyph_width(
             font=cn_font,
@@ -1470,7 +1493,7 @@ def main(args: list[str] | None = None, version: str | None = None):
 
     font_config = FontConfig(args=parsed_args, version=version)
     build_option = BuildOption(use_hinted=parsed_args.hinted)
-    build_option.load_cn_dir_and_suffix(font_config.should_build_nf_cn())
+    build_option.load_cn_dir_and_suffix(font_config)
 
     if parsed_args.dry:
         font_config.nerd_font["use_font_patcher"] = (
@@ -1674,7 +1697,7 @@ def main(args: list[str] | None = None, version: str | None = None):
         _build_cn()
 
         if font_config.use_cn_both and font_config.toggle_nf_cn_config():
-            build_option.load_cn_dir_and_suffix(font_config.should_build_nf_cn())
+            build_option.load_cn_dir_and_suffix(font_config)
             _build_cn()
 
         build_option.is_cn_built = True

@@ -555,14 +555,17 @@ If you have trouble installing the dependencies, just create a new GitHub Codesp
 
 #### Custom Nerd-Font
 
-If you just want to get fixed width icons, setup `"nerd_font.mono": true` in `config.json` or add `--nf-mono` flag to build script args.
+If you want to get fixed width icons, setup `"nerd_font.mono": true` in `config.json` or add `--nf-mono` flag to build script args.
+
+If you want to get variable width icons, setup `"nerd_font.propo": true` in `config.json` or add `--nf-propo` flag to build script args.
 
 For custom `font-patcher` args, `font-forge` (and maybe `python3-fontforge` as well) is required.
 
 Maybe you should also change `"nerd_font.extra_args"` in [config.json](./config.json)
 
 Default args: `-l --careful --outputdir dir`
-- if `"nerd_font.mono"` is `true`, then add `--mono`
+- if `"nerd_font.propo"` is `true`, then add `--variable-width-glyphs`
+- else if `"nerd_font.mono"` is `true`, then add `--mono`
 
 #### Preset
 
@@ -623,12 +626,12 @@ By enabling `cv99`, all Chinese punctuation marks will be centred. See more deta
 
 ```
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
-                [--hinted | --no-hinted] [--liga | --no-liga] [--keep-infinite-arrow]
-                [--remove-tag-liga] [--line-height LINE_HEIGHT] [--nf-mono]
-                [--cn-narrow] [--cn-scale-factor CN_SCALE_FACTOR] [--nerd-font |
-                --no-nerd-font] [--cn | --no-cn] [--cn-both] [--ttf-only]
-                [--least-styles] [--font-patcher] [--cache] [--cn-rebuild]
-                [--archive]
+                [--hinted | --no-hinted] [--liga | --no-liga]
+                [--keep-infinite-arrow] [--remove-tag-liga]
+                [--line-height LINE_HEIGHT] [--nf-mono] [--nf-propo] [--cn-narrow]
+                [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf] [--cn |
+                --no-cn] [--cn-both] [--ttf-only] [--least-styles] [--font-patcher]
+                [--cache] [--cn-rebuild] [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -655,7 +658,8 @@ Feature Options:
   --remove-tag-liga     Remove plain text tag ligatures like `[TODO]`
   --line-height LINE_HEIGHT
                         Scale factor for line height (e.g. 1.1)
-  --nf-mono             Fixed Nerd Font icons' width
+  --nf-mono             Make Nerd Font icons' width fixed
+  --nf-propo            Make Nerd Font icons' width variable, override `--nf-mono`
   --cn-narrow           Make CN / JP characters narrow (And the font cannot be
                         recogized as monospaced font)
   --cn-scale-factor CN_SCALE_FACTOR
@@ -663,8 +667,9 @@ Feature Options:
                         <width_factor>,<height_factor> (e.g. 1.1 or 1.2,1.1)
 
 Build Options:
-  --nerd-font           Build Nerd-Font version (default)
-  --no-nerd-font        Do not build Nerd-Font version
+  --nf, --nerd-font     Build Nerd-Font version (default)
+  --no-nf, --no-nerd-font
+                        Do not build Nerd-Font version
   --cn                  Build Chinese version
   --no-cn               Do not build Chinese version (default)
   --cn-both             Build both `Maple Mono CN` and `Maple Mono NF CN`. Nerd-Font

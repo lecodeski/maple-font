@@ -9,7 +9,7 @@ def main():
 
     command = parser.add_subparsers(dest="command", help="Total tasks")
 
-    nerdfont_parser = command.add_parser("nerd-font", help="Build Nerd-Font base font")
+    nerdfont_parser = command.add_parser("nf", help="Build Nerd-Font base font")
     nerdfont_parser.add_argument(
         "--no-update",
         action="store_true",
@@ -43,7 +43,7 @@ def main():
     page_parser.add_argument("--commit", action="store_true", help="Commit changes")
 
     args = parser.parse_args()
-    if args.command == "nerd-font":
+    if args.command == "nf":
         from source.py.task.nerdfont import nerd_font
 
         nerd_font(args.no_update)
