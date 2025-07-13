@@ -1492,7 +1492,7 @@ def main(args: list[str] | None = None, version: str | None = None):
     parsed_args = parse_args(args)
 
     font_config = FontConfig(args=parsed_args, version=version)
-    build_option = BuildOption(use_hinted=parsed_args.hinted)
+    build_option = BuildOption(use_hinted=font_config.use_hinted)
     build_option.load_cn_dir_and_suffix(font_config)
 
     if parsed_args.dry:
@@ -1662,7 +1662,7 @@ def main(args: list[str] | None = None, version: str | None = None):
                 font_config=font_config,
                 build_option=build_option,
             ),
-            build_option.output_ttf,
+            build_option.ttf_base_dir,
             target_styles,
         )
         build_option.is_nf_built = True
