@@ -692,7 +692,7 @@ class BuildOption:
     def should_build_cn(self, config: FontConfig) -> bool:
         if not config.cn["enable"] and not config.use_cn_both:
             print(
-                '\nNo `"cn.enable": true` in config.json or no `--cn` / `--cn-both` in argv. Skip CN build.'
+                '\nNo `"cn.enable": true` in config.json or `--cn` / `--cn-both` in argv. Skip CN build.'
             )
             return False
         return self.__ensure_cn_static_fonts(clean_cache=config.cn["clean_cache"])
