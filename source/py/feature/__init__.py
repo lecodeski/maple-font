@@ -183,7 +183,7 @@ def get_version_info(
         if item.version not in result:
             result[item.version] = {}
         result[item.version][item.tag] = item.sample
-    return result
+    return dict(sorted(result.items()))
 
 
 def get_cv_desc():
