@@ -58,15 +58,18 @@ jobs:
     - name: Release artifacts
       run: |
         TAG="${{ github.ref_name }}"
+        CHANGELOG_FILE=$(mktemp)
         if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
           TAG="v$(date +%s)"
           PREV=$(git tag --list --sort=committerdate | tail -n 1)
-          CHANGELOG=$(git log --pretty=format:"- %s" "$PREV"..HEAD | awk '1; END {print ""}' | tac)
+          git log --pretty=format:"- %s" "$PREV"..HEAD | awk '1; END {print ""}' | tac > "$CHANGELOG_FILE"
         else
           PREV=$(git tag --list --sort=committerdate | tail -n 2 | head -n 1)
-          CHANGELOG=$(git log --pretty=format:"- %s" "$PREV".."$TAG" | sed '1d' | awk '1; END {print ""}' | tac)
+          git log --pretty=format:"- %s" "$PREV".."$TAG" | sed '1d' | awk '1; END {print ""}' | tac > "$CHANGELOG_FILE"
         fi
-        sed -i 's|<!-- changelog -->|'"${CHANGELOG//$'\n'/\\n}"'|' .github/release_template.md
+
+        sed -i -e "/<!-- changelog -->/r $CHANGELOG_FILE" -e "/<!-- changelog -->/d" .github/release_template.md
+        rm "$CHANGELOG_FILE"
 
         sed -i "s|https://<url>|https://github.com/subframe7536/maple-font/releases/download/${TAG//\//\\/}|g" .github/release_template.md
 
