@@ -1,7 +1,6 @@
 from pathlib import Path
+from source.py.task._utils import is_ci
 import subprocess
-
-from source.py.utils import is_ci
 
 
 def get_output(cmd: list[str]) -> str:
