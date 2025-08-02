@@ -39,10 +39,21 @@ def main():
     )
 
     page_parser = command.add_parser("page", help="Update landing page data")
-    page_parser.add_argument("--woff2", action="store_true", help="Generate new woff2 fonts")
+    page_parser.add_argument(
+        "--woff2", action="store_true", help="Generate new woff2 fonts"
+    )
     page_parser.add_argument("--commit", action="store_true", help="Commit changes")
 
     command.add_parser("cn-rebuild", help="Rebuild CN static font")
+
+    publish_parser = command.add_parser(
+        "publish", help="Publish the font archives to GitHub Release"
+    )
+    publish_parser.add_argument(
+        "--write",
+        action="store_true",
+        help="Write changelog to release note file (auto write in CI)",
+    )
 
     args = parser.parse_args()
     if args.command == "nf":
@@ -67,6 +78,10 @@ def main():
         from source.py.task.cn_rebuild import cn_rebuild
 
         cn_rebuild("./source/cn")
+    elif args.command == "publish":
+        from source.py.task.publish import publish
+
+        publish(args.write)
     else:
         print("Test only")
         from source.py.in_browser import main
