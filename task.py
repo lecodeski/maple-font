@@ -44,7 +44,9 @@ def main():
     )
     page_parser.add_argument("--commit", action="store_true", help="Commit changes")
 
-    command.add_parser("cn-rebuild", help="Rebuild CN static font")
+    cn = command.add_parser("cn", help="Rebuild CN static font")
+    cn.add_argument("--pull", action="store_true", help="pull the latest CN source files")
+    cn.add_argument("--rebuild", action="store_true", help="rebuild the CN static font")
 
     publish_parser = command.add_parser(
         "publish", help="Publish the font archives to GitHub Release"
@@ -74,10 +76,10 @@ def main():
         from source.py.task.page import page
 
         page("./maple-font-page", "./fonts/Variable", args.woff2, args.commit)
-    elif args.command == "cn-rebuild":
-        from source.py.task.cn_rebuild import cn_rebuild
+    elif args.command == "cn":
+        from source.py.task.cn import cn
 
-        cn_rebuild("./source/cn")
+        cn("./source/cn", args.pull, args.rebuild)
     elif args.command == "publish":
         from source.py.task.publish import publish
 
