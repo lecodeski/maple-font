@@ -1034,10 +1034,8 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
     run(f"ftcli fix monospace {source_path}")
     run(f"ftcli name strip-names {source_path}")
     run(f"ftcli font correct-contours {source_path}")
-
-    if not font_config.debug:
-        run(f"ftcli ttf dehint {source_path}")
-        run(f"ftcli fix transformed-components {source_path}")
+    run(f"ftcli ttf dehint {source_path}")
+    run(f"ftcli fix transformed-components {source_path}")
 
     font = TTFont(source_path)
 
@@ -1100,7 +1098,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
     target_path = joinPaths(build_option.output_ttf, f"{postscript_name}.ttf")
     font.save(target_path)
 
-    if font_config.ttf_only:
+    if font_config.ttf_only or font_config.debug:
         return
 
     # Woff2 version
