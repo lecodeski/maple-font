@@ -59,7 +59,7 @@
     },
     "infinite_arrow": {
       "type": ["boolean", "null"],
-      "description": "Keep infinite arrow ligatures in hinted font (Removed by default)",
+      "description": "Enable infinite arrow ligatures (Disabled in hinted font by default)",
       "default": null
     },
     "keep_infinite_arrow": {
