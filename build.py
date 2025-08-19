@@ -1032,10 +1032,11 @@ def update_font_names(
     preferred_family_name: str | None = None,  # NameID 16
     preferred_style_name: str | None = None,  # NameID 17
 ):
+    # Reported in #598
     # Why: https://github.com/ryanoasis/nerd-fonts/discussions/891#discussioncomment-3471991
     if len(family_name) > 31:
         print(
-            "⚠️ The family name is too long for some old Windows softwares"
+            f"⚠️ The family name [{family_name}] is too long (> 31) for some old Windows softwares"
         )
     set_font_name(font, family_name, 1)
     set_font_name(font, style_name, 2)
