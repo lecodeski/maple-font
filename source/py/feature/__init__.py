@@ -37,7 +37,7 @@ normal_enabled_features = [
 ]
 
 
-cv_list_cn = [
+cv_list_cn: list[ast.FeatureWithDocs] = [
     cv96.cv96_feat_cn,
     cv97.cv97_feat_cn,
     cv98.cv98_feat_cn,
@@ -75,8 +75,8 @@ def generate_fea_string(
     infinite_helper.set(enable_infinite)
 
     class_list = class_list_italic if is_italic else class_list_regular
-    cv_list = cv_list_italic() if is_italic else cv_list_regular()
-    ss_list = ss_list_italic() if is_italic else ss_list_regular()
+    cv_list = cv_list_italic(True) if is_italic else cv_list_regular(True)
+    ss_list = ss_list_italic(True) if is_italic else ss_list_regular(True)
 
     if class_list[-2].name != "Var" or class_list[-1].name != "HexLetter":
         raise TypeError("Invalid class_list, must ends with [@Var, @HexLetter]")
@@ -179,13 +179,13 @@ zero_desc = "Dot style `0`"
 
 
 def get_version_info(
-    features: list[ast.CharacterVariant] | list[ast.StylisticSet],
+    features: list[ast.FeatureWithDocs],
 ) -> dict[str, dict[str, str]]:
     result = {}
     for item in features:
         if item.version not in result:
             result[item.version] = {}
-        result[item.version][item.tag] = item.sample
+        result[item.version][item.tag] = item.example
     return dict(sorted(result.items()))
 
 

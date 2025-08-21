@@ -129,5 +129,5 @@ def ss11_subst():
 
 ss11_name = "Equal and extra punctuation ligatures (`|=`, `/=`, `?=`, `&=`, ...)"
 ss11_feat = ast.StylisticSet(
-    id=11, desc=ss11_name, content=ss11_subst(), version="7.1", sample="|="
+    id=11, desc=ss11_name, content=ss11_subst(), version="7.1", example="|="
 )
