@@ -18,9 +18,7 @@ def ss11_subst():
             target=ast.gly("||=", ".ss11"),
             ign_prefix="|",
             ign_suffix="|",
-            extra_rules=[
-                ast.subst(ast.SPC, ast.gly("||"), "=", ast.SPC)
-            ]
+            extra_rules=[ast.subst(ast.SPC, ast.gly("||"), "=", ast.SPC)],
         ),
         ast.subst_liga(
             "/=",

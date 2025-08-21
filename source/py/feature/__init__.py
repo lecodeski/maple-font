@@ -82,7 +82,11 @@ def generate_fea_string(
         raise TypeError("Invalid class_list, must ends with [@Var, @HexLetter]")
 
     calt_feat = get_calt(
-        class_list[-2], class_list[-1], is_italic=is_italic, is_normal=is_normal, enable_tag=enable_tag
+        class_list[-2],
+        class_list[-1],
+        is_italic=is_italic,
+        is_normal=is_normal,
+        enable_tag=enable_tag,
     )
 
     # clear calt for no ligature
@@ -115,7 +119,6 @@ def generate_fea_string(
     if not calt_feat.content:
         calt_feat = None
 
-
     return ast.create(
         [
             class_list,
@@ -142,8 +145,8 @@ def get_all_calt_text():
         if isinstance(item, ast.Lookup) and item.desc:
             if item.name == "escape":
                 result.append(item.desc.replace("\\ ", "\\\\ "))
-            elif item.name.startswith('infinite'):
-                result.extend(item.desc.split(' '))
+            elif item.name.startswith("infinite"):
+                result.extend(item.desc.split(" "))
             elif not item.name.endswith("__"):
                 result.append(item.desc)
 
@@ -198,6 +201,7 @@ def get_cv_version_info() -> dict[str, dict[str, str]]:
 
 italic_code_pattern = re.compile(r"`([^`]+)`")
 
+
 def get_cv_italic_desc():
     return "\n".join(
         [
@@ -209,7 +213,9 @@ def get_cv_italic_desc():
 
 
 def get_cv_italic_version_info() -> dict[str, dict[str, str]]:
-    return get_version_info([cv for cv in cv_list_italic() if cv.id > 30 and cv.id < 61])
+    return get_version_info(
+        [cv for cv in cv_list_italic() if cv.id > 30 and cv.id < 61]
+    )
 
 
 def get_cv_cn_desc():
@@ -242,7 +248,11 @@ def get_ss_version_info() -> dict[str, dict[str, str]]:
 
 
 __total_feat_list = (
-    cv_list_regular() + cv_list_italic() + cv_list_cn + ss_list_regular() + ss_list_italic()
+    cv_list_regular()
+    + cv_list_italic()
+    + cv_list_cn
+    + ss_list_regular()
+    + ss_list_italic()
 )
 
 
