@@ -602,6 +602,27 @@ If you would like to modify the feature file instead, run `build.py` with `--app
 
 Inspired by Fira Code, the font enables infinite arrow ligatures by default from v7.3. For some reason, the ligatures are misaligned when using hinted font, so they are removed in hinted version by default from v7.4. You can setup `"keep_infinite_arrow": true` in `config.json` or add `--keep-infinite-arrow` in cli flag. See more details in [#508](https://github.com/subframe7536/maple-font/issues/508)
 
+#### Custom Font Weight Mapping
+
+You can modify the static font weight through `"weight_mapping"` item in `config.json`.
+
+For example, if you want to make regular font weight a little bit lighter, just decrease the number of `"weight_mapping.regular"` (from 400 to 350 in this example) :
+
+```json
+{
+  "weight_mapping": {
+    "thin": 100,
+    "extralight": 200,
+    "light": 300,
+    "regular": 350,
+    "semibold": 500,
+    "medium": 600,
+    "bold": 700,
+    "extrabold": 800
+  }
+}
+```
+
 ### Chinese version
 
 CN version is disabled by default. Run `python build.py` with `--cn` flag, the CN base fonts (about 111 MB) will download from GitHub.

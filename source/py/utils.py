@@ -438,6 +438,12 @@ def patch_instance(font: TTFont, all_weight_map: dict[str, int]):
     if "fvar" not in font or "STAT" not in font:
         return
 
+    if all_weight_map["thin"] != 100:
+        raise Exception("Font weight of `thin` must be 100")
+
+    if all_weight_map["extrabold"] != 800:
+        raise Exception("Font weight of `extrabold` must be 800")
+
     value_to_name = {v: k for k, v in default_weight_map.items()}
 
     for instance in font["fvar"].instances:  # type: ignore

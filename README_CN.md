@@ -609,6 +609,27 @@ OpenType Feature 可以控制字体的内置变体和连字。您可以通过修
 
 受 Fira Code 的启发，从 v7.3 开始，该字体默认启用无限箭头连字。由于某种原因，在使用 Hinted 字体时连字会错位，因此在 v7.4 的 Hinted 版本中默认将其移除。您可以在 `config.json` 中设置 `"keep_infinite_arrow": true`，或在命令行标志中添加 `--keep-infinite-arrow`。详情见 [#508](https://github.com/subframe7536/maple-font/issues/508)
 
+#### 自定义字重映射
+
+您可以通过 `config.json` 中的 `"weight_mapping"` 项修改静态字体粗细。
+
+例如，如果您想让常规字重稍微细一些，只需将 `"weight_mapping.regular"` 的数值降低（在此示例中从 400 降到 350）：
+
+```json
+{
+  "weight_mapping": {
+    "thin": 100,
+    "extralight": 200,
+    "light": 300,
+    "regular": 350,
+    "semibold": 500,
+    "medium": 600,
+    "bold": 700,
+    "extrabold": 800
+  }
+}
+```
+
 ### 中文版本
 
 默认情况下不会生成中文字体，运行 `python build.py` 时添加 `--cn` 参数，中文基字（约 111 MB）将从 GitHub 下载。

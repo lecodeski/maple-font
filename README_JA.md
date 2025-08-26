@@ -603,6 +603,27 @@ OpenType Feature ファイルを直接編集して実現したい場合、`build
 
 Fira Codeに着想を得て、このフォントはv7.3からデフォルトで無限の矢印リガチャを有効にします。何らかの理由で、hintedフォントを使用するとリガチャがずれてしまうため、v7.4のhintedバージョンではデフォルトでそれを削除しました。`config.json` に `"keep_infinite_arrow": true` を設定するか、CLI フラグに `--keep-infinite-arrow` を追加してください。詳細は [#508](https://github.com/subframe7536/maple-font/issues/508) を参照してください
 
+#### カスタムフォントウェイトマッピング
+
+`config.json` の `"weight_mapping"` 項目を通じて、静的なフォントのウェイトを変更できます。
+
+たとえば、通常のフォントウェイトを少し軽くしたい場合は、`"weight_mapping.regular"` の数値を下げるだけです（この例では 400 から 350 に変更）：
+
+```json
+{
+  "weight_mapping": {
+    "thin": 100,
+    "extralight": 200,
+    "light": 300,
+    "regular": 350,
+    "semibold": 500,
+    "medium": 600,
+    "bold": 700,
+    "extrabold": 800
+  }
+}
+```
+
 ### 中国語バージョン
 
 CN バージョンはデフォルトで無効になっています。`python build.py` を `--cn` フラグで実行すると、CN ベースフォント（約 111 MB）が GitHub からダウンロードされます。
