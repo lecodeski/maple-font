@@ -17,46 +17,47 @@ def get_freeze_config_str(config):
 
 
 def freeze_feature(font, moving_rules, config):
-    calt = config.get("calt") == "1"
-    feature_record = font["GSUB"].table.FeatureList.FeatureRecord
+    feature_list = font["GSUB"].table.FeatureList
+    feature_record = feature_list.FeatureRecord
     feature_dict = {
-        feature.FeatureTag: feature.Feature
-        for feature in feature_record
+        feature.FeatureTag: (i, feature.Feature)
+        for i, feature in enumerate(feature_record)
         if feature.FeatureTag != "calt"
     }
 
-    calt_features = []
-    if calt:
-        calt_features = [
-            feature.Feature
-            for feature in feature_record
-            if feature.FeatureTag == "calt"
-        ]
-    else:
-        for feature in feature_record:
-            if feature.FeatureTag == "calt":
-                feature.Feature.LookupListIndex.clear()
-                feature.Feature.LookupCount = 0
-                feature.FeatureTag = "DELT"
+    calt_features = [
+        feature.Feature for feature in feature_record if feature.FeatureTag == "calt"
+    ]
+
+    if config.get("calt") != "1":
+        for calt_feature in calt_features:
+            calt_feature.LookupListIndex.clear()
+            calt_feature.LookupCount = 0
 
     for tag, status in config.items():
-        target_feature = feature_dict.get(tag)
-        if not target_feature or status == "0":
+        if tag not in feature_dict:
             continue
 
-        if tag in moving_rules and calt:
-            for calt_feat in calt_features:
-                calt_feat.LookupListIndex.extend(target_feature.LookupListIndex)
+        index, target_feature = feature_dict[tag]
+        if status == "0":
+            del feature_list.FeatureRecord[index]
+            continue
+
+        if tag in moving_rules:
+            for calt_feature in calt_features:
+                calt_feature.LookupListIndex.extend(target_feature.LookupListIndex)
         else:
             glyph_dict = font["glyf"].glyphs
             hmtx_dict = font["hmtx"].metrics
-            for index in target_feature.LookupListIndex:
-                lookup_subtable = (
-                    font["GSUB"].table.LookupList.Lookup[index].SubTable[0]
+            for lookup_index in target_feature.LookupListIndex:
+                mapping = getattr(
+                    font["GSUB"].table.LookupList.Lookup[lookup_index].SubTable[0],
+                    "mapping",
+                    None,
                 )
-                if not lookup_subtable or "mapping" not in lookup_subtable.__dict__:
+                if not mapping:
                     continue
-                for old_key, new_key in lookup_subtable.mapping.items():
+                for old_key, new_key in mapping.items():
                     if (
                         old_key in glyph_dict
                         and old_key in hmtx_dict
