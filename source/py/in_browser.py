@@ -34,13 +34,14 @@ def freeze_feature(font, moving_rules, config):
             calt_feature.LookupListIndex.clear()
             calt_feature.LookupCount = 0
 
+    indices_to_remove = []
     for tag, status in config.items():
         if tag not in feature_dict:
             continue
 
         index, target_feature = feature_dict[tag]
         if status == "0":
-            del feature_list.FeatureRecord[index]
+            indices_to_remove.append(index)
             continue
 
         if tag in moving_rules:
@@ -66,6 +67,10 @@ def freeze_feature(font, moving_rules, config):
                     ):
                         glyph_dict[old_key] = glyph_dict[new_key]
                         hmtx_dict[old_key] = hmtx_dict[new_key]
+
+    # Remove features in reverse order to maintain correct indices
+    for index in sorted(indices_to_remove, reverse=True):
+        del feature_list.FeatureRecord[index]
 
 
 def set_font_name(font, name: str, id: int):
