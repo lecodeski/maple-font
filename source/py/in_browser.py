@@ -8,11 +8,11 @@ MOVING_RULES = ["ss03", "ss07", "ss08", "ss09", "ss10", "ss11"]
 
 def get_freeze_config_str(config):
     result = ""
-    for k, v in config.items():
+    for k, v in sorted(config.items()):
         if v == "1":
             result += f"+{k};"
-        if v == "0" and k == "calt":
-            result += "-calt;"
+        if v == "0" and k == "calt" or v == "-1":
+            result += f"-{k};"
     return result
 
 
@@ -40,7 +40,7 @@ def freeze_feature(font, moving_rules, config):
             continue
 
         index, target_feature = feature_dict[tag]
-        if status == "0":
+        if status == "-1":
             indices_to_remove.append(index)
             continue
 
