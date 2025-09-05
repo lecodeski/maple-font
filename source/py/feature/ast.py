@@ -561,13 +561,15 @@ def flatten_to_lines(
     return result
 
 
+EMPTY_FEAT_CONTENT = [Line("# Placeholder"), subst(None, "EMquad", None, "space")]
+
+
 def clone_empty(feature: FeatureWithDocs, desc_prefix: str = ""):
-    content = [Line("# Placeholder"), subst(None, "EMquad", None, SPC)]
     if isinstance(feature, CharacterVariant):
         return CharacterVariant(
             id=feature.id,
             desc=desc_prefix + EMPTY_FEAT_SYMBOL + feature.desc,
-            content=content,
+            content=EMPTY_FEAT_CONTENT,
             version=feature.version,
             example=feature.example,
         )
@@ -575,7 +577,7 @@ def clone_empty(feature: FeatureWithDocs, desc_prefix: str = ""):
         return StylisticSet(
             id=feature.id,
             desc=desc_prefix + EMPTY_FEAT_SYMBOL + feature.desc,
-            content=content,
+            content=EMPTY_FEAT_CONTENT,
             version=feature.version,
             example=feature.example,
         )

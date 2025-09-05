@@ -1695,7 +1695,7 @@ feature cv02 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv02;
 
@@ -1708,7 +1708,7 @@ feature cv03 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv03;
 
@@ -1756,7 +1756,7 @@ feature cv05 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv05;
 
@@ -1769,7 +1769,7 @@ feature cv06 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv06;
 
@@ -1782,7 +1782,7 @@ feature cv07 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv07;
 
@@ -1795,7 +1795,7 @@ feature cv08 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv08;
 
@@ -1808,7 +1808,7 @@ feature cv09 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv09;
 
@@ -1821,7 +1821,7 @@ feature cv10 {
   };
 
   # Placeholder
-  sub EMquad by SPC;
+  sub EMquad by space;
 
 } cv10;
 
