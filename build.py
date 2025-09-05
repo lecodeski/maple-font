@@ -308,7 +308,7 @@ class FontConfig:
         # whether to use hinted ttf as base font
         self.use_hinted = True
         # whether to enable ligature
-        self.enable_liga = True
+        self.enable_ligature = True
         # whether to enable infinite arrow ligatures in hinted font
         self.infinite_arrow = None
         # whether to remove plain text ligatures like `[TODO]`
@@ -416,7 +416,7 @@ class FontConfig:
                     "family_name",
                     "pool_size",
                     "use_hinted",
-                    "enable_liga",
+                    "enable_ligature",
                     "ttfautohint_param",
                     "infinite_arrow",
                     "line_height",
@@ -436,7 +436,7 @@ class FontConfig:
                             else {**getattr(self, prop), **val},
                         )
                 if "ligature" in data and data["ligature"] is not None:
-                    self.enable_liga = data["ligature"]
+                    self.enable_ligature = data["ligature"]
 
         except FileNotFoundError:
             print(f"🚨 Config file not found: {config_file_path}, use default config")
@@ -469,7 +469,7 @@ class FontConfig:
             self.use_hinted = args.hinted
 
         if args.liga is not None:
-            self.enable_liga = args.liga
+            self.enable_ligature = args.liga
 
         if self.debug:
             self.nerd_font["enable"] = False
@@ -524,7 +524,7 @@ class FontConfig:
         name_arr = [word.capitalize() for word in self.family_name.split(" ")]
         if self.use_normal_preset:
             name_arr.append("Normal")
-        if not self.enable_liga:
+        if not self.enable_ligature:
             name_arr.append("NL")
         if self.debug:
             name_arr.append("Debug")
@@ -532,7 +532,7 @@ class FontConfig:
         self.family_name_compact = "".join(name_arr)
 
         self.freeze_config_str = get_freeze_config_str(
-            self.feature_freeze, self.enable_liga
+            self.feature_freeze, self.enable_ligature
         )
 
     def should_build_nf_cn(self) -> bool:
@@ -615,7 +615,7 @@ class FontConfig:
             is_italic=is_italic,
             is_cn=is_cn,
             is_normal=self.use_normal_preset,
-            is_calt=self.enable_liga,
+            is_calt=self.enable_ligature,
             enable_infinite=enable_infinite,
             enable_tag=not self.remove_tag_liga,
             variable_enabled_feature_list=[
@@ -629,7 +629,7 @@ class FontConfig:
         except Exception as e:
             issue_fea_path = joinPaths(issue_fea_dir, "issue.fea")
             with open(issue_fea_path, "w+") as f:
-                banner = f"Generated feature with italic={is_italic}, cn={is_cn}, normal={self.use_normal_preset}, calt={self.enable_liga}, variable={is_variable}"
+                banner = f"Generated feature with italic={is_italic}, cn={is_cn}, normal={self.use_normal_preset}, calt={self.enable_ligature}, variable={is_variable}"
                 f.write(f"# {banner}\n\n{fea_str}")
             raise SyntaxError(
                 f"Error patching fea string: {e}\n\nSee generated fea string in {issue_fea_path}"
@@ -1117,7 +1117,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
 
     handle_ligatures(
         font=font,
-        enable_ligature=font_config.enable_liga,
+        enable_ligature=font_config.enable_ligature,
         freeze_config=font_config.feature_freeze,
     )
 
@@ -1384,7 +1384,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     handle_ligatures(
         font=cn_font,
-        enable_ligature=font_config.enable_liga,
+        enable_ligature=font_config.enable_ligature,
         freeze_config=font_config.feature_freeze,
     )
 
@@ -1747,7 +1747,7 @@ def main(args: list[str] | None = None, version: str | None = None):
             "family_name": font_config.family_name,
             "weight_mapping": font_config.weight_mapping,
             "use_hinted": font_config.use_hinted,
-            "ligature": font_config.enable_liga,
+            "ligature": font_config.enable_ligature,
             "feature_freeze": font_config.feature_freeze,
             "nerd_font": font_config.nerd_font,
             "cn": font_config.cn,
