@@ -36,7 +36,7 @@ def freeze_feature(font, moving_rules, config):
 
     indices_to_remove = []
     for tag, status in config.items():
-        if tag not in feature_dict:
+        if tag not in feature_dict or status == "0":
             continue
 
         index, target_feature = feature_dict[tag]
