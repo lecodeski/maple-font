@@ -74,7 +74,7 @@ def page(
         + minify(data),
     )
 
-    if woff2 or commit:
+    if woff2:
         print("Update woff2")
         font_dir = joinPaths(submodule_path, "public", "fonts")
         os.system("python build.py --ttf-only --no-nerd-font --least-styles")
