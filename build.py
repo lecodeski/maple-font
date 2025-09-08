@@ -31,7 +31,7 @@ from source.py.utils import (
     set_font_name,
     joinPaths,
     merge_ttfonts,
-    default_weight_map
+    default_weight_map,
 )
 from source.py.freeze import freeze_feature, get_freeze_config_str, is_enable
 from source.py.feature import (
@@ -388,7 +388,8 @@ class FontConfig:
         self.glyph_width_cn_narrow = 1000
         self.use_normal_preset = False
         self.ttfautohint_param = {}
-        self.line_height_factor = 1.0
+        self.line_height = 1.0
+        self.vertical_metric: tuple[int, int] = (1020, -300)
 
         self.__load_config()
         self.__load_args(args)
@@ -422,6 +423,7 @@ class FontConfig:
                     "line_height",
                     "github_mirror",
                     "weight_mapping",
+                    "remove_tag_ligature",
                     "feature_freeze",
                     "nerd_font",
                     "cn",
@@ -483,7 +485,7 @@ class FontConfig:
             self.remove_tag_liga = True
 
         if args.line_height is not None:
-            self.line_height_factor = args.line_height
+            self.line_height = args.line_height
 
         if args.nf_mono:
             self.nerd_font["mono"] = args.nf_mono
@@ -1121,8 +1123,6 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
         freeze_config=font_config.feature_freeze,
     )
 
-    adjust_line_height(font, font_config.line_height_factor)
-
     verify_glyph_width(
         font=font,
         expect_widths=font_config.get_valid_glyph_width_list(),
@@ -1305,7 +1305,10 @@ def build_nf(
         preferred_style_name=style_in_17,
     )
 
-    adjust_line_height(nf_font, font_config.line_height_factor)
+    if font_config.line_height != 1:
+        adjust_line_height(
+            nf_font, font_config.line_height, font_config.vertical_metric
+        )
 
     if not (
         build_option.should_use_font_patcher(font_config)
@@ -1439,7 +1442,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         }
         cn_font["meta"] = meta
 
-    adjust_line_height(cn_font, font_config.line_height_factor)
+    adjust_line_height(cn_font, font_config.line_height, font_config.vertical_metric)
 
     if not (
         font_config.should_build_nf_cn()
@@ -1620,6 +1623,13 @@ def main(args: list[str] | None = None, version: str | None = None):
 
             patch_instance(font, font_config.weight_mapping)
 
+            if font_config.line_height != 1:
+                calculated_metric = (font["hhea"].ascender, font["hhea"].descender)  # type: ignore
+                if calculated_metric != font_config.vertical_metric:
+                    font_config.vertical_metric = calculated_metric
+
+                adjust_line_height(font, font_config.line_height, calculated_metric)
+
             verify_glyph_width(
                 font=font,
                 expect_widths=font_config.get_valid_glyph_width_list(),
@@ -1746,6 +1756,7 @@ def main(args: list[str] | None = None, version: str | None = None):
             "version": FONT_VERSION,
             "family_name": font_config.family_name,
             "weight_mapping": font_config.weight_mapping,
+            "line_height": font_config.line_height,
             "use_hinted": font_config.use_hinted,
             "ligature": font_config.enable_ligature,
             "feature_freeze": font_config.feature_freeze,

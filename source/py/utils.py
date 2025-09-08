@@ -404,13 +404,14 @@ def add_ital_axis_to_stat(font: TTFont):
     stat_table.AxisValueCount += 1
 
 
-def adjust_line_height(font: TTFont, factor: float) -> None:
+def adjust_line_height(
+    font: TTFont, factor: float, metric: tuple[float, float]
+) -> None:
     """
     Adjust the line height of the font by modifying the hhea and OS/2 table.
-
-    Offset is ``int(550 * (factor - 1))``
     """
-    if factor == 1.0:
+
+    if factor == 1:
         return
 
     if "hhea" not in font:
@@ -420,14 +421,26 @@ def adjust_line_height(font: TTFont, factor: float) -> None:
 
     hhea = font["hhea"]
     os2 = font["OS/2"]
-    offset = int(550 * (factor - 1))  # type: ignore
-    hhea.ascender += offset  # type: ignore
-    hhea.descender -= offset  # type: ignore
-    os2.sTypoAscender += offset  # type: ignore
-    os2.sTypoDescender -= offset  # type: ignore
-    os2.usWinAscent += offset  # type: ignore
-    # this is correct since this value is positive
-    os2.usWinDescent += offset  # type: ignore
+
+    asc, desc = metric
+    # Maintain original ascender/descender ratio
+    ascender_ratio = asc / (asc - desc)  # type: ignore
+    # Calculate target total height
+    target_total_height = int(round(factor * (asc - desc)))
+
+    # Calculate new metrics
+    new_ascender = int(round(target_total_height * ascender_ratio))
+    new_descender = new_ascender - target_total_height
+
+    print(f"Change vertical metric to [{new_ascender}, {new_descender}]")
+
+    # Apply changes to hhea table
+    hhea.ascent = new_ascender  # type: ignore
+    hhea.descent = new_descender  # type: ignore
+    os2.sTypoAscender = new_ascender  # type: ignore
+    os2.sTypoDescender = new_descender  # type: ignore
+    os2.usWinAscent = new_ascender  # type: ignore
+    os2.usWinDescent = -new_descender  # type: ignore
 
 
 def patch_instance(font: TTFont, all_weight_map: dict[str, int]):
@@ -452,12 +465,12 @@ def patch_instance(font: TTFont, all_weight_map: dict[str, int]):
         if weight_name and weight_name in all_weight_map:
             instance.coordinates["wght"] = all_weight_map[weight_name]
 
-    axes = font["fvar"].axes # type: ignore
+    axes = font["fvar"].axes  # type: ignore
     wght_index = next((i for i, ax in enumerate(axes) if ax.axisTag == "wght"), None)
     if wght_index is None:
         return
 
-    stat = font["STAT"].table # type: ignore
+    stat = font["STAT"].table  # type: ignore
     if not stat.AxisValueArray:
         return
 

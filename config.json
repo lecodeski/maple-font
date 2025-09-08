@@ -15,6 +15,7 @@
     "bold": 700,
     "extrabold": 800
   },
+  "line_height": 1.0,
   "feature_freeze": {
     "cv01": "ignore",
     "cv02": "ignore",
