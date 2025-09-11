@@ -70,7 +70,7 @@ def page(
     data = read_text(joinPaths("source", "py", "in_browser.py"))
     write_text(
         joinPaths(submodule_path, "data", "script.py"),
-        "# Source: https://github.com/subframe7536/maple-font/blob/variable/source/py/in_browser.py\n"
+        "# Source: https://github.com/lecodeski/maple-font/blob/variable/source/py/in_browser.py\n"
         + minify(data),
     )
 
