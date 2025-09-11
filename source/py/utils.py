@@ -162,7 +162,7 @@ def check_font_patcher(
 def download_cn_base_font(
     tag: str, zip_path: str, target_dir: str, github_mirror: str = "github.com"
 ) -> bool:
-    url = f"https://{github_mirror}/subframe7536/maple-font/releases/download/{tag}/{zip_path}"
+    url = f"https://{github_mirror}/lecodeski/maple-font/releases/download/{tag}/{zip_path}"
     return download_zip_and_extract(
         name=f"{'Static' if 'static' in zip_path else 'Variable'} CN Base Font",
         url=url,
