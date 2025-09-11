@@ -1352,8 +1352,8 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     cn_font["OS/2"].xAvgCharWidth = 600  # type: ignore
 
-    # https://github.com/subframe7536/maple-font/issues/188
-    # https://github.com/subframe7536/maple-font/issues/313
+    # https://github.com/lecodeski/maple-font/issues/188
+    # https://github.com/lecodeski/maple-font/issues/313
     # fix_cn_cv(cn_font)
 
     target_width = (
@@ -1409,7 +1409,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
             special_names=special_scale_names,
         )
 
-    # https://github.com/subframe7536/maple-font/issues/239
+    # https://github.com/lecodeski/maple-font/issues/239
     # already removed at merge time
     # remove_locl(font)
 

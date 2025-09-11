@@ -1,19 +1,10 @@
 ![Cover](./resources/header.png)
 
 <p align="center">
-  <a href="https://trendshift.io/repositories/13165" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13165" alt="subframe7536%2Fmaple-font | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-  <a href="https://hellogithub.com/repository/0601f355bd824d88b58f1af3066c486a" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0601f355bd824d88b58f1af3066c486a&claim_uid=AO0yWRQ48ITGNqK" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-</p>
-<p align="center">
-  <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/subframe7536/maple-font">
-  <img alt="GitHub Repo Forks" src="https://img.shields.io/github/forks/subframe7536/maple-font">
-  <img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/subframe7536">
-</p>
-<p align="center">
-  <img alt="GitHub Release" src="https://img.shields.io/github/v/release/subframe7536/maple-font">
-  <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/subframe7536/maple-font/total">
-  <img alt="GitHub Repo License" src="https://img.shields.io/github/license/subframe7536/maple-font">
-  <img alt="GitHub Repo Issues" src="https://img.shields.io/github/issues/subframe7536/maple-font">
+  <img alt="GitHub Release" src="https://img.shields.io/github/v/release/lecodeski/maple-font">
+  <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/lecodeski/maple-font/total">
+  <img alt="GitHub Repo License" src="https://img.shields.io/github/license/lecodeski/maple-font">
+  <img alt="GitHub Repo Issues" src="https://img.shields.io/github/issues/lecodeski/maple-font">
 </p>
 
 <p align="center">
@@ -30,7 +21,7 @@ Maple Mono is an open source monospace font focused on smoothing your coding flo
 
 I create it to enhance my working experience, and hope that it can be useful to others.
 
-V7 is a completely remade version, providing variable font format and source files of font project, redesigning more than half of the glyphs and offering smarter ligatures. You can checkout V6 [here](https://github.com/subframe7536/maple-font/tree/main)
+V7 is a completely remade version, providing variable font format and source files of font project, redesigning more than half of the glyphs and offering smarter ligatures. You can checkout V6 [here](https://github.com/lecodeski/maple-font/tree/main)
 
 ## Features
 
@@ -40,23 +31,19 @@ V7 is a completely remade version, providing variable font format and source fil
 - 🎨 Icon - First-Class [Nerd-Font](https://github.com/ryanoasis/nerd-fonts) support, make your terminal more vivid.
 - 🔨 Customize - Enable or disable font features as you want, just make your own font.
 
-### Simpified Chinese, Traditional Chinese and Japanese
-
-CN version based on [Resource Han Rounded](https://github.com/CyanoHao/Resource-Han-Rounded) provides complete character set support for Chinese development environments, including Simplified Chinese, Traditional Chinese, and Japanese. Meanwhile, the characteristic of perfect 2:1 alignment between Chinese and English allows this font to achieve a neat, uniform, beautiful, and comfortable appearance in scenarios such as multilingual display and Markdown tables. However, the spacing of Chinese characters is larger compared to other popular Chinese fonts. See details in [release notes](https://github.com/subframe7536/maple-font/releases/tag/cn-base) and [this issue](https://github.com/subframe7536/maple-font/issues/211).
-
 ![2-1.png](./resources/2-1.png)
 
 ## ScreenShots
 
 ![showcase.png](./resources/showcase.png)
 
-- Pictured by [CodeImg](https://github.com/subframe7536/vscode-codeimg)
-- Theme: [Maple](https://github.com/subframe7536/vscode-theme-maple)
+- Pictured by [CodeImg](https://github.com/lecodeski/vscode-codeimg)
+- Theme: [Maple](https://github.com/lecodeski/vscode-theme-maple)
 - Config: font size 16px, line height 1.8, default letter spacing
 
 ## Download
 
-You can download all the font archives from [Releases](https://github.com/subframe7536/maple-font/releases).
+You can download all the font archives from [Releases](https://github.com/lecodeski/maple-font/releases).
 
 ### Scoop (Windows)
 
@@ -525,7 +512,7 @@ Go to [Playground](https://font.subf.dev/en/playground), and click "Custom Build
 
 #### 2. Use Github Actions
 
-You can use [Github Actions](https://github.com/subframe7536/maple-font/actions/workflows/custom.yml) to build the font.
+You can use [Github Actions](https://github.com/lecodeski/maple-font/actions/workflows/custom.yml) to build the font.
 
 1. Fork the repo
 2. (Optional) Change the content in `config.json`
@@ -538,7 +525,7 @@ You can use [Github Actions](https://github.com/subframe7536/maple-font/actions/
 #### 3. Use Docker
 
 ```shell
-git clone https://github.com/subframe7536/maple-font --depth 1 -b variable
+git clone https://github.com/lecodeski/maple-font --depth 1 -b variable
 docker build -t maple-font .
 docker run -v "$(pwd)/fonts:/app/fonts" -e BUILD_ARGS="--normal" maple-font
 ```
@@ -548,7 +535,7 @@ docker run -v "$(pwd)/fonts:/app/fonts" -e BUILD_ARGS="--normal" maple-font
 Clone the repo and run on your local machine. Make sure you have `python3` and `pip` installed
 
 ```shell
-git clone https://github.com/subframe7536/maple-font --depth 1 -b variable
+git clone https://github.com/lecodeski/maple-font --depth 1 -b variable
 pip install -r requirements.txt
 python build.py
 ```
@@ -600,7 +587,7 @@ cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
 
 ### Freeze OpenType Feature
 
-There are three kinds of options for feature freeze ([Why](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)):
+There are three kinds of options for feature freeze ([Why](https://github.com/lecodeski/maple-font/issues/233#issuecomment-2410170270)):
 
 1. `enable`: Forcely enable the features without setting up `cvXX` / `ssXX` / `zero` in font features config, just as default glyphs / ligatures
 2. `disable`: Remove the features in `cvXX` / `ssXX` / `zero`, which will no longer effect, even if you enable it manually
@@ -641,25 +628,13 @@ For example, if you want to make regular font weight a little bit lighter, just 
 }
 ```
 
-### Chinese version
-
-CN version is disabled by default. Run `python build.py` with `--cn` flag, the CN base fonts (about 111 MB) will download from GitHub.
-
-If you want to build CN base fonts from variable (about 27 MB), setup `"cn.use_static_base_font": false` in [config.json](./config.json) and **BE PATIENT**, instantiation will take about 10-30 minutes.
-
-#### Narrow spacing in CN glyphs
-
-If you think that **CN glyphs spacing is TOOOOOO large**, there is a build option `cn.narrow` or cli flag `--cn-narrow` to narrow spacing in CN glyphs, but this will make the font cannot be recogized as monospaced font. You can see effect in [#249](https://github.com/subframe7536/maple-font/issues/249#issuecomment-2871260476).
-
-And if you want to change the Latin letters' width as well, use [`--width` option](#narrow-glyph-width)
-
 #### GitHub Mirror
 
 The build script will auto download required assets from GitHub. If you have trouble downloading, please setup `github_mirror` in [config.json](./config.json) or `$GITHUB` to your environment variable. (Target URL will be `https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`), or just download the target `.zip` file and put it in the same directory as `build.py`.
 
 #### Traditional Chinese Punctuation Support
 
-By enabling `cv99`, all Chinese punctuation marks will be centred. See more details in [#150](https://github.com/subframe7536/maple-font/issues/150)
+By enabling `cv99`, all Chinese punctuation marks will be centred. See more details in [#150](https://github.com/lecodeski/maple-font/issues/150)
 
 ### Build Script Usage
 
@@ -761,24 +736,6 @@ uv run task.py release minor
 - [Font Viewer](https://tophix.com/font-tools/font-viewer)
 - [Monolisa](https://www.monolisa.dev/)
 - [Recursive](https://www.recursive.design/)
-
-## Sponser
-
-If this font is helpful to you, please feel free to buy me a coffee
-
-<a href="https://www.buymeacoffee.com/subframe753"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=subframe753&button_colour=5F7FFF&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00" /></a>
-
-or sponser me through [Afdian](https://afdian.com/a/subframe7536)
-
-## Star History
-
-<a href="https://www.star-history.com/#subframe7536/maple-font&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=subframe7536/maple-font&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=subframe7536/maple-font&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=subframe7536/maple-font&type=date&legend=top-left" />
- </picture>
-</a>
 
 ## License
 

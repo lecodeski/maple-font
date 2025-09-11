@@ -41,7 +41,7 @@ def publish(write: bool, dry: bool = not is_ci()):
         .replace("<!-- changelog -->", changelog)
         .replace(
             "https://<url>",
-            f"https://github.com/subframe7536/maple-font/releases/download/{tag}",
+            f"https://github.com/lecodeski/maple-font/releases/download/{tag}",
         )
     )
     if write or not dry:
