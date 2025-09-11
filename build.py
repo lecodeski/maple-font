@@ -669,8 +669,8 @@ class BuildOption:
         #   - NameID2 should be the "Regular" or "Italic"
         #   - NameID16 should be the family name
         #   - NameID17 should be the subfamily name
-        # https://github.com/subframe7536/maple-font/issues/182
-        # https://github.com/subframe7536/maple-font/issues/183
+        # https://github.com/lecodeski/maple-font/issues/182
+        # https://github.com/lecodeski/maple-font/issues/183
         #
         # same as `ftcli assistant commit . --ls 400 700`
         # https://github.com/ftCLI/FoundryTools-CLI/issues/166#issuecomment-2095756721
@@ -1373,8 +1373,8 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
 
     cn_font["OS/2"].xAvgCharWidth = 600  # type: ignore
 
-    # https://github.com/subframe7536/maple-font/issues/188
-    # https://github.com/subframe7536/maple-font/issues/313
+    # https://github.com/lecodeski/maple-font/issues/188
+    # https://github.com/lecodeski/maple-font/issues/313
     # fix_cn_cv(cn_font)
 
     font_config.patch_fea_string(
@@ -1426,7 +1426,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
             scale_factor=scale_factor,
         )
 
-    # https://github.com/subframe7536/maple-font/issues/239
+    # https://github.com/lecodeski/maple-font/issues/239
     # already removed at merge time
     # remove_locl(font)
 
