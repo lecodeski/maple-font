@@ -14,5 +14,5 @@ jobs:
       - uses: tgymnich/fork-sync@v2
         with:
           owner: subframe7536
-          base: variable
+          base: main
           head: variable
