@@ -533,6 +533,8 @@ feature calt {
   lookup greater_greater.liga {
     ignore sub [less slash greater] greater' greater;
     ignore sub greater' greater greater;
+    sub greater' greater dollar by SPC;
+    sub SPC greater' by greater_greater.liga;
     sub @QuoteLike SPC greater' @QuoteLike by greater_greater.liga;
     sub @QuoteLike greater' greater @QuoteLike by SPC;
     sub SPC greater' [slash @Number @EqualHyphen] by greater_greater.liga;
@@ -1790,6 +1792,18 @@ feature cv10 {
 
 } cv10;
 
+feature cv11 {
+
+  cvParameters {
+    FeatUILabelNameID {
+      name "CV11: Alternative f with bottom bar";
+    };
+  };
+
+  sub f by f.cv11;
+
+} cv11;
+
 feature cv31 {
 
   cvParameters {
@@ -1958,6 +1972,19 @@ feature cv43 {
   sub EMquad by space;
 
 } cv43;
+
+feature cv44 {
+
+  cvParameters {
+    FeatUILabelNameID {
+      name "CV44: [Italic Only] Alternative Italic f with bottom bar";
+    };
+  };
+
+  # Placeholder
+  sub EMquad by space;
+
+} cv44;
 
 feature cv61 {
 
