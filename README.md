@@ -1,13 +1,8 @@
 ![Cover](./resources/header.png)
 
 <p align="center">
-  <a href="https://trendshift.io/repositories/13165" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13165" alt="lecodeski%2Fmaple-font | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-  <a href="https://hellogithub.com/repository/0601f355bd824d88b58f1af3066c486a" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0601f355bd824d88b58f1af3066c486a&claim_uid=AO0yWRQ48ITGNqK" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-</p>
-<p align="center">
   <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/lecodeski/maple-font">
   <img alt="GitHub Repo Forks" src="https://img.shields.io/github/forks/lecodeski/maple-font">
-  <img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/lecodeski">
 </p>
 <p align="center">
   <img alt="GitHub Release" src="https://img.shields.io/github/v/release/lecodeski/maple-font">
@@ -18,10 +13,7 @@
 
 <p align="center">
   <a href="#download">Download</a> |
-  <a href="https://font.subf.dev">Website</a> |
-  English |
-  <a href="./README_CN.md">中文</a> |
-  <a href="./README_JA.md">日本語</a>
+  <a href="https://font.subf.dev">Website</a>
 </p>
 
 # Maple Mono
