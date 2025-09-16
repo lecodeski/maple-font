@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: tgymnich/fork-sync@v2
+      - uses: TobKed/github-forks-sync-action@master
         with:
-          owner: subframe7536
-          base: main
-          head: variable
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          upstream_repository: subframe7536/maple-font
+          target_repository: lecodeski/maple-font
+          upstream_branch: variable
+          target_branch: main
+          tags: true
