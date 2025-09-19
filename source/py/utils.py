@@ -519,10 +519,17 @@ def add_gasp(font: TTFont):
 
 
 def change_glyph_width_or_scale(
-    font: TTFont, match_width: int, target_width: int, scale_factor: tuple[float, float]
+    font: TTFont,
+    match_width: int,
+    target_width: int,
+    scale_factor: tuple[float, float],
+    skip_name: list[str],
 ):
     font["hhea"].advanceWidthMax = target_width  # type: ignore
     for name in font.getGlyphOrder():
+        if name in skip_name:
+            continue
+
         glyph = font["glyf"][name]  # type: ignore
         width, lsb = font["hmtx"][name]  # type: ignore
         if width != match_width:

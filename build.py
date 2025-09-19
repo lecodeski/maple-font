@@ -1388,6 +1388,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
             match_width=match_width,
             target_width=target_width,
             scale_factor=scale_factor,
+            skip_name=["ellipsis.full"],
         )
 
     # https://github.com/subframe7536/maple-font/issues/239
