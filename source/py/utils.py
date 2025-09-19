@@ -5,7 +5,7 @@ import shutil
 import subprocess
 from urllib.request import Request, urlopen
 from zipfile import ZIP_DEFLATED, ZipFile
-from fontTools.ttLib import TTFont
+from fontTools.ttLib import TTFont, newTable
 from fontTools.merge import Merger
 from source.py.task._utils import is_ci, default_weight_map
 
@@ -509,3 +509,41 @@ def patch_instance(font: TTFont, all_weight_map: dict[str, int]):
         if fmt not in handlers or (fmt != 4 and av.AxisIndex != wght_index):
             continue
         handlers[fmt](av)
+
+
+def add_gasp(font: TTFont):
+    print("Fix GASP table")
+    gasp = newTable("gasp")
+    gasp.gaspRange = {65535: 15}  # type: ignore
+    font["gasp"] = gasp
+
+
+def change_glyph_width_or_scale(
+    font: TTFont, match_width: int, target_width: int, scale_factor: tuple[float, float]
+):
+    font["hhea"].advanceWidthMax = target_width  # type: ignore
+    for name in font.getGlyphOrder():
+        glyph = font["glyf"][name]  # type: ignore
+        width, lsb = font["hmtx"][name]  # type: ignore
+        if width != match_width:
+            continue
+        if glyph.numberOfContours == 0:
+            font["hmtx"][name] = (target_width, lsb)  # type: ignore
+            continue
+
+        scale_w, scale_h = scale_factor
+        glyph.coordinates.scale((scale_w, scale_h))
+        glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
+            glyph.coordinates.calcIntBounds()
+        )
+
+        scaled_width = int(round(width * scale_w))
+        delta = (target_width - scaled_width) / 2
+
+        glyph.coordinates.translate((delta, 0))
+        glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
+            glyph.coordinates.calcIntBounds()
+        )
+
+        new_lsb = lsb + int(round(delta))
+        font["hmtx"][name] = (target_width, new_lsb)  # type: ignore

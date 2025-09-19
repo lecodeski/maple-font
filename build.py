@@ -15,8 +15,10 @@ from fontTools.ttLib import TTFont, newTable
 from fontTools.feaLib.builder import addOpenTypeFeatures, addOpenTypeFeaturesFromString
 from ttfautohint import StemWidthMode, ttfautohint
 from source.py.utils import (
+    add_gasp,
     add_ital_axis_to_stat,
     adjust_line_height,
+    change_glyph_width_or_scale,
     check_font_patcher,
     check_directory_hash,
     patch_instance,
@@ -995,37 +997,6 @@ def get_unique_identifier(
     return f"{font_config.version_str}{beta_str};SUBF;{postscript_name};2024;FL830;{suffix}"
 
 
-def change_glyph_width_or_scale(
-    font: TTFont, match_width: int, target_width: int, scale_factor: tuple[float, float]
-):
-    font["hhea"].advanceWidthMax = target_width  # type: ignore
-    for name in font.getGlyphOrder():
-        glyph = font["glyf"][name]  # type: ignore
-        width, lsb = font["hmtx"][name]  # type: ignore
-        if width != match_width:
-            continue
-        if glyph.numberOfContours == 0:
-            font["hmtx"][name] = (target_width, lsb)  # type: ignore
-            continue
-
-        scale_w, scale_h = scale_factor
-        glyph.coordinates.scale((scale_w, scale_h))
-        glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
-            glyph.coordinates.calcIntBounds()
-        )
-
-        scaled_width = int(round(width * scale_w))
-        delta = (target_width - scaled_width) / 2
-
-        glyph.coordinates.translate((delta, 0))
-        glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
-            glyph.coordinates.calcIntBounds()
-        )
-
-        new_lsb = lsb + int(round(delta))
-        font["hmtx"][name] = (target_width, new_lsb)  # type: ignore
-
-
 def update_font_names(
     font: TTFont,
     family_name: str,  # NameID 1
@@ -1054,13 +1025,6 @@ def update_font_names(
     if not is_skip_subfamily and preferred_family_name and preferred_style_name:
         set_font_name(font, preferred_family_name, 16)
         set_font_name(font, preferred_style_name, 17)
-
-
-def add_gasp(font: TTFont):
-    print("Fix GASP table")
-    gasp = newTable("gasp")
-    gasp.gaspRange = {65535: 15}  # type: ignore
-    font["gasp"] = gasp
 
 
 def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
