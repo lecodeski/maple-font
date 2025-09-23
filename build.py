@@ -585,7 +585,7 @@ class FontConfig:
         is_cn: bool,
         is_variable: bool,
         is_hinted: bool,
-        fea_path: str | None = None,
+        fea_path: str,
     ):
         if self.apply_fea_file:
             if fea_path:
@@ -685,6 +685,13 @@ class BuildOption:
             and self.__check_file_count(self.output_ttf_hinted, minCount=4, end=".ttf")
         )
         self.github_mirror = environ.get("GITHUB", "github.com")
+
+    def get_feature_file_path(self, is_italic: bool, is_cn: bool = False) -> str:
+        return joinPaths(
+            self.src_dir,
+            "features",
+            ("italic" if is_italic else "regular") + ("_cn" if is_cn else "") + ".fea",
+        )
 
     def load_cn_dir_and_suffix(self, font_config: FontConfig) -> None:
         suffix = font_config.get_nf_suffix()
@@ -1080,6 +1087,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
         is_cn=False,
         is_variable=False,
         is_hinted=False,
+        fea_path=build_option.get_feature_file_path(is_italic),
     )
 
     handle_ligatures(
@@ -1126,13 +1134,15 @@ def build_mono_autohint(f: str, font_config: FontConfig, build_option: BuildOpti
 
     source_path = joinPaths(build_option.output_ttf, f)
     font = TTFont(source_path)
+    is_italic = "Italic" in style_compact
     font_config.patch_fea_string(
         font=font,
         issue_fea_dir=build_option.output_dir,
-        is_italic="Italic" in style_compact,
+        is_italic=is_italic,
         is_cn=False,
         is_variable=False,
         is_hinted=True,
+        fea_path=build_option.get_feature_file_path(is_italic),
     )
     param: dict | None = font_config.ttfautohint_param
 
@@ -1349,6 +1359,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         is_cn=True,
         is_variable=False,
         is_hinted=font_config.use_hinted,
+        fea_path=build_option.get_feature_file_path(is_italic, True),
     )
 
     handle_ligatures(
@@ -1562,11 +1573,7 @@ def main(args: list[str] | None = None, version: str | None = None):
                 is_cn=False,
                 is_variable=True,
                 is_hinted=False,
-                fea_path=joinPaths(
-                    build_option.src_dir,
-                    "features",
-                    "italic.fea" if is_italic else "regular.fea",
-                ),
+                fea_path=build_option.get_feature_file_path(is_italic),
             )
 
             style_name = "Italic" if is_italic else "Regular"
