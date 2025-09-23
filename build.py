@@ -584,7 +584,7 @@ class FontConfig:
         is_italic: bool,
         is_cn: bool,
         is_variable: bool,
-        is_hinted: bool | None = None,
+        is_hinted: bool,
         fea_path: str | None = None,
     ):
         if self.apply_fea_file:
@@ -600,13 +600,13 @@ class FontConfig:
         if is_hinted and self.infinite_arrow:
             return
 
-        # If `keep` is None
+        # If `infinite_arrow` is None
         # - hinted font will disable inf
         # - unhinted font will enable inf
-        # If `keep` is True
+        # If `infinite_arrow` is True
         # - hinted font will enable inf
         # - unhinted font will enable inf
-        # If `keep` is False
+        # If `infinite_arrow` is False
         # - hinted font will disable inf
         # - unhinted font will disable inf
         enable_infinite = (
@@ -1079,6 +1079,7 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
         is_italic=is_italic,
         is_cn=False,
         is_variable=False,
+        is_hinted=False,
     )
 
     handle_ligatures(
@@ -1347,6 +1348,7 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         is_italic=is_italic,
         is_cn=True,
         is_variable=False,
+        is_hinted=font_config.use_hinted,
     )
 
     handle_ligatures(
@@ -1559,6 +1561,7 @@ def main(args: list[str] | None = None, version: str | None = None):
                 is_italic=is_italic,
                 is_cn=False,
                 is_variable=True,
+                is_hinted=False,
                 fea_path=joinPaths(
                     build_option.src_dir,
                     "features",
