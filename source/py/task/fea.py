@@ -53,7 +53,6 @@ def fea(output: str) -> None:
     for filename, content in files.items():
         write_text(joinPaths(output, filename), f"# {banner}\n\n{content}")
 
-    banner = banner.replace("fea`", "fea --cn`")
     files_cn = {
         "regular_cn.fea": generate_fea_string(is_italic=False, is_cn=True),
         "italic_cn.fea": generate_fea_string(is_italic=True, is_cn=True),
