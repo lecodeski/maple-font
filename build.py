@@ -1151,7 +1151,7 @@ def build_mono_autohint(f: str, font_config: FontConfig, build_option: BuildOpti
     font_config.patch_fea_string(
         font=font,
         issue_fea_dir=build_option.output_dir,
-        is_italic=True,
+        is_italic=is_italic,
         is_cn=False,
         is_variable=False,
         is_hinted=True,
