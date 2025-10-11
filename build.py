@@ -1400,7 +1400,9 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
             cn_font["OS/2"].panose.bProportion = 0  # type: ignore
             cn_font["OS/2"].panose.bSpacing = 0  # type: ignore
             cn_font["hhea"].advanceWidthMax = target_width  # type: ignore
-            print("Changed CN glyph width, mark font file as not monospaced")
+            print(
+                "Changed CN glyph width, mark font file as not monospaced and skip checking glyph width"
+            )
         else:
             target_width = match_width
 
@@ -1436,11 +1438,14 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
     adjust_line_height(cn_font, font_config.line_height, font_config.vertical_metric)
 
     if not (
-        font_config.should_build_nf_cn()
-        and (
-            build_option.should_use_font_patcher(font_config)
-            or font_config.get_nf_suffix() == "Propo"
+        (
+            font_config.should_build_nf_cn()
+            and (
+                build_option.should_use_font_patcher(font_config)
+                or font_config.get_nf_suffix() == "Propo"
+            )
         )
+        or target_width
     ):
         verify_glyph_width(
             font=cn_font,

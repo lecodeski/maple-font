@@ -206,12 +206,10 @@ def verify_glyph_width(
         print(f"✅ Verified glyph width in {file_name}")
         return
 
-    print(f"Every glyph's width should be in {expect_widths}, but these are not:")
-    for item in result:
-        print(f"{item[0]}  =>  {item[1]}")
+    unexpected_glyphs = "\n".join([f"{item[0]}  =>  {item[1]}" for item in result])
 
     raise Exception(
-        f"{file_name or 'The font'} may contain glyphs that width is not in {expect_widths}, which may broke monospace rule."
+        f"{file_name or 'The font'} may contains glyphs that width is not in {expect_widths}, which may broke monospace rule.\n{unexpected_glyphs}"
     )
 
 
