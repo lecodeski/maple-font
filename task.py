@@ -38,9 +38,11 @@ def main():
         "--woff2", action="store_true", help="Generate new woff2 fonts"
     )
     page_parser.add_argument(
-        "--commit", action="store_true", help="Commit changes to page"
+        "--commit", action="store_true", help="Commit all changes to page"
     )
-    page_parser.add_argument("--sync", action="store_true", help="Sync page data")
+    page_parser.add_argument(
+        "--sync", action="store_true", help="Sync latest page data and commit"
+    )
 
     cn = command.add_parser("cn", help="Rebuild CN static font")
     cn.add_argument(
