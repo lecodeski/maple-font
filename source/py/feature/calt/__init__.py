@@ -33,7 +33,7 @@ def get_calt_lookup(
     ]
 
     if enable_tag:
-        lookup.append(tag.get_lookup(cls_var))
+        lookup += [tag.get_lookup(cls_var)]
 
     if is_italic and not normal and not remove_italic_calt:
         lookup += [italic.get_lookup()]
