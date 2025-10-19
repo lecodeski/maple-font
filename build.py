@@ -640,6 +640,7 @@ class FontConfig:
             ]
             if is_variable
             else [],
+            remove_italic_calt=is_enable(self.feature_freeze["cv35"]),
         )
         try:
             addOpenTypeFeaturesFromString(font, fea_str)
