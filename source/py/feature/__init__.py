@@ -99,7 +99,7 @@ def generate_fea_string(
     if variable_enabled_feature_list:
         extracted_lookup_list = []
         for feat in cv_ss_list:
-            if feat.tag in variable_enabled_feature_list or []:
+            if feat.tag in variable_enabled_feature_list:
                 # prevent features that add ligatures like `ss08`
                 if not is_calt and feat.has_lookup:
                     continue

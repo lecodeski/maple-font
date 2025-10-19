@@ -1157,6 +1157,13 @@ def build_mono_autohint(f: str, font_config: FontConfig, build_option: BuildOpti
         is_hinted=True,
         fea_path=build_option.get_feature_file_path(is_italic),
     )
+
+    handle_ligatures(
+        font=font,
+        enable_ligature=font_config.enable_ligature,
+        freeze_config=font_config.feature_freeze,
+    )
+
     param: dict | None = font_config.ttfautohint_param
 
     buf = BytesIO()
