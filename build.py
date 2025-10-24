@@ -607,6 +607,7 @@ class FontConfig:
                     font,
                     fea_path,
                 )
+            self.freeze_feature_static(font, is_variable)
             return
 
         # If is hinted and keep inf liga, skip patching feature
@@ -652,7 +653,9 @@ class FontConfig:
             raise SyntaxError(
                 f"Error patching fea string: {e}\n\nSee generated fea string in {issue_fea_path}"
             ) from e
+        self.freeze_feature_static(font, is_variable)
 
+    def freeze_feature_static(self, font: TTFont, is_variable: bool):
         if not is_variable:
             freeze_feature(
                 font=font,
