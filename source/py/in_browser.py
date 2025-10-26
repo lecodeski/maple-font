@@ -69,9 +69,10 @@ def freeze_feature(font, moving_rules, config):
                         glyph_dict[old_key] = glyph_dict[new_key]
                         hmtx_dict[old_key] = hmtx_dict[new_key]
 
-    # Remove features in reverse order to maintain correct indices
+    # Remove features's lookup list index in reverse order to maintain correct indices
     for index in sorted(indices_to_remove, reverse=True):
-        del feature_list.FeatureRecord[index]
+        feature_list.FeatureRecord[index].Feature.LookupCount = 0
+        feature_list.FeatureRecord[index].Feature.LookupListIndex = []
 
 
 def set_font_name(font, name: str, id: int):
