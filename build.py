@@ -423,7 +423,7 @@ class FontConfig:
                     "line_height",
                     "github_mirror",
                     "weight_mapping",
-                    "remove_tag_ligature",
+                    "remove_tag_liga",
                     "feature_freeze",
                     "nerd_font",
                     "cn",
