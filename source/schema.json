@@ -94,7 +94,7 @@
     },
     "ligature": {
       "type": "boolean",
-      "description": "Alias of \"enable_ligature\"",
+      "description": "(Deprecated) Use \"enable_ligature\" instead",
       "default": true
     },
     "enable_ligature": {
@@ -107,12 +107,12 @@
         "boolean",
         "null"
       ],
-      "description": "Enable infinite arrow ligatures (Disabled in hinted font by default)",
+      "description": "Enable infinite arrow ligatures\n- null: disabled in hinted font, enabled in unhinted font\n- true: enabled\n- false: disabled",
       "default": null
     },
     "keep_infinite_arrow": {
       "type": "boolean",
-      "description": "(Deprecated) Use infinite_arrow instead",
+      "description": "(Deprecated) Use \"infinite_arrow\" instead",
       "default": false
     },
     "remove_tag_liga": {
