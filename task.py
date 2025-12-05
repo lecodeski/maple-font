@@ -38,9 +38,6 @@ def main():
         "--woff2", action="store_true", help="Generate new woff2 fonts"
     )
     page_parser.add_argument(
-        "--commit", action="store_true", help="Commit all changes to page"
-    )
-    page_parser.add_argument(
         "--sync", action="store_true", help="Sync latest page data and commit"
     )
 
@@ -77,9 +74,7 @@ def main():
     elif args.command == "page":
         from source.py.task.page import page
 
-        page(
-            "./maple-font-page", "./fonts/Variable", args.woff2, args.commit, args.sync
-        )
+        page("./maple-font-page", "./fonts/Variable", args.woff2, args.sync)
     elif args.command == "cn":
         from source.py.task.cn import cn
 
