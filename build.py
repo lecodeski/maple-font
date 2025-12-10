@@ -970,6 +970,8 @@ def rename_glyph_name(
             "tag_uni061C.liga": "tag_mark.liga",
             "tag_u1F5C8.liga": "tag_note.liga",
             "tag_uni26A0.liga": "tag_warning.liga",
+            "uni266F_start.bg": "sharp_start.bg",
+            "uni266F_end.bg": "sharp_end.bg",
         },
     }
 

@@ -556,12 +556,20 @@ def change_glyph_width_or_scale(
 
 def expand_custom_tag_bg(font: TTFont):
     """
-    ``*.bg*`` shift the right edge by 10
+    ``*.bg*`` shift the right edge by 20
     """
     from fontTools.ttLib.tables._g_l_y_f import GlyphCoordinates
 
     # Key: (x, y) -> Value: new x
-    target_map = {(600, 1020): 610, (600, -300): 610}
+    offset = 20
+    target_map = {
+        (600, 1020): 600 + offset,
+        (600, -300): 600 + offset,
+        (10, 1020): offset,
+        (10, -300): offset,
+        (590, 1020): 600 - offset,
+        (590, -300): 600 - offset,
+    }
 
     if "glyf" not in font:
         return
@@ -576,6 +584,10 @@ def expand_custom_tag_bg(font: TTFont):
 
         # `*.bg*` is transformed in variable ttf, so there is no need to check if composited.
         coordinates = glyph.coordinates
+
+        if len(coordinates) <= 4:
+            continue
+
         new_coords = []
         modified = False
 
