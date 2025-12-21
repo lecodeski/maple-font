@@ -1504,9 +1504,6 @@ def build_variable_fonts(font_config: FontConfig, build_option: BuildOption):
             ),
         )
 
-        # Fix #682
-        expand_custom_tag_bg(font=font)
-
         is_italic = "Italic" in input_file
 
         font_config.patch_font_feature(
