@@ -559,6 +559,15 @@ python build.py
 >
 > 如果您在安装依赖项时遇到问题，只需创建一个新的 GitHub Codespace 并在那里运行命令
 
+#### 窄字符
+
+你可以在 config.json 中设置 `"width": "narrow"` 或者在命令行添加 `--width slim` 来在构建时修改字形宽度。中文字符部分也会等比例修改。
+
+有 3 个选项：
+- default: 600
+- narrow: 550
+- slim: 500
+
 #### 自定义 Nerd-Font
 
 如果您想获得固定宽度的图标，请在 `config.json` 中设置 `"nerd_font.mono": true` 或在构建脚本参数中添加 `--nf-mono` 标志。
@@ -645,6 +654,8 @@ OpenType Feature 可以控制字体的内置变体和连字。您可以通过修
 
 您可以在 [#249](https://github.com/subframe7536/maple-font/issues/249#issuecomment-2871260476) 中查看效果。
 
+如果您也想改变拉丁字母的宽度，请使用 [`--width` 参数](#narrow-glyph-width)
+
 #### GitHub 镜像
 
 构建脚本将自动从 GitHub 下载所需的资源。如果您在下载时遇到问题，请在 [config.json](./config.json) 中设置 `github_mirror` 或将 `$GITHUB` 设置为您的环境变量。（目标 URL 为 `https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`），或者直接下载目标 `.zip` 文件并将其放在与 `build.py` 相同的目录中。
@@ -659,10 +670,10 @@ OpenType Feature 可以控制字体的内置变体和连字。您可以通过修
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--keep-infinite-arrow]
                 [--infinite-arrow] [--remove-tag-liga] [--line-height LINE_HEIGHT]
-                [--nf-mono] [--nf-propo] [--cn-narrow]
-                [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf] [--cn | --no-cn]
-                [--cn-both] [--ttf-only] [--least-styles] [--font-patcher] [--cache]
-                [--cn-rebuild] [--archive]
+                [--width {default,narrow,slim}] [--nf-mono] [--nf-propo]
+                [--cn-narrow] [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf]
+                [--cn | --no-cn] [--cn-both] [--ttf-only] [--least-styles]
+                [--font-patcher] [--cache] [--cn-rebuild] [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -686,6 +697,8 @@ Feature Options:
   --remove-tag-liga     移除纯文本标签连字，例如 `[TODO]`
   --line-height LINE_HEIGHT
                         行高的缩放因子 (例如 1.1)
+  --width {default,narrow,slim}
+                        设置字形宽度: default (600), narrow (550), slim (500)
   --nf-mono             使 Nerd Font 图标的宽度固定
   --nf-propo            使 Nerd Font 图标的宽度不固定，覆盖 `--nf-mono`
   --cn-narrow           减小中文/日文字形间距（同时会让系统无法识别为等宽字体）

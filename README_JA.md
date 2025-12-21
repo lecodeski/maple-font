@@ -555,6 +555,15 @@ python build.py
 >
 > 依存関係のインストールに問題がある場合は、新しい GitHub Codespace を作成し、そこでコマンドを実行してください。
 
+#### 字形幅を窄くする
+
+ビルド時に `config.json` 中で `"width": "narrow"` を設定したり、CLI フラグで `--width slim` を追加したりで、字形幅を変更できます。
+
+3 つのオプションがあります：
+- default: 600
+- narrow: 550
+- slim: 500
+
 #### カスタム Nerd-Font
 
 固定幅のアイコンを取得したいだけの場合は、`config.json` に `"nerd_font.mono": true` を設定するか、ビルドスクリプト引数に `--nf-mono` フラグを追加してください。
@@ -639,6 +648,8 @@ CN バージョンはデフォルトで無効になっています。`python bui
 
 効果については、[#249](https://github.com/subframe7536/maple-font/issues/249#issuecomment-2871260476) をご参照ください。
 
+ラテン文字の幅も変更したい場合は、[`--width` オプション](#narrow-glyph-width)を使用してください
+
 #### 繁体中文の句読点サポート
 
 `cv99` を開くことで、すべての中国語の句読点が中央に配置されます。詳細は [#150](https://github.com/subframe7536/maple-font/issues/150) を参照してください
@@ -653,10 +664,10 @@ CN バージョンはデフォルトで無効になっています。`python bui
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--keep-infinite-arrow]
                 [--infinite-arrow] [--remove-tag-liga] [--line-height LINE_HEIGHT]
-                [--nf-mono] [--nf-propo] [--cn-narrow]
-                [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf] [--cn | --no-cn]
-                [--cn-both] [--ttf-only] [--least-styles] [--font-patcher] [--cache]
-                [--cn-rebuild] [--archive]
+                [--width {default,narrow,slim}] [--nf-mono] [--nf-propo]
+                [--cn-narrow] [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf]
+                [--cn | --no-cn] [--cn-both] [--ttf-only] [--least-styles]
+                [--font-patcher] [--cache] [--cn-rebuild] [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -682,6 +693,8 @@ Feature Options:
   --remove-tag-liga     純テキストタグのリガチャ、例えば `[TODO]` を削除する。
   --line-height LINE_HEIGHT
                         行の高さのスケールファクター（例：1.1）
+  --width {default,narrow,slim}
+                        字形の幅を設定: default (600), narrow (550), slim (500)
   --nf-mono             Nerd Font アイコンの幅を固定します
   --nf-propo            Nerd Font アイコンの幅を可変にし、--nf-mono を上書きします
   --cn-narrow           中国語/日本語の文字間隔を縮小する（同時にシステムが等幅フォントと

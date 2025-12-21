@@ -13,14 +13,13 @@ from typing import Callable, Literal
 from fontTools.ttLib import TTFont, newTable
 from fontTools.feaLib.builder import addOpenTypeFeatures, addOpenTypeFeaturesFromString
 from ttfautohint import StemWidthMode, ttfautohint
+from source.py.transform import change_glyph_width_or_scale, smart_change_width
 from source.py.utils import (
     add_gasp,
     add_ital_axis_to_stat,
     adjust_line_height,
-    change_glyph_width_or_scale,
     check_font_patcher,
     check_directory_hash,
-    expand_custom_tag_bg,
     patch_instance,
     verify_glyph_width,
     archive_fonts,
@@ -33,6 +32,7 @@ from source.py.utils import (
     joinPaths,
     merge_ttfonts,
     default_weight_map,
+    remove_target_glyph,
 )
 from source.py.freeze import freeze_feature, get_freeze_config_str, is_enable
 from source.py.feature import (
@@ -74,6 +74,12 @@ def check_ftcli():
 
 
 # =========================================================================================
+
+WIDTH_MAP = {
+    "default": 600,
+    "narrow": 550,
+    "slim": 500,
+}
 
 
 def parse_scale_factor(value) -> tuple[float, float]:
@@ -192,6 +198,13 @@ def parse_args(args: list[str] | None = None):
         "--line-height",
         type=float,
         help="Scale factor for line height (e.g. 1.1)",
+    )
+    feature_group.add_argument(
+        "--width",
+        type=str,
+        choices=WIDTH_MAP.keys(),
+        default="default",
+        help="Set glyph width: default (600), narrow (550), slim (500)",
     )
     feature_group.add_argument(
         "--nf-mono",
@@ -315,6 +328,7 @@ class FontConfig:
         # whether to remove plain text ligatures like `[TODO]`
         self.remove_tag_liga = False
         self.weight_mapping = default_weight_map
+        self.width = "default"
         self.feature_freeze = {
             "cv01": "ignore",
             "cv02": "ignore",
@@ -422,6 +436,7 @@ class FontConfig:
                     "ttfautohint_param",
                     "infinite_arrow",
                     "line_height",
+                    "width",
                     "github_mirror",
                     "weight_mapping",
                     "remove_tag_liga",
@@ -473,6 +488,9 @@ class FontConfig:
 
         if args.remove_tag_liga:
             self.remove_tag_liga = True
+
+        if args.width:
+            self.width = args.width
 
         if args.line_height is not None:
             self.line_height = args.line_height
@@ -533,12 +551,20 @@ class FontConfig:
     def _update_family_names(self):
         """Update family names based on options."""
         name_arr = [word.capitalize() for word in self.family_name.split(" ")]
+
         if self.use_normal_preset:
             name_arr.append("Normal")
+
         if not self.enable_ligature:
             name_arr.append("NL")
+
+        width_name = self.get_width_name()
+        if width_name:
+            name_arr.append(width_name)
+
         if self.debug:
             name_arr.append("Debug")
+
         self.family_name = " ".join(name_arr)
         self.family_name_compact = "".join(name_arr)
 
@@ -552,6 +578,15 @@ class FontConfig:
         self.freeze_config_str = get_freeze_config_str(
             self.feature_freeze, self.enable_ligature
         )
+
+    def get_target_width(self) -> int:
+        return WIDTH_MAP.get(self.width, WIDTH_MAP["default"])
+
+    def get_width_name(self) -> str | None:
+        if self.width == "narrow":
+            return "NR"
+        elif self.width == "slim":
+            return "SL"
 
     def should_build_nf_cn(self) -> bool:
         return self.cn["with_nerd_font"] and self.nerd_font["enable"]
@@ -577,19 +612,21 @@ class FontConfig:
         return True
 
     def get_valid_glyph_width_list(self, cn=False):
-        if cn:
-            cn = (
-                self.glyph_width_cn_narrow
-                if self.cn["narrow"]
-                else 2 * self.glyph_width
-            )
-            return [
-                0,
-                self.glyph_width,
-                cn,
-            ]
+        result = [0]
+        if self.get_width_name():
+            w = self.get_target_width()
+            result.append(w)
+            if cn:
+                result.append(w * 2)
         else:
-            return [0, self.glyph_width]
+            result.append(self.glyph_width)
+            if cn:
+                result.append(
+                    self.glyph_width_cn_narrow
+                    if self.cn["narrow"]
+                    else 2 * self.glyph_width
+                )
+        return result
 
     def patch_font_feature(
         self,
@@ -1324,6 +1361,8 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         use_pyftmerge=True,
     )
 
+    remove_target_glyph(cn_font, ".1")
+
     (
         style_cn_with_prefix_space,
         style_in_2,
@@ -1405,7 +1444,15 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
             match_width=match_width,
             target_width=target_width,
             scale_factor=scale_factor,
-            skip_name=["ellipsis.full"],
+            special_names=["ellipsis.full"],
+        )
+    elif font_config.get_width_name():
+        change_glyph_width_or_scale(
+            font=cn_font,
+            match_width=2 * font_config.glyph_width,
+            target_width=2 * font_config.get_target_width(),
+            scale_factor=(1.0, 1.0),
+            special_names=["ellipsis.full"],
         )
 
     # https://github.com/subframe7536/maple-font/issues/239
@@ -1503,6 +1550,13 @@ def build_variable_fonts(font_config: FontConfig, build_option: BuildOption):
                 input_file.replace(".ttf", ".glyphs").replace("-VF", "")
             ),
         )
+
+        if font_config.get_width_name():
+            smart_change_width(
+                font=font,
+                target_width=font_config.get_target_width(),
+                original_ref_width=font_config.glyph_width,
+            )
 
         is_italic = "Italic" in input_file
 
@@ -1727,10 +1781,15 @@ def main(args: list[str] | None = None, version: str | None = None):
         result = {
             "version": FONT_VERSION,
             "family_name": font_config.family_name,
-            "weight_mapping": font_config.weight_mapping,
             "line_height": font_config.line_height,
+            "width": font_config.width,
             "use_hinted": font_config.use_hinted,
             "ligature": font_config.enable_ligature,
+            "remove_tag_liga": font_config.remove_tag_liga,
+            "infinite_arrow": "default"
+            if font_config.infinite_arrow is None
+            else font_config.infinite_arrow,
+            "weight_mapping": font_config.weight_mapping,
             "feature_freeze": font_config.feature_freeze,
             "nerd_font": font_config.nerd_font,
             "cn": font_config.cn,

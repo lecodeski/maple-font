@@ -552,3 +552,15 @@ def change_glyph_width_or_scale(
 
         new_lsb = lsb + int(round(delta))
         font["hmtx"][name] = (target_width, new_lsb)  # type: ignore
+
+
+def remove_target_glyph(font: TTFont, glyph_name_suffix: str):
+    """
+    Remove glyphs from the font that end with the specified suffix.
+    """
+    from fontTools.subset import Subsetter
+
+    keep_glyphs = [n for n in font.getGlyphOrder() if not n.endswith(glyph_name_suffix)]
+    subsetter = Subsetter()
+    subsetter.populate(glyphs=keep_glyphs)
+    subsetter.subset(font)

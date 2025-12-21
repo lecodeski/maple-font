@@ -519,6 +519,8 @@ There also have some [command line options](#build-script-usage) for customizing
 
 Go to [Playground](https://font.subf.dev/en/playground), and click "Custom Build" button in the bottom left corner
 
+Only support freezing OpenType features currently.
+
 ### Use Github Actions
 
 You can use [Github Actions](https://github.com/subframe7536/maple-font/actions/workflows/custom.yml) to build the font.
@@ -553,6 +555,15 @@ python build.py
 > For `Ubuntu` or `Debian`, maybe `python-is-python3` is needed as well.
 >
 > If you have trouble installing the dependencies, just create a new GitHub Codespace and run the commands there.
+
+#### Narrow Glyph Width
+
+You can setup `"width": "narrow"` in `config.json` or add `--width slim` in cli flag to change glyph width at build time.
+
+There are 3 options:
+- default: 600
+- narrow: 550
+- slim: 500
 
 #### Custom Nerd-Font
 
@@ -634,9 +645,9 @@ If you want to build CN base fonts from variable (about 27 MB), setup `"cn.use_s
 
 #### Narrow spacing in CN glyphs
 
-If you think that **CN glyphs spacing is TOOOOOO large**, there is a build option `cn.narrow` or cli flag `--cn-narrow` to narrow spacing in CN glyphs, but this will make the font cannot be recogized as monospaced font.
+If you think that **CN glyphs spacing is TOOOOOO large**, there is a build option `cn.narrow` or cli flag `--cn-narrow` to narrow spacing in CN glyphs, but this will make the font cannot be recogized as monospaced font. You can see effect in [#249](https://github.com/subframe7536/maple-font/issues/249#issuecomment-2871260476).
 
-You can see effect in [#249](https://github.com/subframe7536/maple-font/issues/249#issuecomment-2871260476).
+And if you want to change the Latin letters' width as well, use [`--width` option](#narrow-glyph-width)
 
 #### GitHub Mirror
 
@@ -652,10 +663,10 @@ By enabling `cv99`, all Chinese punctuation marks will be centred. See more deta
 usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--keep-infinite-arrow]
                 [--infinite-arrow] [--remove-tag-liga] [--line-height LINE_HEIGHT]
-                [--nf-mono] [--nf-propo] [--cn-narrow]
-                [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf] [--cn | --no-cn]
-                [--cn-both] [--ttf-only] [--least-styles] [--font-patcher] [--cache]
-                [--cn-rebuild] [--archive]
+                [--width {default,narrow,slim}] [--nf-mono] [--nf-propo]
+                [--cn-narrow] [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf]
+                [--cn | --no-cn] [--cn-both] [--ttf-only] [--least-styles]
+                [--font-patcher] [--cache] [--cn-rebuild] [--archive]
 
 ✨ Builder and optimizer for Maple Mono
 
@@ -681,6 +692,8 @@ Feature Options:
   --remove-tag-liga     Remove plain text tag ligatures like `[TODO]`
   --line-height LINE_HEIGHT
                         Scale factor for line height (e.g. 1.1)
+  --width {default,narrow,slim}
+                        Set glyph width: default (600), narrow (550), slim (500)
   --nf-mono             Make Nerd Font icons' width fixed
   --nf-propo            Make Nerd Font icons' width variable, override `--nf-mono`
   --cn-narrow           Make CN / JP characters narrow (And the font cannot be
