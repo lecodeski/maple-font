@@ -206,7 +206,9 @@ def verify_glyph_width(
         print(f"✅ Verified glyph width in {file_name}")
         return
 
-    unexpected_glyphs = "\n".join([f"{item[0]}  =>  {item[1]}" for item in result])
+    unexpected_glyphs = "\n".join(
+        [f"{item[0]}  =>  {item[1]}" for item in result[1:20]]
+    )
 
     raise Exception(
         f"{file_name or 'The font'} may contains glyphs that width is not in {expect_widths}, which may broke monospace rule.\n{unexpected_glyphs}"
@@ -516,51 +518,13 @@ def add_gasp(font: TTFont):
     font["gasp"] = gasp
 
 
-def change_glyph_width_or_scale(
-    font: TTFont,
-    match_width: int,
-    target_width: int,
-    scale_factor: tuple[float, float],
-    skip_name: list[str],
-):
-    font["hhea"].advanceWidthMax = target_width  # type: ignore
-    for name in font.getGlyphOrder():
-        if name in skip_name:
-            continue
-
-        glyph = font["glyf"][name]  # type: ignore
-        width, lsb = font["hmtx"][name]  # type: ignore
-        if width != match_width:
-            continue
-        if glyph.numberOfContours == 0:
-            font["hmtx"][name] = (target_width, lsb)  # type: ignore
-            continue
-
-        scale_w, scale_h = scale_factor
-        glyph.coordinates.scale((scale_w, scale_h))
-        glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
-            glyph.coordinates.calcIntBounds()
-        )
-
-        scaled_width = int(round(width * scale_w))
-        delta = (target_width - scaled_width) / 2
-
-        glyph.coordinates.translate((delta, 0))
-        glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax = (
-            glyph.coordinates.calcIntBounds()
-        )
-
-        new_lsb = lsb + int(round(delta))
-        font["hmtx"][name] = (target_width, new_lsb)  # type: ignore
-
-
 def remove_target_glyph(font: TTFont, glyph_name_suffix: str):
     """
     Remove glyphs from the font that end with the specified suffix.
     """
-    from fontTools.subset import Subsetter
+    from fontTools.subset import Subsetter, Options
 
     keep_glyphs = [n for n in font.getGlyphOrder() if not n.endswith(glyph_name_suffix)]
-    subsetter = Subsetter()
+    subsetter = Subsetter(Options(hinting=False))
     subsetter.populate(glyphs=keep_glyphs)
     subsetter.subset(font)

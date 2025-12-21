@@ -1241,10 +1241,20 @@ def build_nf_by_prebuild_nerd_font(
     suffix = font_config.get_nf_suffix()
     if suffix:
         suffix = "-" + suffix
-    return merge_ttfonts(
+    result = merge_ttfonts(
         base_font_path=joinPaths(build_option.ttf_base_dir, font_basename),
         extra_font_path=f"{build_option.src_dir}/MapleMono-NF-Base{suffix}.ttf",
     )
+
+    if font_config.get_width_name():
+        smart_change_width(
+            font=result,
+            target_width=font_config.get_target_width(),
+            original_ref_width=font_config.glyph_width,
+            also_scale_y=True,
+        )
+
+    return result
 
 
 def build_nf_by_font_patcher(
@@ -1616,7 +1626,10 @@ def build_variable_fonts(font_config: FontConfig, build_option: BuildOption):
     print("\n✨ Instatiate and optimize fonts...\n")
 
     print("Check and optimize variable fonts")
-    run(f"ftcli fix italic-angle {build_option.output_variable}")
+
+    # Italic angle is correct here.
+    # run(f"ftcli fix italic-angle {build_option.output_variable}")
+
     run(f"ftcli fix monospace {build_option.output_variable}")
     # run(f"ftcli fix vertical-metrics {build_option.output_variable}")
     run(f"ftcli name del-mac-names -r {build_option.output_variable}")
