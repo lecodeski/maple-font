@@ -515,13 +515,15 @@ The [`config.json`](./config.json) file is used to configure the build process. 
 
 There also have some [command line options](#build-script-usage) for customizing the build process. Cli options have higher priority than options in `config.json`.
 
-### Build In Browser
+### Build Methods
+
+#### 1. Build In Browser
 
 Go to [Playground](https://font.subf.dev/en/playground), and click "Custom Build" button in the bottom left corner
 
-Only support freezing OpenType features currently.
+- Only support freezing OpenType features currently.
 
-### Use Github Actions
+#### 2. Use Github Actions
 
 You can use [Github Actions](https://github.com/subframe7536/maple-font/actions/workflows/custom.yml) to build the font.
 
@@ -533,7 +535,7 @@ You can use [Github Actions](https://github.com/subframe7536/maple-font/actions/
 6. Wait for the build to finish
 7. Download the font archives from Releases
 
-### Use Docker
+#### 3. Use Docker
 
 ```shell
 git clone https://github.com/subframe7536/maple-font --depth 1 -b variable
@@ -541,7 +543,7 @@ docker build -t maple-font .
 docker run -v "$(pwd)/fonts:/app/fonts" -e BUILD_ARGS="--normal" maple-font
 ```
 
-### Local Build
+#### 4. Local Build
 
 Clone the repo and run on your local machine. Make sure you have `python3` and `pip` installed
 
@@ -556,7 +558,7 @@ python build.py
 >
 > If you have trouble installing the dependencies, just create a new GitHub Codespace and run the commands there.
 
-#### Narrow Glyph Width
+### Narrow Glyph Width
 
 You can setup `"width": "narrow"` in `config.json` or add `--width slim` in cli flag to change glyph width at build time.
 
@@ -565,7 +567,7 @@ There are 3 options:
 - narrow: 550
 - slim: 500
 
-#### Custom Nerd-Font
+### Custom Nerd-Font
 
 If you want to get fixed width icons, setup `"nerd_font.mono": true` in `config.json` or add `--nf-mono` flag to build script args.
 
@@ -579,7 +581,7 @@ Default args: `-l --careful --outputdir dir`
 - if `"nerd_font.propo"` is `true`, then add `--variable-width-glyphs`
 - else if `"nerd_font.mono"` is `true`, then add `--mono`
 
-#### Preset
+### Preset
 
 Run `build.py` with `--normal` flag, make the font looks not such "Opinioned" , just like `JetBrains Mono` (with slashed zero).
 
@@ -594,7 +596,7 @@ cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
 
 [Online Preview](https://font.subf.dev/en/playground?normal)
 
-#### Font Feature Freeze
+### Freeze OpenType Feature
 
 There are three kinds of options for feature freeze ([Why](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)):
 
@@ -610,13 +612,13 @@ By default, the Python module in [`source/py/feature/`](./source/py/feature) wil
 
 If you would like to modify the feature file instead, run `build.py` with `--apply-fea-file` flag, the feature file from [`source/features/{regular,italic}{_cn,}.fea`](./source/features) will be loaded.
 
-#### Infinite Arrow Ligatures
+### Infinite Arrow Ligatures
 
 Inspired by Fira Code, the font enables infinite arrow ligatures by default from v7.3. For some reason, the ligatures are misaligned when using hinted font, so they are removed in hinted version by default from v7.4.
 
 You can setup `"infinite_arrow": true` in `config.json` or add `--infinite-arrow` in cli flag to force enabling the feature. See more details in [#508](https://github.com/subframe7536/maple-font/issues/508)
 
-#### Custom Font Weight Mapping
+### Custom Font Weight Mapping
 
 You can modify the static font weight through `"weight_mapping"` item in `config.json`.
 
