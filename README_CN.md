@@ -572,6 +572,8 @@ python build.py
 - narrow: 550
 - slim: 500
 
+预览：[#131](https://github.com/subframe7536/maple-font/issues/131#issuecomment-3678666194)
+
 ### 自定义 Nerd-Font
 
 如果您想获得固定宽度的图标，请在 `config.json` 中设置 `"nerd_font.mono": true` 或在构建脚本参数中添加 `--nf-mono` 标志。

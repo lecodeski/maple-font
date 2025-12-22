@@ -568,6 +568,8 @@ python build.py
 - narrow: 550
 - slim: 500
 
+プレビュー：[#131](https://github.com/subframe7536/maple-font/issues/131#issuecomment-3678666194)
+
 ### カスタム Nerd-Font
 
 固定幅のアイコンを取得したいだけの場合は、`config.json` に `"nerd_font.mono": true` を設定するか、ビルドスクリプト引数に `--nf-mono` フラグを追加してください。

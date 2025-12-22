@@ -567,6 +567,8 @@ There are 3 options:
 - narrow: 550
 - slim: 500
 
+Preview: [#131](https://github.com/subframe7536/maple-font/issues/131#issuecomment-3678666194)
+
 ### Custom Nerd-Font
 
 If you want to get fixed width icons, setup `"nerd_font.mono": true` in `config.json` or add `--nf-mono` flag to build script args.
