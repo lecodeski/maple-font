@@ -411,14 +411,12 @@ def adjust_line_height(
     Adjust the line height of the font by modifying the hhea and OS/2 table.
     """
 
-    if factor == 1:
-        return
-
     if "hhea" not in font:
         raise ValueError("No hhea table found.")
     if "OS/2" not in font:
         raise ValueError("No OS/2 table found.")
 
+    head = font["head"]
     hhea = font["hhea"]
     os2 = font["OS/2"]
 
@@ -435,6 +433,8 @@ def adjust_line_height(
     print(f"Change vertical metric to [{new_ascender}, {new_descender}]")
 
     # Apply changes to hhea table
+    head.yMax = new_ascender  # type: ignore
+    head.yMin = new_descender  # type: ignore
     hhea.ascent = new_ascender  # type: ignore
     hhea.descent = new_descender  # type: ignore
     os2.sTypoAscender = new_ascender  # type: ignore
