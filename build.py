@@ -20,7 +20,9 @@ from source.py.utils import (
     adjust_line_height,
     check_font_patcher,
     check_directory_hash,
+    parse_style_name,
     patch_instance,
+    update_font_names,
     verify_glyph_width,
     archive_fonts,
     download_cn_base_font,
@@ -28,7 +30,6 @@ from source.py.utils import (
     is_ci,
     match_unicode_names,
     run,
-    set_font_name,
     joinPaths,
     merge_ttfonts,
     default_weight_map,
@@ -725,21 +726,6 @@ class BuildOption:
         self.cn_suffix_compact = None
         self.cn_base_font_dir = ""
         self.output_cn = ""
-        # In these subfamilies:
-        #   - NameID1 should be the family name
-        #   - NameID2 should be the subfamily name
-        #   - NameID16 and NameID17 should be removed
-        # Other subfamilies:
-        #   - NameID1 should be the family name, append with subfamily name without "Italic"
-        #   - NameID2 should be the "Regular" or "Italic"
-        #   - NameID16 should be the family name
-        #   - NameID17 should be the subfamily name
-        # https://github.com/subframe7536/maple-font/issues/182
-        # https://github.com/subframe7536/maple-font/issues/183
-        #
-        # same as `ftcli assistant commit . --ls 400 700`
-        # https://github.com/ftCLI/FoundryTools-CLI/issues/166#issuecomment-2095756721
-        self.base_subfamily_list = ["Regular", "Bold", "Italic", "BoldItalic"]
         self.is_nf_built = False
         self.is_cn_built = False
         self.has_cache = (
@@ -928,25 +914,6 @@ class BuildOption:
 #     )
 
 
-def parse_style_name(style_name_compact: str, skip_subfamily_list: list[str]):
-    is_italic = style_name_compact.endswith("Italic")
-
-    _style_name = style_name_compact
-    if is_italic and style_name_compact[0] != "I":
-        _style_name = style_name_compact[:-6] + " Italic"
-
-    if style_name_compact in skip_subfamily_list:
-        return "", _style_name, _style_name, True, is_italic
-    else:
-        return (
-            " " + style_name_compact.replace("Italic", ""),
-            "Italic" if is_italic else "Regular",
-            _style_name,
-            False,
-            is_italic,
-        )
-
-
 # def fix_cn_cv(font: TTFont):
 #     gsub_table = font["GSUB"].table
 #     config = {
@@ -1054,36 +1021,6 @@ def get_unique_identifier(
     return f"{font_config.version_str}{beta_str};SUBF;{postscript_name};2024;FL830;{suffix}"
 
 
-def update_font_names(
-    font: TTFont,
-    family_name: str,  # NameID 1
-    style_name: str,  # NameID 2
-    unique_identifier: str,  # NameID 3
-    full_name: str,  # NameID 4
-    version_str: str,  # NameID 5
-    postscript_name: str,  # NameID 6
-    is_skip_subfamily: bool,
-    preferred_family_name: str | None = None,  # NameID 16
-    preferred_style_name: str | None = None,  # NameID 17
-):
-    # Reported in #598
-    # Why: https://github.com/ryanoasis/nerd-fonts/discussions/891#discussioncomment-3471991
-    if len(family_name) > 31:
-        print(
-            f"⚠️ The family name [{family_name}] is too long (> 31) for some old Windows softwares"
-        )
-    set_font_name(font, family_name, 1)
-    set_font_name(font, style_name, 2)
-    set_font_name(font, unique_identifier, 3)
-    set_font_name(font, full_name, 4)
-    set_font_name(font, version_str, 5)
-    set_font_name(font, postscript_name, 6)
-
-    if not is_skip_subfamily and preferred_family_name and preferred_style_name:
-        set_font_name(font, preferred_family_name, 16)
-        set_font_name(font, preferred_style_name, 17)
-
-
 def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
     print(f"👉 Minimal version for {f}")
     source_path = joinPaths(build_option.output_ttf, f)
@@ -1102,7 +1039,6 @@ def build_mono(f: str, font_config: FontConfig, build_option: BuildOption):
     style_with_prefix_space, style_in_2, style_in_17, is_skip_subfamily, is_italic = (
         parse_style_name(
             style_name_compact=style_compact,
-            skip_subfamily_list=build_option.base_subfamily_list,
         )
     )
 
@@ -1312,7 +1248,6 @@ def build_nf(
     style_nf_with_prefix_space, style_in_2, style_in_17, is_skip_sufamily, _ = (
         parse_style_name(
             style_name_compact=style_compact_nf,
-            skip_subfamily_list=build_option.base_subfamily_list,
         )
     )
 
@@ -1381,7 +1316,6 @@ def build_cn(f: str, font_config: FontConfig, build_option: BuildOption):
         is_italic,
     ) = parse_style_name(
         style_name_compact=style_compact_cn,
-        skip_subfamily_list=build_option.base_subfamily_list,
     )
 
     postscript_name = f"{font_config.family_name_compact}-{build_option.cn_suffix_compact}-{style_compact_cn}"
@@ -1758,9 +1692,7 @@ def main(args: list[str] | None = None, version: str | None = None):
 
     should_use_cache = parsed_args.cache
     target_styles = (
-        build_option.base_subfamily_list
-        if parsed_args.least_styles or font_config.debug
-        else None
+        ["Regular", "Italic"] if parsed_args.least_styles or font_config.debug else None
     )
 
     if not should_use_cache:

@@ -528,3 +528,67 @@ def remove_target_glyph(font: TTFont, glyph_name_suffix: str):
     subsetter = Subsetter(Options(hinting=False))
     subsetter.populate(glyphs=keep_glyphs)
     subsetter.subset(font)
+
+
+def parse_style_name(style_name_compact: str):
+    is_italic = style_name_compact.endswith("Italic")
+
+    _style_name = style_name_compact
+    if is_italic and style_name_compact[0] != "I":
+        _style_name = style_name_compact[:-6] + " Italic"
+
+    # In these subfamilies:
+    #   - NameID1 should be the family name
+    #   - NameID2 should be the subfamily name
+    #   - NameID16 and NameID17 should be removed
+    # Other subfamilies:
+    #   - NameID1 should be the family name, append with subfamily name without "Italic"
+    #   - NameID2 should be the "Regular" or "Italic"
+    #   - NameID16 should be the family name
+    #   - NameID17 should be the subfamily name
+    # https://github.com/subframe7536/maple-font/issues/182
+    # https://github.com/subframe7536/maple-font/issues/183
+    #
+    # same as `ftcli assistant commit . --ls 400 700`
+    # https://github.com/ftCLI/FoundryTools-CLI/issues/166#issuecomment-2095756721
+    base_subfamily_list = ["Regular", "Bold", "Italic", "BoldItalic"]
+    if style_name_compact in base_subfamily_list:
+        return "", _style_name, _style_name, True, is_italic
+    else:
+        return (
+            " " + style_name_compact.replace("Italic", ""),
+            "Italic" if is_italic else "Regular",
+            _style_name,
+            False,
+            is_italic,
+        )
+
+
+def update_font_names(
+    font: TTFont,
+    family_name: str,  # NameID 1
+    style_name: str,  # NameID 2
+    unique_identifier: str,  # NameID 3
+    full_name: str,  # NameID 4
+    version_str: str,  # NameID 5
+    postscript_name: str,  # NameID 6
+    is_skip_subfamily: bool,
+    preferred_family_name: str | None = None,  # NameID 16
+    preferred_style_name: str | None = None,  # NameID 17
+):
+    # Reported in #598
+    # Why: https://github.com/ryanoasis/nerd-fonts/discussions/891#discussioncomment-3471991
+    if len(family_name) > 31:
+        print(
+            f"⚠️ The family name [{family_name}] is too long (> 31) for some old Windows softwares"
+        )
+    set_font_name(font, family_name, 1)
+    set_font_name(font, style_name, 2)
+    set_font_name(font, unique_identifier, 3)
+    set_font_name(font, full_name, 4)
+    set_font_name(font, version_str, 5)
+    set_font_name(font, postscript_name, 6)
+
+    if not is_skip_subfamily and preferred_family_name and preferred_style_name:
+        set_font_name(font, preferred_family_name, 16)
+        set_font_name(font, preferred_style_name, 17)
