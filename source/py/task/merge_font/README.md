@@ -2,9 +2,6 @@
 
 Short utilities for merging and polishing TrueType/OpenType fonts used by the build tasks.
 
-> [!note]
-I use it to create my daily sans font [Maple Sans](https://github.com/subframe7536/maple-font/releases/tag/cn-base) —— SF Pro Rounded + 汉仪正圆
-
 ### Requirements
 
 - Python packages: `foundrytools`.
