@@ -49,7 +49,7 @@ CN 版本基于[资源圆体](https://github.com/CyanoHao/Resource-Han-Rounded)�
 
 ### Sans-serif 版本（实验性）
 
-安装所有依赖和 `fontforge` 后可以运行 `python task.py merge` 将两个字体合并为一个，我个人使用的 [Maple Sans](https://github.com/subframe7536/maple-font/releases/tag/cn-base)（SF Pro Rounded + 汉仪正圆）就是通过这个脚本生成的
+安装所有依赖和 `fontforge` 后可以运行 `python task.py merge` 将两个字体合并为一个，我个人使用的 Sans-serif 字体 [Mapple](https://github.com/subframe7536/maple-font/releases/tag/cn-base)（SF Pro Rounded + 汉仪正圆）就是通过这个脚本生成的
 
 ## 屏幕截图
 

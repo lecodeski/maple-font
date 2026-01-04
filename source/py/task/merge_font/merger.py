@@ -23,7 +23,7 @@ def merge_fonts(font1_path, font2_path, output_path):
         font2.em = upem1
 
     # for g in font2.glyphs():
-    #     g.width = int(g.width * 1.075)
+    #     g.width = int(g.width * 1.065)
 
     font1.mergeFonts(font2)
 
