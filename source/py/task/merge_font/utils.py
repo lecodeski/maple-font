@@ -14,6 +14,7 @@ from source.py.utils import (
     set_font_name,
     update_font_names,
 )
+from source.py.task._utils import default_weight_map
 from foundrytools import Font
 from foundrytools.app.var2static import run as var2static
 
@@ -147,6 +148,45 @@ def auto_xheight_capheight(font: TTFont):
     os2.sCapHeight = cap_height  # type: ignore
 
 
+weight_to_fsSelection = {
+    100: 0x00,
+    200: 0x00,
+    300: 0x00,
+    400: 0x40,
+    500: 0x40,
+    600: 0x20,
+    700: 0x20,
+    800: 0x20,
+    900: 0x20,
+}
+
+
+def auto_weight_and_fsSelection(font: TTFont, style_name: str) -> None:
+    """Set usWeightClass and fsSelection based on weight value."""
+    base_style = style_name.lower().replace("italic", "").strip()
+    if not base_style:
+        base_style = "regular"
+
+    if base_style not in default_weight_map:
+        print(
+            f"Error: Invalid style '{style_name}'. Must be one of: {list(default_weight_map.keys())} "
+            f"(with optional 'Italic' suffix)."
+        )
+        exit(1)
+
+    weight = default_weight_map[base_style]
+    os2 = font["OS/2"]
+    os2.usWeightClass = weight  # type: ignore
+
+    fs = weight_to_fsSelection.get(weight, 0x00)
+
+    is_italic = "Italic" in style_name
+    if is_italic:
+        fs |= 0x01
+
+    os2.fsSelection = fs  # type: ignore
+
+
 def polish(
     font_path: str,
     output_dir: str,
@@ -164,6 +204,11 @@ def polish(
     :param vertical_metric: A tuple containing vertical metric values, or None.
     """
     font = TTFont(font_path)
+
+    auto_weight_and_fsSelection(font, style_name)
+    font["OS/2"].recalcUnicodeRanges(font)  # type: ignore
+    font["OS/2"].recalcCodePageRanges(font)  # type: ignore
+
     if vertical_metric:
         adjust_line_height(font, 1, vertical_metric)
 
