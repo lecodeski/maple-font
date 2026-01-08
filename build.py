@@ -1566,7 +1566,7 @@ def build_variable_fonts(font_config: FontConfig, build_option: BuildOption):
 
     run(f"ftcli fix monospace {build_option.output_variable}")
     # run(f"ftcli fix vertical-metrics {build_option.output_variable}")
-    run(f"ftcli name del-mac-names -r {build_option.output_variable}")
+    # run(f"ftcli name del-mac-names -r {build_option.output_variable}")
 
     print("Instantiate TTF")
     run(

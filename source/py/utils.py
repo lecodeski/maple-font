@@ -576,6 +576,7 @@ def update_font_names(
     preferred_family_name: str | None = None,  # NameID 16
     preferred_style_name: str | None = None,  # NameID 17
 ):
+    font["name"].removeNames(platformID=1)  # type: ignore
     # Reported in #598
     # Why: https://github.com/ryanoasis/nerd-fonts/discussions/891#discussioncomment-3471991
     if len(family_name) > 31:
