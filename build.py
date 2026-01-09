@@ -1537,7 +1537,7 @@ def build_variable_fonts(font_config: FontConfig, build_option: BuildOption):
         patch_instance(font, font_config.weight_mapping)
 
         if font_config.line_height != 1:
-            calculated_metric = (font["hhea"].ascender, font["hhea"].descender)  # type: ignore
+            calculated_metric = (font["hhea"].ascent, font["hhea"].ascent)  # type: ignore
             if calculated_metric != font_config.vertical_metric:
                 font_config.vertical_metric = calculated_metric
 
