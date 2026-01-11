@@ -1125,6 +1125,9 @@ def build_mono_autohint(f: str, font_config: FontConfig, build_option: BuildOpti
         fea_path=build_option.get_feature_file_path(is_italic),
     )
 
+    # Ensure flags to respect hint info
+    font["head"].flags = font["head"].flags | 1 << 2 | 1 << 3  # type: ignore
+
     param: dict | None = font_config.ttfautohint_param
 
     buf = BytesIO()
@@ -1139,6 +1142,7 @@ def build_mono_autohint(f: str, font_config: FontConfig, build_option: BuildOpti
             build_option.output_ttf, f"{font_config.family_name_compact}-Regular.ttf"
         ),
         "out_file": joinPaths(build_option.output_ttf_hinted, f"{postscript_name}.ttf"),
+        "windows_compatibility": True,
     }
 
     def parse_stem_width_mode(mode: str) -> StemWidthMode:
