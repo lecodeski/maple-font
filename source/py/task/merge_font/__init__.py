@@ -189,7 +189,7 @@ def prepare_font_source(
     raise ValueError(f"Invalid font source type: {type(source)}")
 
 
-def main():
+def main(cleanup: bool = False):
     print("Font merge script (Multi-Font Support)")
 
     # Load and validate config
@@ -294,37 +294,25 @@ def main():
                 line_height_config=line_height_config,
             )
             print(f"  Completed: {final_path}")
-
-            if final_path and path.exists(final_path):
-                generated_files.append(final_path)
-            else:
-                print("  Warning: Final file not present after polish")
+            generated_files.append(final_path)
 
         except Exception as e:
             print(f"\n❌ Error processing style '{style_name}': {e}")
-            import traceback
-
-            traceback.print_exc()
-            print("Keeping temporary files for debugging.")
             continue
 
     # Cleanup temporary files (only on success for each style)
     print("\n" + "=" * 60)
-    print("Cleaning up temporary files...")
-    removed = 0
-    failed = 0
-    shutil.rmtree(tmp_dir)
-    for temp_file in temp_files_to_clean:
-        if path.exists(temp_file):
-            try:
-                remove(temp_file)
-                removed += 1
-            except Exception as e:
-                print(f"Failed to remove {temp_file}: {e}")
-                failed += 1
+    if cleanup:
+        print("Cleaning up temporary files...")
+        shutil.rmtree(tmp_dir)
+        for temp_file in temp_files_to_clean:
+            if path.exists(temp_file):
+                try:
+                    remove(temp_file)
+                except Exception as e:
+                    print(f"Failed to remove {temp_file}: {e}")
 
-    print(f"Cleanup summary: removed={removed}, failed={failed}")
-    print("\nAll tasks finished.")
+        print("\nAll tasks finished.")
 
     if generated_files:
         print("\nGenerated files:")

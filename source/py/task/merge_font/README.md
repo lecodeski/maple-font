@@ -1,3 +1,5 @@
+# DEPRECATED
+
 ## merge_font
 
 Short utilities for merging and polishing TrueType/OpenType fonts used by the build tasks.
