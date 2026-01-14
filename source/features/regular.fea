@@ -533,6 +533,8 @@ feature calt {
   lookup greater_greater.liga {
     ignore sub [less slash greater] greater' greater;
     ignore sub greater' greater greater;
+    sub greater' greater dollar by SPC;
+    sub SPC greater' by greater_greater.liga;
     sub @QuoteLike SPC greater' @QuoteLike by greater_greater.liga;
     sub @QuoteLike greater' greater @QuoteLike by SPC;
     sub SPC greater' [slash @Number @EqualHyphen] by greater_greater.liga;
@@ -1790,6 +1792,18 @@ feature cv10 {
 
 } cv10;
 
+feature cv11 {
+
+  cvParameters {
+    FeatUILabelNameID {
+      name "CV11: Alternative f with bottom bar";
+    };
+  };
+
+  sub f by f.cv11;
+
+} cv11;
+
 feature cv31 {
 
   cvParameters {
@@ -1959,6 +1973,19 @@ feature cv43 {
 
 } cv43;
 
+feature cv44 {
+
+  cvParameters {
+    FeatUILabelNameID {
+      name "CV44: [Italic Only] Alternative Italic f with bottom bar";
+    };
+  };
+
+  # Placeholder
+  sub EMquad by space;
+
+} cv44;
+
 feature cv61 {
 
   cvParameters {
@@ -2037,6 +2064,24 @@ feature cv65 {
   sub ampersand_ampersand_ampersand.liga.cv01 by ampersand_ampersand_ampersand.liga.cv65;
 
 } cv65;
+
+feature cv66 {
+
+  cvParameters {
+    FeatUILabelNameID {
+      name "CV66: Alternative pipe arrows";
+    };
+  };
+
+  sub bar_bar_greater.liga by bar_bar_greater.liga.cv66;
+  sub less_bar_bar.liga by less_bar_bar.liga.cv66;
+  sub less_bar.liga by less_bar.liga.cv66;
+  sub bar_greater.liga by bar_greater.liga.cv66;
+  sub less_bar_greater.liga by less_bar_greater.liga.cv66;
+  sub bar_bar_bar_greater.liga by bar_bar_bar_greater.liga.cv66;
+  sub less_bar_bar_bar.liga by less_bar_bar_bar.liga.cv66;
+
+} cv66;
 
 feature ss01 {
 
