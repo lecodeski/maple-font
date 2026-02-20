@@ -176,6 +176,18 @@ def _change_glyph_width(
 
     if old_width == match_width:
         new_width = target_width
+    elif old_width == 0:
+        # Scale zero-width combining marks, keep width at 0
+        new_lsb = _process_glyph_geometry(
+            glyph=glyf[glyph_name],
+            glyf_table=glyf,
+            scale_x=scale_x,
+            scale_y=scale_y,
+            thicken_strength=0.0,
+            translate_x=0.0,
+        )
+        hmtx[glyph_name] = (0, new_lsb)
+        return
     else:
         return
 
@@ -287,6 +299,19 @@ def change_glyph_width_or_scale(
 
         glyph = glyf[glyph_name]
         width, lsb = hmtx[glyph_name]
+        if width == 0:
+            # Scale zero-width combining marks, keep width at 0
+            scale_w, scale_h = scale_factor
+            _process_glyph_geometry(
+                glyph=glyph,
+                glyf_table=glyf,
+                scale_x=scale_w,
+                scale_y=scale_h,
+                thicken_strength=0.0,
+            )
+            new_lsb = glyph.xMin if hasattr(glyph, "xMin") else lsb
+            hmtx[glyph_name] = (0, new_lsb)
+            continue
         if width != match_width:
             continue
         if glyph.numberOfContours == 0:
