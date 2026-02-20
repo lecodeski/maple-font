@@ -99,6 +99,7 @@ def _process_glyph_geometry(
     scale_x: float,
     scale_y: float,
     thicken_strength: float = 0.0,
+    translate_x: float = 0.0,
 ) -> int:
     """
     Shared core logic to transform a glyph.
@@ -125,6 +126,9 @@ def _process_glyph_geometry(
     # 3. Handle Simple Glyphs (Coordinate scaling)
     # Scale in-place
     glyph.coordinates.scale((scale_x, scale_y))
+
+    if translate_x != 0:
+        glyph.coordinates.translate((translate_x, 0))
 
     # 4. Apply Smart Thickening (if requested)
     # We only thicken if scaling down usually, or explicit request
@@ -158,6 +162,7 @@ def _change_glyph_width(
     scale_y: float,
     match_width: int,
     target_width: int,
+    translate_x: float = 0.0,
 ) -> None:
     """
     Global font resizer. Scales target glyphs horizontally and applies
@@ -183,6 +188,7 @@ def _change_glyph_width(
         # Heuristic: If we compress the font (scale < 1), lines get thin.
         # We add weight back based on how much we squeezed.
         thicken_strength=(1 - scale_x) / 3,
+        translate_x=translate_x,
     )
 
     # If the glyph was empty or composite, new_lsb comes from calculation
@@ -269,6 +275,13 @@ def change_glyph_width_or_scale(
                 scale_y=1.0,
                 match_width=match_width,
                 target_width=target_width,
+                translate_x=(
+                    target_width * 0.15
+                    if "right" in glyph_name and "quote" in glyph_name
+                    else target_width * -0.15
+                    if "left" in glyph_name and "quote" in glyph_name
+                    else 0
+                ),
             )
             continue
 
