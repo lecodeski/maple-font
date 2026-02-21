@@ -231,6 +231,7 @@ def smart_change_width(
     glyf: Any = font["glyf"]
 
     scale_factor = target_width / original_ref_width
+    composites: list[str] = []
 
     for glyph_name in font.getGlyphOrder():
         _change_glyph_width(
@@ -242,6 +243,16 @@ def smart_change_width(
             match_width=original_ref_width,
             target_width=target_width,
         )
+        if glyf[glyph_name].isComposite():
+            composites.append(glyph_name)
+
+    # Recalculate composite bounds after all components (including combining
+    # marks that appear later in glyph order) have been scaled
+    for glyph_name in composites:
+        glyph = glyf[glyph_name]
+        glyph.recalcBounds(glyf)
+        new_lsb = glyph.xMin if hasattr(glyph, "xMin") else 0
+        hmtx[glyph_name] = (hmtx[glyph_name][0], new_lsb)
 
 
 def change_glyph_width_or_scale(
@@ -277,6 +288,7 @@ def change_glyph_width_or_scale(
     glyf: Any = font["glyf"]
     hmtx: Any = font["hmtx"]
     factor = target_width / match_width
+    composites: list[str] = []
     for glyph_name in font.getGlyphOrder():
         if glyph_name in special_names:
             _change_glyph_width(
@@ -295,6 +307,8 @@ def change_glyph_width_or_scale(
                     else 0
                 ),
             )
+            if glyf[glyph_name].isComposite():
+                composites.append(glyph_name)
             continue
 
         glyph = glyf[glyph_name]
@@ -314,6 +328,8 @@ def change_glyph_width_or_scale(
             continue
         if width != match_width:
             continue
+        if glyph.isComposite():
+            composites.append(glyph_name)
         if glyph.numberOfContours == 0:
             hmtx[glyph_name] = (target_width, lsb)
             continue
@@ -334,3 +350,11 @@ def change_glyph_width_or_scale(
 
         new_lsb = lsb + int(round(delta))
         hmtx[glyph_name] = (target_width, new_lsb)
+
+    # Recalculate composite bounds after all components (including combining
+    # marks that appear later in glyph order) have been scaled
+    for glyph_name in composites:
+        glyph = glyf[glyph_name]
+        glyph.recalcBounds(glyf)
+        new_lsb = glyph.xMin if hasattr(glyph, "xMin") else 0
+        hmtx[glyph_name] = (hmtx[glyph_name][0], new_lsb)
