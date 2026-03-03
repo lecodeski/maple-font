@@ -1,6 +1,7 @@
-from pathlib import Path
-from source.py.task._utils import is_ci
 import subprocess
+from pathlib import Path
+
+from source.py.task._utils import is_ci
 
 
 def get_output(cmd: list[str]) -> str:
@@ -32,7 +33,6 @@ def publish(write: bool, dry: bool = not is_ci()):
         template_path.as_posix(),
         "-t",
         title,
-        "--draft",
     ]
 
     # read release template
