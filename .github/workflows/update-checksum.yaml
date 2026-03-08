@@ -1,0 +1,31 @@
+name: Update Cask Checksum
+
+on:
+  workflow_dispatch: # on button click
+  workflow_run:
+    workflows: [ "Build All Formats and Release" ]
+    types: [ completed ]
+
+jobs:
+  update-cask-checksum:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Update cask's checksum
+        run: |
+          CHECKSUM=$(curl -sL "https://github.com/${{ github.repository }}/releases/download/v-latest/MapleMono-NF-unhinted.sha256")
+
+          echo "CHECKSUM: $CHECKSUM"
+
+          sed -i "s/sha256 \".*\"/sha256 \"${CHECKSUM}\"/" Casks/font-maple-mono.rb
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git commit --all --m "[update-checksum]: update Cask checksum after recent release" -m "to $CHECKSUM"
+          git push
