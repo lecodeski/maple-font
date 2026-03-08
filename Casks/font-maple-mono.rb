@@ -1,6 +1,6 @@
 cask "font-maple-mono" do
   version "7.9"
-  sha256 "abc123"
+  sha256 "a8dcf3a1ad0cd527cef3308095baccbd2d4f4ea10cf48d7f37629e537ad9bd0d"
 
   url "https://github.com/lecodeski/homebrew-maple-font/releases/download/v-latest/MapleMono-NF-unhinted.zip"
   name "Maple Mono NF"
