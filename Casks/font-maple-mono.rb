@@ -1,14 +1,26 @@
-cask "font-maple-mono-custom" do
+cask "font-maple-mono" do
   version "7.8"
   sha256 "abc123"
 
-  url "https://github.com/lecodeski/homebrew-maple-font/releases/download/v-latest/MapleMono-NF.zip"
+  url "https://github.com/lecodeski/homebrew-maple-font/releases/download/v-latest/MapleMono-NF-unhinted.zip"
   name "Maple Mono NF"
   desc "Forked build of Maple Mono with Nerd Font icons"
   homepage "https://github.com/lecodeski/homebrew-maple-font"
 
-  font "MapleMono-NF-Regular.ttf"
   font "MapleMono-NF-Bold.ttf"
-  font "MapleMono-NF-Italic.ttf"
   font "MapleMono-NF-BoldItalic.ttf"
+  font "MapleMono-NF-ExtraBold.ttf"
+  font "MapleMono-NF-ExtraBoldItalic.ttf"
+  font "MapleMono-NF-ExtraLight.ttf"
+  font "MapleMono-NF-ExtraLightItalic.ttf"
+  font "MapleMono-NF-Italic.ttf"
+  font "MapleMono-NF-Light.ttf"
+  font "MapleMono-NF-LightItalic.ttf"
+  font "MapleMono-NF-Medium.ttf"
+  font "MapleMono-NF-MediumItalic.ttf"
+  font "MapleMono-NF-Regular.ttf"
+  font "MapleMono-NF-SemiBold.ttf"
+  font "MapleMono-NF-SemiBoldItalic.ttf"
+  font "MapleMono-NF-Thin.ttf"
+  font "MapleMono-NF-ThinItalic.ttf"
 end
