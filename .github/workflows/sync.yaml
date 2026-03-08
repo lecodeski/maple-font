@@ -28,7 +28,6 @@ jobs:
 
           if git merge-base --is-ancestor "$UPSTREAM_SHA" HEAD; then
             echo "Already up to date with $LATEST_TAG"
-            exit 0
           fi
           echo "New upstream release: $LATEST_TAG"
           
