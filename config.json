@@ -10,15 +10,15 @@
   "remove_tag_liga": false,
   "weight_mapping": {
     "thin": 100,
-    "extralight": 200,
-    "light": 300,
-    "regular": 400,
-    "medium": 500,
-    "semibold": 600,
-    "bold": 700,
+    "extralight": 175,
+    "light": 250,
+    "regular": 325,
+    "medium": 444,
+    "semibold": 563,
+    "bold": 681,
     "extrabold": 800
   },
-  "line_height": 1.0,
+  "line_height": 0.83,
   "width": "default",
   "feature_freeze": {
     "cv01": "enable",
