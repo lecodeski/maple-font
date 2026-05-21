@@ -37,7 +37,7 @@ jobs:
 
           git merge $UPSTREAM_SHA
 
-          sed -i "s/version \".*\"/version \"$LATEST_VERSION\"/" Casks/font-maple-mono.rb
+          sed -i "s/version \".*\"/version \"$LATEST_VERSION\"/" Casks/font-maple-mini.rb
           git commit --all --m "[sync-fork]: bump Cask version to recent release $LATEST_VERSION" -m "based on commit $UPSTREAM_SHA"
           git tag --force v-latest
           

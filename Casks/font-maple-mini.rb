@@ -1,0 +1,26 @@
+cask "font-maple-mini" do
+  version "7.9.7"
+  sha256 "ec39de7d3e6baf70dd0e36af92ce67e4e423a771eb504b8f85bcf5c7d19aa7af"
+
+  url "https://github.com/lecodeski/homebrew-maple-font/releases/download/v-latest/MapleMini-NF-unhinted.zip"
+  name "Maple Mini NF"
+  desc "Forked and re-configured build of Maple Mono with Nerd Font icons"
+  homepage "https://github.com/lecodeski/homebrew-maple-font"
+
+  font "MapleMini-NF-Bold.ttf"
+  font "MapleMini-NF-BoldItalic.ttf"
+  font "MapleMini-NF-ExtraBold.ttf"
+  font "MapleMini-NF-ExtraBoldItalic.ttf"
+  font "MapleMini-NF-ExtraLight.ttf"
+  font "MapleMini-NF-ExtraLightItalic.ttf"
+  font "MapleMini-NF-Italic.ttf"
+  font "MapleMini-NF-Light.ttf"
+  font "MapleMini-NF-LightItalic.ttf"
+  font "MapleMini-NF-Medium.ttf"
+  font "MapleMini-NF-MediumItalic.ttf"
+  font "MapleMini-NF-Regular.ttf"
+  font "MapleMini-NF-SemiBold.ttf"
+  font "MapleMini-NF-SemiBoldItalic.ttf"
+  font "MapleMini-NF-Thin.ttf"
+  font "MapleMini-NF-ThinItalic.ttf"
+end
