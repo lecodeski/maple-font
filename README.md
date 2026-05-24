@@ -252,9 +252,9 @@ usage: build.py [-h] [-v] [-d] [--debug] [-n] [--feat FEAT] [--apply-fea-file]
                 [--hinted | --no-hinted] [--liga | --no-liga] [--keep-infinite-arrow]
                 [--infinite-arrow] [--remove-tag-liga] [--line-height LINE_HEIGHT]
                 [--width {default,narrow,slim}] [--nf-mono] [--nf-propo]
-                [--cn-narrow] [--cn-scale-factor CN_SCALE_FACTOR] [--nf | --no-nf]
-                [--cn | --no-cn] [--cn-both] [--ttf-only] [--least-styles]
-                [--font-patcher] [--cache] [--cn-rebuild] [--archive]
+                [--nf | --no-nf]
+                [--ttf-only] [--least-styles]
+                [--font-patcher] [--cache] [--archive]
 
 ✨ Builder and optimizer for Maple Mini
 
@@ -271,8 +271,8 @@ Feature Options:
                         zero,cv01,ss07,ss08`). No effect on variable format
   --apply-fea-file      Load feature file from `source/features/{regular,italic}.fea`
                         to variable font
-  --hinted              Use hinted font as base font in NF / CN / NF-CN (default)
-  --no-hinted           Use unhinted font as base font in NF / CN / NF-CN
+  --hinted              Use hinted font as base font in NF (default)
+  --no-hinted           Use unhinted font as base font in NF
   --liga                Preserve all the ligatures (default)
   --no-liga             Remove all the ligatures
   --infinite-arrow      Enable infinite arrow ligatures (Disabled in hinted font by
@@ -284,25 +284,15 @@ Feature Options:
                         Set glyph width: default (600), narrow (550), slim (500)
   --nf-mono             Make Nerd Font icons' width fixed
   --nf-propo            Make Nerd Font icons' width variable, override `--nf-mono`
-  --cn-narrow           Make CN / JP characters narrow (And the font cannot be
-                        recogized as monospaced font)
-  --cn-scale-factor CN_SCALE_FACTOR
-                        Scale factor for CN / JP glyphs. Format: <factor> or
-                        <width_factor>,<height_factor> (e.g. 1.1 or 1.2,1.1)
 
 Build Options:
   --nf, --nerd-font     Build Nerd-Font version (default)
   --no-nf, --no-nerd-font
                         Do not build Nerd-Font version
-  --cn                  Build Chinese version
-  --no-cn               Do not build Chinese version (default)
-  --cn-both             Build both `Maple Mono CN` and `Maple Mono NF CN`. Nerd-Font
-                        version must be enabled
   --ttf-only            Only build TTF format
   --least-styles        Only build Regular / Bold / Italic / BoldItalic style
   --font-patcher        Force the use of Nerd Font Patcher to build NF format
   --cache               Reuse font cache of TTF, OTF and Woff2 formats
-  --cn-rebuild          Reinstantiate variable CN base font
   --archive             Build font archives with config and license. If has `--cache`
                         flag, only archive NF and CN formats
 ```
@@ -319,7 +309,7 @@ Using [FontLab](https://www.fontlab.com/) or [Glyphs](https://glyphs.app), gener
 # Init project
 uv sync
 # Dev
-uv run build.py --ttf-only --cn --debug
+uv run build.py --ttf-only --debug
 # Update nerd font
 uv run task.py nerd-font
 # Update fea file
