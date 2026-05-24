@@ -39,7 +39,7 @@ Or go ahead and simply install my variant, _Maple Mini_, as documented below. Wh
 
 ## Download
 
-You can download all the font archives from [Releases](https://github.com/lecodeski/maple-font/releases).
+You can download all the font archives from [Releases](https://github.com/lecodeski/homebrew-maple-font/releases).
 
 ### Homebrew (MacOS, Linux)
 
@@ -47,6 +47,31 @@ You can download all the font archives from [Releases](https://github.com/lecode
 # Maple Mini NF
 brew install lecodeski/maple-font/font-maple-mini
 ```
+
+<details>
+  <summary>All packages (Click to expand)</summary>
+
+  ```sh
+  # Maple Mini
+  brew install --cask font-maple-mini
+  # Maple Mini NF
+  brew install --cask font-maple-mini-nf
+  # Maple Mini CN
+  brew install --cask font-maple-mini-cn
+  # Maple Mini NF CN
+  brew install --cask font-maple-mini-nf-cn
+
+  # Maple Mini Normal
+  brew install --cask font-maple-mini-normal
+  # Maple Mini Normal NF
+  brew install --cask font-maple-mini-normal-nf
+  # Maple Mini Normal CN
+  brew install --cask font-maple-mini-normal-cn
+  # Maple Mini Normal NF CN
+  brew install --cask font-maple-mini-normal-nf-cn
+  ```
+
+</details>
 
 ## Usage & Feature Configurations
 
@@ -96,7 +121,7 @@ Go to [Playground](https://font.subf.dev/en/playground), and click "Custom Build
 
 #### 2. Use Github Actions
 
-You can use [Github Actions](https://github.com/lecodeski/maple-font/actions/workflows/custom.yml) to build the font.
+You can use [Github Actions](https://github.com/lecodeski/homebrew-maple-font/actions/workflows/custom.yml) to build the font.
 
 1. Fork the repo
 2. (Optional) Change the content in `config.json`
@@ -109,7 +134,7 @@ You can use [Github Actions](https://github.com/lecodeski/maple-font/actions/wor
 #### 3. Use Docker
 
 ```shell
-git clone https://github.com/lecodeski/maple-font --depth 1 -b variable
+git clone https://github.com/lecodeski/homebrew-maple-font --depth 1 -b variable
 docker build -t maple-font .
 docker run -v "$(pwd)/fonts:/app/fonts" -e BUILD_ARGS="--normal" maple-font
 ```
@@ -119,7 +144,7 @@ docker run -v "$(pwd)/fonts:/app/fonts" -e BUILD_ARGS="--normal" maple-font
 Clone the repo and run on your local machine. Make sure you have `python3` and `pip` installed
 
 ```shell
-git clone https://github.com/lecodeski/maple-font --depth 1 -b variable
+git clone https://github.com/lecodeski/homebrew-maple-font --depth 1 -b variable
 pip install -r requirements.txt
 python build.py
 ```

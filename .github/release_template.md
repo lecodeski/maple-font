@@ -4,7 +4,7 @@
 
 ## Download
 
-[Which File to Download?](https://github.com/lecodeski/maple-font/tree/variable?tab=readme-ov-file#naming-faq)
+[Which File to Download?](https://github.com/lecodeski/homebrew-maple-font/tree/main?tab=readme-ov-file#naming-faq)
 
 If you want to get the font that similar to `JetBrains Mono`, please download the "Normal-Ligature" or "Normal-No-Ligature"
 
