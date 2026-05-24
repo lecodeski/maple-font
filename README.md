@@ -33,8 +33,8 @@ Or go ahead and simply install my variant, _Maple Mini_, as documented below. Wh
 
 ![showcase.png](./resources/showcase.png)
 
-- Pictured by [CodeImg](https://github.com/lecodeski/vscode-codeimg)
-- Theme: [Maple](https://github.com/lecodeski/vscode-theme-maple)
+- Pictured by [CodeImg](https://github.com/subframe7536/vscode-codeimg)
+- Theme: [Maple](https://github.com/subframe7536/vscode-theme-maple)
 - Config: font size 16px, line height 1.8, default letter spacing
 
 ## Download
@@ -73,23 +73,18 @@ See in [document](./source/features/README.md) or try it in [Playground](https:/
 
 ### Font Hint
 
-- **Hinted font
-  ** is used for low resolution screen to have better render effect. From my experience, if your screen resolution is lower or equal than 1080P, it is recommended to use "hinted font". Using "unhinted font" will lead to misalignment or uneven thickness on your text.
-    - In this case, you can choose `MapleMini-TTF-AutoHint` / `MapleMini-NF` / `MapleMini-NF-CN`, etc.
-- **Unhinted font
-  ** is used for high resolution screen (e.g. for MacBook). Using "hinted font" will blur your text or make it looks weird.
-    - In this case, you can choose `MapleMini-OTF` / `MapleMini-TTF` / `MapleMini-NF-unhinted` /
-      `MapleMini-NF-CN-unhinted`, etc.
+- **Hinted font** is used for low resolution screen to have better render effect. From my experience, if your screen resolution is lower or equal than 1080P, it is recommended to use "hinted font". Using "unhinted font" will lead to misalignment or uneven thickness on your text.
+  - In this case, you can choose `MapleMini-TTF-AutoHint` / `MapleMini-NF` / `MapleMini-NF-CN`, etc.
+- **Unhinted font** is used for high resolution screen (e.g. for MacBook). Using "hinted font" will blur your text or make it looks weird.
+  - In this case, you can choose `MapleMini-OTF` / `MapleMini-TTF` / `MapleMini-NF-unhinted` / `MapleMini-NF-CN-unhinted`, etc.
 - Why there exists `-AutoHint` and `-unhinted` suffix?
-    - for backward compatibility, I keep the original naming scheme. `-AutoHint` is only used for `TTF` format.
+  - for backward compatibility, I keep the original naming scheme. `-AutoHint` is only used for `TTF` format.
 
 ## Custom Build
 
-The [
-`config.json`](./config.json) file is used to configure the build process. Checkout the [schema](./source/schema.json) or [document](./source/features/README.md) for more details.
+The [`config.json`](./config.json) file is used to configure the build process. Checkout the [schema](./source/schema.json) or [document](./source/features/README.md) for more details.
 
-There also have some [command line options](#build-script-usage) for customizing the build process. Cli options have higher priority than options in
-`config.json`.
+There also have some [command line options](#build-script-usage) for customizing the build process. Cli options have higher priority than options in `config.json`.
 
 ### Build Methods
 
@@ -136,11 +131,9 @@ python build.py
 
 ### Narrow Glyph Width
 
-You can setup `"width": "narrow"` in `config.json` or add
-`--width slim` in cli flag to change glyph width at build time.
+You can setup `"width": "narrow"` in `config.json` or add `--width slim` in cli flag to change glyph width at build time.
 
 There are 3 options:
-
 - default: 600
 - narrow: 550
 - slim: 500
@@ -149,73 +142,60 @@ Preview: [#131](https://github.com/subframe7536/maple-font/issues/131#issuecomme
 
 ### Custom Nerd-Font
 
-If you want to get fixed width icons, setup `"nerd_font.mono": true` in `config.json` or add
-`--nf-mono` flag to build script args.
+If you want to get fixed width icons, setup `"nerd_font.mono": true` in `config.json` or add `--nf-mono` flag to build script args.
 
-If you want to get variable width icons, setup `"nerd_font.propo": true` in `config.json` or add
-`--nf-propo` flag to build script args.
+If you want to get variable width icons, setup `"nerd_font.propo": true` in `config.json` or add `--nf-propo` flag to build script args.
 
 For custom `font-patcher` args, `font-forge` (and maybe `python3-fontforge` as well) is required.
 
 Maybe you should also change `"nerd_font.extra_args"` in [config.json](./config.json)
 
 Default args: `-l --careful --outputdir dir`
-
 - if `"nerd_font.propo"` is `true`, then add `--variable-width-glyphs`
 - else if `"nerd_font.mono"` is `true`, then add `--mono`
 
 ### Preset
 
-Run `build.py` with `--normal` flag, make the font looks not such "Opinioned" , just like
-`JetBrains Mono` (with slashed zero).
+Run `build.py` with `--normal` flag, make the font looks not such "Opinioned" , just like `JetBrains Mono` (with slashed zero).
 
 If you are using variable font (NOT recommended), please enable `calt` to make all features work.
 
 Enabled features:
 <!-- NORMAL -->
-
 ```
 cv01, cv02, cv33, cv34, cv35, cv36, cv61, cv62, ss05, ss06, ss07, ss08
 ```
-
 <!-- NORMAL -->
 
 [Online Preview](https://font.subf.dev/en/playground?normal)
 
 ### Freeze OpenType Feature
 
-There are three kinds of options for feature freeze ([Why](https://github.com/lecodeski/maple-font/issues/233#issuecomment-2410170270)):
+There are three kinds of options for feature freeze ([Why](https://github.com/subframe7536/maple-font/issues/233#issuecomment-2410170270)):
 
-1. `enable`: Forcely enable the features without setting up `cvXX` / `ssXX` /
-   `zero` in font features config, just as default glyphs / ligatures
-2. `disable`: Remove the features in `cvXX` / `ssXX` /
-   `zero`, which will no longer effect, even if you enable it manually
+1. `enable`: Forcely enable the features without setting up `cvXX` / `ssXX` / `zero` in font features config, just as default glyphs / ligatures
+2. `disable`: Remove the features in `cvXX` / `ssXX` / `zero`, which will no longer effect, even if you enable it manually
 3. `ignore`: Do nothing
 
 #### Custom OpenType Feature
 
 OpenType Feature is used to control the font's built-in variants and ligatures. You can remove some ligatures or features you don't want to, change feature's trigger rule or add some new rules by modifying OpenType Feature.
 
-By default, the Python module in [
-`source/py/feature/`](./source/py/feature) will generate feature rule string and load it at build time. You can modify the features or customize tags there.
+By default, the Python module in [`source/py/feature/`](./source/py/feature) will generate feature rule string and load it at build time. You can modify the features or customize tags there.
 
-If you would like to modify the feature file instead, run `build.py` with
-`--apply-fea-file` flag, the feature file from [
-`source/features/{regular,italic}{_cn,}.fea`](./source/features) will be loaded.
+If you would like to modify the feature file instead, run `build.py` with `--apply-fea-file` flag, the feature file from [`source/features/{regular,italic}{_cn,}.fea`](./source/features) will be loaded.
 
 ### Infinite Arrow Ligatures
 
 Inspired by Fira Code, the font enables infinite arrow ligatures by default from v7.3. For some reason, the ligatures are misaligned when using hinted font, so they are removed in hinted version by default from v7.4.
 
-You can setup `"infinite_arrow": true` in `config.json` or add
-`--infinite-arrow` in cli flag to force enabling the feature. See more details in [#508](https://github.com/subframe7536/maple-font/issues/508)
+You can setup `"infinite_arrow": true` in `config.json` or add `--infinite-arrow` in cli flag to force enabling the feature. See more details in [#508](https://github.com/subframe7536/maple-font/issues/508)
 
 ### Custom Font Weight Mapping
 
 You can modify the static font weight through `"weight_mapping"` item in `config.json`.
 
-For example, if you want to make regular font weight a little bit lighter, just decrease the number of
-`"weight_mapping.regular"` (from 400 to 350 in this example) :
+For example, if you want to make regular font weight a little bit lighter, just decrease the number of `"weight_mapping.regular"` (from 400 to 350 in this example) :
 
 ```json
 {
@@ -234,15 +214,11 @@ For example, if you want to make regular font weight a little bit lighter, just 
 
 #### GitHub Mirror
 
-The build script will auto download required assets from GitHub. If you have trouble downloading, please setup
-`github_mirror` in [config.json](./config.json) or `$GITHUB` to your environment variable. (Target URL will be
-`https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`), or just download the target
-`.zip` file and put it in the same directory as `build.py`.
+The build script will auto download required assets from GitHub. If you have trouble downloading, please setup `github_mirror` in [config.json](./config.json) or `$GITHUB` to your environment variable. (Target URL will be `https://<github_mirror>/<user>/<repo>/releases/download/<tag>/<file>`), or just download the target `.zip` file and put it in the same directory as `build.py`.
 
 #### Traditional Chinese Punctuation Support
 
-By enabling
-`cv99`, all Chinese punctuation marks will be centred. See more details in [#150](https://github.com/lecodeski/maple-font/issues/150)
+By enabling `cv99`, all Chinese punctuation marks will be centred. See more details in [#150](https://github.com/subframe7536/maple-font/issues/150)
 
 ### Build Script Usage
 
