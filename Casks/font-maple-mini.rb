@@ -1,6 +1,6 @@
 cask "font-maple-mini" do
   version "7.9.7"
-  sha256 "ec39de7d3e6baf70dd0e36af92ce67e4e423a771eb504b8f85bcf5c7d19aa7af"
+  sha256 "97931da3e3f459cd7ffb3fd6b53ba08ceafe986b9b80dc0d9d4a500045c71904"
 
   url "https://github.com/lecodeski/homebrew-maple-font/releases/download/v-latest/MapleMini-NF-unhinted.zip"
   name "Maple Mini NF"
